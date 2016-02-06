@@ -1,0 +1,152 @@
+package pl.polsl.database.entities;
+
+import java.io.Serializable;
+import java.sql.Time;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SecondaryTable;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="PROMOCJE_GRUPOWE")
+@SecondaryTable(name="PROMOCJE_CZASOWE")
+public class Reservations implements Serializable, IEntity{
+
+    private static final long serialVersionUID = 5L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false, unique = false)
+    private Long id;
+    
+    @Column(table="PROMOCJE_GRUPOWE",name="MINIMALNA_ILOŚĆ_OSÓB", nullable=false)
+    private int minimalAmount;
+    
+    @Column(table="PROMOCJE_GRUPOWE",name="RABAT", nullable=false)
+    private int sale;
+    
+    @Column(table="PROMOCJE_CZASOWE",name="DNI_TYGODNIA", nullable=false)
+    private Date[] daysOfWeek;
+    
+    @Column(table="PROMOCJE_CZASOWE",name="GODZINY", nullable=false)
+    private Time[] hours;
+    
+    @Column(table="PROMOCJE_CZASOWE",name="RABAT_CZASOWY", nullable=false)
+    private int sale2;
+
+    protected Reservations(){}
+    
+    public Reservations(int minimalAmount, int sale){
+        this.minimalAmount=minimalAmount;
+        this.sale=sale;
+    }
+    
+    public Reservations(Date[] daysOfWeek, Time[] hours, int sale2){
+        this.daysOfWeek = daysOfWeek;
+        this.hours=hours;
+        this.sale2=sale2;
+    }
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Reservations)) {
+            return false;
+        }
+        Reservations other = (Reservations) object;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+    }
+
+    @Override
+    public String toString() {
+        return "pl.polsl.database.entities.Reservations[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the minimalAmount
+     */
+    public int getMinimalAmount() {
+        return minimalAmount;
+    }
+
+    /**
+     * @param minimalAmount the minimalAmount to set
+     */
+    public void setMinimalAmount(int minimalAmount) {
+        this.minimalAmount = minimalAmount;
+    }
+
+    /**
+     * @return the sale
+     */
+    public int getSale() {
+        return sale;
+    }
+
+    /**
+     * @param sale the sale to set
+     */
+    public void setSale(int sale) {
+        this.sale = sale;
+    }
+
+    /**
+     * @return the daysOfWeek
+     */
+    public Date[] getDaysOfWeek() {
+        return daysOfWeek;
+    }
+
+    /**
+     * @param daysOfWeek the daysOfWeek to set
+     */
+    public void setDaysOfWeek(Date[] daysOfWeek) {
+        this.daysOfWeek = daysOfWeek;
+    }
+
+    /**
+     * @return the hours
+     */
+    public Time[] getHours() {
+        return hours;
+    }
+
+    /**
+     * @param hours the hours to set
+     */
+    public void setHours(Time[] hours) {
+        this.hours = hours;
+    }
+
+    /**
+     * @return the sale2
+     */
+    public int getSale2() {
+        return sale2;
+    }
+
+    /**
+     * @param sale2 the sale2 to set
+     */
+    public void setSale2(int sale2) {
+        this.sale2 = sale2;
+    }
+    
+}
