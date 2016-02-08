@@ -20,7 +20,7 @@ public class Users implements Serializable, IEntity {
     private Long id;
 
     @Column(name = "user", nullable = false, unique = true)
-    private String user;
+    private String username;
 
     @Column(name = "password", nullable = false, unique = false)
     private String password;
@@ -55,11 +55,11 @@ public class Users implements Serializable, IEntity {
     }
 
     public String getUser() {
-        return user;
+        return username;
     }
 
     public void setUser(String user) {
-        this.user = user;
+        this.username = user;
     }
 
     public String getPassword() {
@@ -75,7 +75,7 @@ public class Users implements Serializable, IEntity {
 
     public Users(String user, String password, boolean alter, boolean delete, boolean insert,
             boolean select, boolean update, boolean create, boolean all) {
-        this.user = user;
+        this.username = user;
         this.password = password;
         this.alterPrivileges = alter;
         this.deletePrivileges = delete;

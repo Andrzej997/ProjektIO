@@ -51,7 +51,7 @@ public class Tickets implements Serializable, IEntity{
         this.rowNumber=rowNumber;
         this.roomNumber=roomNumber;
         this.time=time;
-        this.date=date;
+        this.date=(Date)date.clone();
     }
 
     public Long getId() {
@@ -171,14 +171,14 @@ public class Tickets implements Serializable, IEntity{
      * @return the date
      */
     public Date getDate() {
-        return date;
+        return (Date)date.clone();
     }
 
     /**
      * @param date the date to set
      */
     public void setDate(Date date) {
-        this.date = date;
+        this.date = (Date)date.clone();
     }
     
 }

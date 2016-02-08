@@ -50,8 +50,8 @@ public class Transactions implements Serializable, IEntity{
     protected Transactions(){}
     
     public Transactions(Date endDate, Date startDate, double price){
-        this.endDate=endDate;
-        this.startDate=startDate;
+        this.endDate=(Date)endDate.clone();
+        this.startDate=(Date)startDate.clone();
         this.price=price;
     }
     
@@ -59,7 +59,7 @@ public class Transactions implements Serializable, IEntity{
         this.companyName=companyName;
         this.roomNumber=roomNumber;
         this.time=time;
-        this.deadline=deadline;
+        this.deadline=(Date)deadline.clone();
     }
     
     public Long getId() {
@@ -95,28 +95,28 @@ public class Transactions implements Serializable, IEntity{
      * @return the endDate
      */
     public Date getEndDate() {
-        return endDate;
+        return (Date)endDate.clone();
     }
 
     /**
      * @param endDate the endDate to set
      */
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = (Date)endDate.clone();
     }
 
     /**
      * @return the startDate
      */
     public Date getStartDate() {
-        return startDate;
+        return (Date)startDate.clone();
     }
 
     /**
      * @param startDate the startDate to set
      */
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = (Date)startDate.clone();
     }
 
     /**
@@ -179,14 +179,14 @@ public class Transactions implements Serializable, IEntity{
      * @return the deadline
      */
     public Date getDeadline() {
-        return deadline;
+        return (Date)deadline.clone();
     }
 
     /**
      * @param deadline the deadline to set
      */
     public void setDeadline(Date deadline) {
-        this.deadline = deadline;
+        this.deadline = (Date)deadline.clone();
     }
     
 }

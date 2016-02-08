@@ -38,7 +38,7 @@ public class Server {
                     System.out.println("server connected to " + socket.getInetAddress());
                     try {
                         Services service = new Services(socket);
-                        //service.start();
+                        service.start();
                     } catch (IOException e) {
                         socket.close();
                         System.err.println(e.getMessage());

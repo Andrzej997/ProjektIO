@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.Charset;
 import pl.polsl.database.menager.DAOMenager;
 
 public class Services extends Thread {
@@ -31,10 +32,10 @@ public class Services extends Thread {
         out = new PrintWriter(
                 new BufferedWriter(
                         new OutputStreamWriter(
-                                socket.getOutputStream())), true);
+                                socket.getOutputStream(),Charset.defaultCharset())), true);
         in = new BufferedReader(
                 new InputStreamReader(
-                        socket.getInputStream()));
+                        socket.getInputStream(), Charset.defaultCharset()));
     }
     
     public void setDAOMenager(DAOMenager daom){

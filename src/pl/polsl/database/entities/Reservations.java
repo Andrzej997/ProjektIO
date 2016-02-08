@@ -45,8 +45,8 @@ public class Reservations implements Serializable, IEntity{
     }
     
     public Reservations(Date[] daysOfWeek, Time[] hours, int sale2){
-        this.daysOfWeek = daysOfWeek;
-        this.hours=hours;
+        this.daysOfWeek = daysOfWeek.clone();
+        this.hours=hours.clone();
         this.sale2=sale2;
     }
     
@@ -111,28 +111,28 @@ public class Reservations implements Serializable, IEntity{
      * @return the daysOfWeek
      */
     public Date[] getDaysOfWeek() {
-        return daysOfWeek;
+        return daysOfWeek.clone();
     }
 
     /**
      * @param daysOfWeek the daysOfWeek to set
      */
     public void setDaysOfWeek(Date[] daysOfWeek) {
-        this.daysOfWeek = daysOfWeek;
+        this.daysOfWeek = daysOfWeek.clone();
     }
 
     /**
      * @return the hours
      */
     public Time[] getHours() {
-        return hours;
+        return hours.clone();
     }
 
     /**
      * @param hours the hours to set
      */
     public void setHours(Time[] hours) {
-        this.hours = hours;
+        this.hours = hours.clone();
     }
 
     /**
