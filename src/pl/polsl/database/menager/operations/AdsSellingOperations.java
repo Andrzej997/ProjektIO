@@ -1,12 +1,8 @@
 package pl.polsl.database.menager.operations;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -86,7 +82,7 @@ public class AdsSellingOperations implements IOperate{
     }
 
     @Override
-    public IEntity findEntity(ArrayList<String> argsNames, Object... args) {
+    public List findEntity(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Transactions> criteriaQuery = cb.createQuery(Transactions.class);
         Root<Transactions> transaction  = criteriaQuery.from(Transactions.class);
@@ -99,7 +95,7 @@ public class AdsSellingOperations implements IOperate{
         criteriaQuery.select(transaction).where(predicates.toArray(new Predicate[]{}));
         TypedQuery<Transactions> query = em.createQuery(criteriaQuery);
         List<Transactions> resultList = query.getResultList();
-        return resultList.get(0);
+        return resultList;
     }
 
     @Override

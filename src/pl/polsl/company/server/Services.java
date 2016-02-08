@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
-import pl.polsl.company.protocol.ClientServerProtocolDef;
 import pl.polsl.database.menager.DAOMenager;
 
 public class Services extends Thread {
@@ -53,11 +52,8 @@ public class Services extends Thread {
     public void run() {
         try {
             String str;
-            ClientServerProtocolDef protocol = new ClientServerProtocolDef(this);
-            protocol.authentication();
-            //OperationHandler operation = new OperationHandler();
-            //send user pass req
-            while ((str = in.readLine()) != null) {
+            boolean userAccessFlag = authentication();
+            while (((str = in.readLine()) != null) && userAccessFlag) {
                 // operation.handleRequest(str, socket, control);
                 System.out.println(str);
             }
@@ -112,4 +108,32 @@ public class Services extends Thread {
         }
         return str;
     }
+    
+     public boolean authentication() throws IOException {
+        sendMessageToClient("USER_REQ");
+        String user = reciveAnswer();
+        if (user != null) {
+            sendMessageToClient("PASS_REQ");
+            String pass = reciveAnswer();
+            if (pass != null) {
+                setDAOMenager(DAOMenager.getInstance("kino"));
+                if(daom.authentificateUser(user, pass)){
+                    sendMessageToClient("ACCESS");
+                    return true;
+                } else {
+                    sendMessageToClient("ACCESS_DENIED");
+                    return false;
+                }
+            } else {
+                sendMessageToClient("ERROR");
+                sendMessageToClient("NULL_PASS");
+                return false;
+            }
+        } else {
+            sendMessageToClient("ERROR");
+            sendMessageToClient("NULL_USER");
+            return false;
+        }
+    }
+
 }

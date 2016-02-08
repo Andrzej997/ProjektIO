@@ -80,7 +80,7 @@ public class FilmsOperations implements IOperate {
     }
 
     @Override
-    public IEntity findEntity(ArrayList<String> argsNames, Object... args) {
+    public List findEntity(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Films> criteriaQuery = cb.createQuery(Films.class);
         Root<Films> films = criteriaQuery.from(Films.class);
@@ -93,7 +93,7 @@ public class FilmsOperations implements IOperate {
         criteriaQuery.select(films).where(predicates.toArray(new Predicate[] {}));
         TypedQuery<Films> query = em.createQuery(criteriaQuery);
         List<Films> resultList = query.getResultList();
-        return resultList.get(0);
+        return resultList;
     }
 
     @Override

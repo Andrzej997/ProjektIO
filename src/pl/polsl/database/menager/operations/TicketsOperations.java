@@ -106,7 +106,7 @@ public class TicketsOperations implements IOperate {
     }
 
     @Override
-    public IEntity findEntity(ArrayList<String> argsNames, Object... args) {
+    public List findEntity(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Tickets> criteriaQuery = cb.createQuery(Tickets.class);
         Root<Tickets> ticket = criteriaQuery.from(Tickets.class);
@@ -119,7 +119,7 @@ public class TicketsOperations implements IOperate {
         criteriaQuery.select(ticket).where(predicates.toArray(new Predicate[]{}));
         TypedQuery<Tickets> query = em.createQuery(criteriaQuery);
         List<Tickets> resultList = query.getResultList();
-        return resultList.get(0);
+        return resultList;
     }
 
     @Override

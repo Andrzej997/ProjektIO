@@ -72,7 +72,7 @@ public class GroupPromotionOperations implements IOperate{
     }
 
     @Override
-    public IEntity findEntity(ArrayList<String> argsNames, Object... args) {
+    public List findEntity(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Reservations> criteriaQuery = cb.createQuery(Reservations.class);
         Root<Reservations> reservation  = criteriaQuery.from(Reservations.class);
@@ -85,7 +85,7 @@ public class GroupPromotionOperations implements IOperate{
         criteriaQuery.select(reservation).where(predicates.toArray(new Predicate[]{}));
         TypedQuery<Reservations> query = em.createQuery(criteriaQuery);
         List<Reservations> resultList = query.getResultList();
-        return resultList.get(0);
+        return resultList;
     }
 
     @Override

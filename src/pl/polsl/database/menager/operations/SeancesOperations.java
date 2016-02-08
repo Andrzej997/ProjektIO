@@ -88,7 +88,7 @@ public class SeancesOperations implements IOperate {
     }
 
     @Override
-    public IEntity findEntity(ArrayList<String> argsNames, Object... args) {
+    public List findEntity(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Seances> criteriaQuery = cb.createQuery(Seances.class);
         Root<Seances> seance = criteriaQuery.from(Seances.class);
@@ -101,7 +101,7 @@ public class SeancesOperations implements IOperate {
         criteriaQuery.select(seance).where(predicates.toArray(new Predicate[]{}));
         TypedQuery<Seances> query = em.createQuery(criteriaQuery);
         List<Seances> resultList = query.getResultList();
-        return resultList.get(0);
+        return resultList;
     }
 
     @Override
