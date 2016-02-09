@@ -30,11 +30,11 @@ public class RoomsReservationOperations implements IOperate {
 
     @Override
     public Transactions createEntity(Object... args) throws ArgsLengthNotCorrectException {
-        if (args.length != 4) {
+        if (args.length != 5) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
             Transactions transaction = new Transactions((String) args[0], Integer.parseInt((String)args[1]),
-                    (Time) args[2], (Date) args[3]);
+                    (Time) args[2], (Date) args[3], (boolean) args[4]);
             return transaction;
         }
     }
@@ -49,7 +49,7 @@ public class RoomsReservationOperations implements IOperate {
 
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
-        if (findEntity(entity) && args.length == 4) {
+        if (findEntity(entity) && args.length == 5) {
             Transactions transaction = (Transactions) entity;
             em.getTransaction().begin();
             transaction = em.find(Transactions.class, transaction);
@@ -72,6 +72,8 @@ public class RoomsReservationOperations implements IOperate {
                         transaction.setDeadline((Date)args[i]);
                         i++;
                         break;
+                    case "accepted":
+                        transaction.setAccepted((boolean)args[i]);
                     default:
                         break;
                 }

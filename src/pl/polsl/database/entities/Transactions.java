@@ -47,6 +47,9 @@ public class Transactions implements Serializable, IEntity{
     @Column(table="ZLECENIA_WYNAJEM_SALI", name="TERMIN", nullable = false)
     private Date deadline;
     
+    @Column(table="ZLECENIA_WYNAJEM_SALI", name="ZAAKCEPTOWANE")
+    private boolean accepted;
+    
     protected Transactions(){}
     
     public Transactions(Date endDate, Date startDate, double price){
@@ -55,11 +58,12 @@ public class Transactions implements Serializable, IEntity{
         this.price=price;
     }
     
-    public Transactions(String companyName, int roomNumber, Time time, Date deadline){
+    public Transactions(String companyName, int roomNumber, Time time, Date deadline, boolean accpeted){
         this.companyName=companyName;
         this.roomNumber=roomNumber;
         this.time=time;
         this.deadline=(Date)deadline.clone();
+        this.accepted=accpeted;
     }
     
     public Long getId() {
@@ -187,6 +191,20 @@ public class Transactions implements Serializable, IEntity{
      */
     public void setDeadline(Date deadline) {
         this.deadline = (Date)deadline.clone();
+    }
+
+    /**
+     * @return the accepted
+     */
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    /**
+     * @param accepted the accepted to set
+     */
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
     }
     
 }
