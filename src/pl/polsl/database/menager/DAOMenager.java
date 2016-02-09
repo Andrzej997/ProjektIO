@@ -22,6 +22,13 @@ import pl.polsl.database.entities.Users;
  */
 public class DAOMenager {
 
+    /**
+     * @return the menager
+     */
+    public static DAOMenager getMenager() {
+        return menager;
+    }
+
     private final EntityManagerFactory emf;
     private final EntityManager entityManager;
 
@@ -95,6 +102,13 @@ public class DAOMenager {
             }
         }
         return colNames;
+    }
+
+    /**
+     * @return the entityManager
+     */
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
     
 }
