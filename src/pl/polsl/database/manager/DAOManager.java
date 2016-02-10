@@ -79,6 +79,18 @@ public class DAOManager {
         }
         return colNames;
     }
+    
+    public String getUserType(String username){
+        CriteriaBuilder cb = emf.getCriteriaBuilder();
+        CriteriaQuery<Users> criteriaQuery = cb.createQuery(Users.class);
+        Root<Users> users = criteriaQuery.from(Users.class);
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.equal(users.get("USERNAME"), username));
+        criteriaQuery.select(users).where(predicates.toArray(new Predicate[]{}));
+        TypedQuery<Users> query = entityManager.createQuery(criteriaQuery);
+        List<Users> resultList = query.getResultList();
+        return resultList.get(0).getType();
+    }
 
     /**
      * @return the entityManager
