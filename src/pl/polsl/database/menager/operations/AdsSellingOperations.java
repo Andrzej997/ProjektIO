@@ -106,12 +106,5 @@ public class AdsSellingOperations implements IOperate{
             em.getTransaction().commit();
         }
     }
-
-    @Override
-    public List realizeQuery(String query) {
-        Query q = em.createQuery(query);
-        List result = q.getResultList();
-        return result;
-    }
     
 }

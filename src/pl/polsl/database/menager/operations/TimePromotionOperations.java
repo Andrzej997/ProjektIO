@@ -108,11 +108,4 @@ public class TimePromotionOperations implements IOperate {
         }
     }
 
-    @Override
-    public List realizeQuery(String query) {
-        Query q = em.createQuery(query);
-        List result = q.getResultList();
-        return result;
-    }
-
 }

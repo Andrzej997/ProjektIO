@@ -14,5 +14,4 @@ public interface IOperate {
     boolean findEntity(IEntity entity);
     List isEntityExists(ArrayList<String> argsNames, Object... args);
     void deleteEntity(IEntity entity);
-    List realizeQuery(String query);
 }

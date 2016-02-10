@@ -97,11 +97,4 @@ public class GroupPromotionOperations implements IOperate{
         }
     }
 
-    @Override
-    public List realizeQuery(String query) {
-        Query q = em.createQuery(query);
-        List result = q.getResultList();
-        return result;
-    }
-    
 }

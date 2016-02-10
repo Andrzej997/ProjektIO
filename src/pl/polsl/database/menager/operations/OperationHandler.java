@@ -58,9 +58,6 @@ public class OperationHandler {
                 IEntity entity = (IEntity) (operate.isEntityExists((ArrayList<String>) args[0], args[1])).get(0);
                 operate.modifyEntity(entity, (ArrayList<String>) args[2], args[3]);
                 break;
-            case "REALIZE_QUERY":
-                List result = operate.realizeQuery((String) args[0]);
-                return result;
             case "CREATE_ENTITY": {
                 List create = new ArrayList<>();
                 create.add(operate.createEntity(args));

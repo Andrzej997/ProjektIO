@@ -95,13 +95,5 @@ public class FilmsOperations implements IOperate {
         List<Films> resultList = query.getResultList();
         return resultList;
     }
-
-    @Override
-    public List realizeQuery(String query) {
-        Query q = em.createQuery(query);
-        List result = q.getResultList();
-        return result;
-        
-    }
     
 }

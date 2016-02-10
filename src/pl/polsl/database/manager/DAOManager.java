@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -79,8 +80,8 @@ public class DAOManager {
         }
         return colNames;
     }
-    
-    public String getUserType(String username){
+
+    public String getUserType(String username) {
         CriteriaBuilder cb = emf.getCriteriaBuilder();
         CriteriaQuery<Users> criteriaQuery = cb.createQuery(Users.class);
         Root<Users> users = criteriaQuery.from(Users.class);
@@ -92,11 +93,17 @@ public class DAOManager {
         return resultList.get(0).getType();
     }
 
+    public List realizeQuery(String query) {
+        Query q = entityManager.createQuery(query);
+        List result = q.getResultList();
+        return result;
+    }
+
     /**
      * @return the entityManager
      */
     public EntityManager getEntityManager() {
         return entityManager;
     }
-    
+
 }
