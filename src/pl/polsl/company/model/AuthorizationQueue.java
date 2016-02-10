@@ -8,14 +8,14 @@ import java.util.List;
  */
 public class AuthorizationQueue {
 
-    private List<AuthorizableTransaction> orders;
+    private List<AuthorizableTransaction> transactions;
 
-    public AuthorizationQueue() {
-        orders = new ArrayList<AuthorizableTransaction>();
+    public AuthorizationQueue(List<AuthorizableTransaction> unauthorizedTransactions) {
+        transactions = unauthorizedTransactions;
     }
 
     public void add(AuthorizableTransaction order) {
-        orders.add(order);
+        transactions.add(order);
     }
 
     public Transaction authorize(AuthorizableTransaction order) {
@@ -24,14 +24,14 @@ public class AuthorizationQueue {
     }
 
     public AuthorizableTransaction getLastOrder() {
-        if (orders != null && orders.size() > 0) {
-            return orders.get(orders.size()-1);
+        if (transactions != null && transactions.size() > 0) {
+            return transactions.get(transactions.size()-1);
         } else {
             return null;
         }
     }
 
-    public List<AuthorizableTransaction> getAllOrders() {
-        return orders;
+    public List<AuthorizableTransaction> getAllTransactions() {
+        return transactions;
     }
 }
