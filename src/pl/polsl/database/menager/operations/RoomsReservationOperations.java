@@ -33,7 +33,7 @@ public class RoomsReservationOperations implements IOperate {
         if (args.length != 5) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Transactions transaction = new Transactions((String) args[0], Integer.parseInt((String)args[1]),
+            Transactions transaction = new Transactions((String) args[0], (Integer)args[1],
                     (Time) args[2], (Date) args[3], (boolean) args[4]);
             return transaction;
         }
@@ -55,24 +55,24 @@ public class RoomsReservationOperations implements IOperate {
             transaction = em.find(Transactions.class, transaction);
             int i = 0;
             for (String name : argNames) {
-                switch (name) {
-                    case "companyName":
+                switch (name.toUpperCase()) {
+                    case "COMPANY_NAME":
                         transaction.setCompanyName((String)args[i]);
                         i++;
                         break;
-                    case "roomNumber":
+                    case "ROOM_NUMBER":
                         transaction.setRoomNumber(Integer.parseInt((String)args[i]));
                         i++;
                         break;
-                    case "time":
+                    case "TIME_":
                         transaction.setTime((Time)args[i]);
                         i++;
                         break;
-                    case "deadline":
+                    case "DEADLINE":
                         transaction.setDeadline((Date)args[i]);
                         i++;
                         break;
-                    case "accepted":
+                    case "ACCEPTED":
                         transaction.setAccepted((boolean)args[i]);
                     default:
                         break;

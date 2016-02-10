@@ -16,7 +16,10 @@ public class AuthenticationController {
 
     public boolean authenticateUser(int id, String password) {
         //operationHandler.handleRequest("", "FIND_ENTITY")
-
+        //id nie używaj bo to wewnętrzne w bazie danych jest, zrób coś w tym stylu:
+        //DAOMenager manager = DAOMenager.getInstance("kino");
+        //if(manager.authentificateUser(user, password))
+        //itd...
         switch (1 /***pobieranie typu użytkownika****/) {
             case 1: //kierownik
                 managementController = new ManagementController(operationHandler);

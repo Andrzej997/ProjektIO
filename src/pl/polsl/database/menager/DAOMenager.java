@@ -52,44 +52,20 @@ public class DAOMenager {
         CriteriaQuery<Users> criteriaQuery = cb.createQuery(Users.class);
         Root<Users> users = criteriaQuery.from(Users.class);
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(cb.equal(users.get("username"), user));
-        predicates.add(cb.equal(users.get("password"), password));
+        predicates.add(cb.equal(users.get("USERNAME"), user));
+        predicates.add(cb.equal(users.get("PASSWORD"), password));
         criteriaQuery.select(users).where(predicates.toArray(new Predicate[]{}));
         TypedQuery<Users> query = entityManager.createQuery(criteriaQuery);
         List<Users> resultList = query.getResultList();
         return !resultList.isEmpty();
     }
 
-    public boolean checkUserPriviliges(String user, String pass, String requestedPriv) {
-        if (authentificateUser(user, pass)) {
-            CriteriaBuilder cb = emf.getCriteriaBuilder();
-            CriteriaQuery<Users> criteriaQuery = cb.createQuery(Users.class);
-            Root<Users> users = criteriaQuery.from(Users.class);
-            List<Predicate> predicates = new ArrayList<>();
-            predicates.add(cb.equal(users.get("username"), user));
-            predicates.add(cb.equal(users.get("password"), pass));
-            criteriaQuery.select(users).where(predicates.toArray(new Predicate[]{}));
-            TypedQuery<Users> query = entityManager.createQuery(criteriaQuery);
-            List<Users> resultList = query.getResultList();
-            Users usr = resultList.get(0);
-            ArrayList<String> colNames = getTableColumnNames("USERS");
-            for (String name : colNames) {
-                if (name.equals(requestedPriv)) {
-                    return usr.checkUserPrivileges(requestedPriv);
-                }
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }
-
     public ArrayList<String> getTableColumnNames(String tableName) {
         ArrayList<String> colNames = new ArrayList<>();
         Field[] declaredFields = null;
         for (DatabaseWord data : DatabaseWord.values()) {
-            if (data.getDatabaseName().equals(tableName)) {
-                declaredFields = data.getDatabaseClass().getDeclaredFields();
+            if (data.getTableName().equals(tableName)) {
+                declaredFields = data.getTableClass().getDeclaredFields();
             }
         }
         for (Field field : declaredFields) {

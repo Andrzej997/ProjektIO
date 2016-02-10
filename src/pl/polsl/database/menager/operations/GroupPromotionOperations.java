@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import pl.polsl.database.entities.IEntity;
-import pl.polsl.database.entities.Reservations;
+import pl.polsl.database.entities.Promotions;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
 
 public class GroupPromotionOperations implements IOperate{
@@ -22,11 +22,11 @@ public class GroupPromotionOperations implements IOperate{
     }
 
     @Override
-    public Reservations createEntity(Object... args) throws ArgsLengthNotCorrectException {
+    public Promotions createEntity(Object... args) throws ArgsLengthNotCorrectException {
         if (args.length != 2) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Reservations reservation = new Reservations(Integer.parseInt((String)args[0]),
+            Promotions reservation = new Promotions(Integer.parseInt((String)args[0]),
                    Integer.parseInt((String)args[1]));
             return reservation;
         }
@@ -34,7 +34,7 @@ public class GroupPromotionOperations implements IOperate{
 
     @Override
     public void addEntity(IEntity entity) {
-        Reservations reservation = (Reservations) entity;
+        Promotions reservation = (Promotions) entity;
         em.getTransaction().begin();
         em.persist(reservation);
         em.getTransaction().commit();
@@ -43,17 +43,17 @@ public class GroupPromotionOperations implements IOperate{
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
         if (findEntity(entity) && args.length == 3) {
-            Reservations reservation = (Reservations) entity;
+            Promotions reservation = (Promotions) entity;
             em.getTransaction().begin();
-            reservation = em.find(Reservations.class, reservation);
+            reservation = em.find(Promotions.class, reservation);
             int i = 0;
             for (String name : argNames) {
-                switch (name) {
-                    case "minimalAmount":
+                switch (name.toUpperCase()) {
+                    case "MINIMAL_AMOUNT":
                         reservation.setMinimalAmount(Integer.parseInt((String)args[i]));
                         i++;
                         break;
-                    case "sale":
+                    case "SALE":
                         reservation.setSale(Integer.parseInt((String)args[i]));
                         i++;
                         break;
@@ -67,15 +67,15 @@ public class GroupPromotionOperations implements IOperate{
 
     @Override
     public boolean findEntity(IEntity entity) {
-        Reservations reservation = (Reservations) entity;
+        Promotions reservation = (Promotions) entity;
         return em.contains(reservation);
     }
 
     @Override
     public List findEntity(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Reservations> criteriaQuery = cb.createQuery(Reservations.class);
-        Root<Reservations> reservation  = criteriaQuery.from(Reservations.class);
+        CriteriaQuery<Promotions> criteriaQuery = cb.createQuery(Promotions.class);
+        Root<Promotions> reservation  = criteriaQuery.from(Promotions.class);
         List<Predicate> predicates = new ArrayList<>();
         int i = 0;
         for (String name : argsNames) {
@@ -83,8 +83,8 @@ public class GroupPromotionOperations implements IOperate{
             i++;
         }
         criteriaQuery.select(reservation).where(predicates.toArray(new Predicate[]{}));
-        TypedQuery<Reservations> query = em.createQuery(criteriaQuery);
-        List<Reservations> resultList = query.getResultList();
+        TypedQuery<Promotions> query = em.createQuery(criteriaQuery);
+        List<Promotions> resultList = query.getResultList();
         return resultList;
     }
 

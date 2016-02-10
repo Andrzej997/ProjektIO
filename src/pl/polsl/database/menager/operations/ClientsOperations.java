@@ -11,8 +11,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import pl.polsl.database.entities.Clients;
 import pl.polsl.database.entities.IEntity;
-import pl.polsl.database.entities.Reservations;
-import pl.polsl.database.entities.Transactions;
+import pl.polsl.database.entities.Promotions;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
 
 /**
@@ -33,7 +32,7 @@ public class ClientsOperations implements IOperate{
         if (args.length != 3) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Clients client = new Clients((String)args[0], (Double)args[1], (Reservations)args[2]);
+            Clients client = new Clients((String)args[0], (Double)args[1], (Promotions)args[2]);
             return client;
         }
     }
@@ -54,17 +53,17 @@ public class ClientsOperations implements IOperate{
             client = em.find(Clients.class, client);
             int i = 0;
             for (String name : argNames) {
-                switch (name) {
-                    case "clientOrCompanyName":
+                switch (name.toUpperCase()) {
+                    case "CLIENT_OR_COMPANY_NAME":
                         client.setClientOrCompanyName((String)args[i]);
                         i++;
                         break;
-                    case "price":
+                    case "PRICE":
                         client.setPrice(Double.parseDouble((String)args[i]));
                         i++;
                         break;
-                    case "reservation":
-                        client.setReservations((Reservations)args[i]);
+                    case "RESERVATION":
+                        client.setReservations((Promotions)args[i]);
                         i++;
                         break;
                     default:

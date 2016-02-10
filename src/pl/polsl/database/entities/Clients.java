@@ -16,24 +16,24 @@ import javax.persistence.Table;
  * @author matis
  */
 @Entity
-@Table(name = "KLIENCI")
+@Table(name = "CLIENTS")
 public class Clients implements Serializable, IEntity {
 
     private static final long serialVersionUID = 7L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "ID")
     private Long id;
 
-    @Column(name="nazwa_klienta_lub_firmy", nullable = false)
+    @Column(name="CLIENT_OR_COMPANY_NAME", nullable = false)
     private String clientOrCompanyName;
     
-    @Column(name="cena", nullable = true)
+    @Column(name="PRICE", nullable = true)
     private double price;
 
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "ID_REZERWACJI", nullable = false)
-    private Reservations reservation;
+    @JoinColumn(name = "RESERVATION", nullable = false)
+    private Promotions reservation;
 
     public Long getId() {
         return id;
@@ -47,7 +47,7 @@ public class Clients implements Serializable, IEntity {
         
     }
     
-    public Clients(String name, Double price, Reservations reservations){
+    public Clients(String name, Double price, Promotions reservations){
         this.clientOrCompanyName=name;
         this.price = price;
         this.reservation=reservations;
@@ -92,14 +92,14 @@ public class Clients implements Serializable, IEntity {
     /**
      * @return the reservations
      */
-    public Reservations getReservations() {
+    public Promotions getReservations() {
         return reservation;
     }
 
     /**
      * @param reservations the reservations to set
      */
-    public void setReservations(Reservations reservations) {
+    public void setReservations(Promotions reservations) {
         this.reservation = reservations;
     }
 

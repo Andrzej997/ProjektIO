@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "FILMY")
+@Table(name = "FILMS")
 public class Films implements Serializable, IEntity{
 
     private static final long serialVersionUID = 1L;
@@ -19,32 +19,32 @@ public class Films implements Serializable, IEntity{
     @Column(name = "ID", nullable = false, unique = false)
     private Long id;
 
-    @Column(name = "NAZWA", nullable = false, length = 511)
-    private String name;
+    @Column(name = "TITLE", nullable = false, length = 511)
+    private String title;
 
-    @Column(name = "CZAS_TRWANIA", nullable = false, length = 20)
+    @Column(name = "DURATION_TIME", nullable = false, length = 20)
     private String durationTime;
 
     protected Films() {
     }
 
-    public Films(String name, String durationTime) {
-        this.name = name;
+    public Films(String title, String durationTime) {
+        this.title = title;
         this.durationTime = durationTime;
     }
 
     /**
      * @return the name
      */
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     /**
-     * @param name the name to set
+     * @param title the name to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**
@@ -87,8 +87,8 @@ public class Films implements Serializable, IEntity{
 
     @Override
     public String toString() {
-        return String.format("pl.polsl.database.entities.Rooms[ id=%d, name=%s, durationTime=%s]", 
-                id, name, durationTime);
+        return String.format("pl.polsl.database.entities.Rooms[ id=%d, title=%s, durationTime=%s]", 
+                id, title, durationTime);
     }
 
 }

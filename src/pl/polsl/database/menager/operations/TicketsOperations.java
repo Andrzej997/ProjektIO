@@ -62,32 +62,32 @@ public class TicketsOperations implements IOperate {
             ticket = em.find(Tickets.class, ticket);
             int i = 0;
             for (String name : argNames) {
-                switch (name) {
-                    case "price":
+                switch (name.toUpperCase()) {
+                    case "PRICE":
                         ticket.setPrice(Double.parseDouble((String)args[i]));
                         i++;
                         break;
-                    case "chairNumber":
+                    case "CHAIR_NUMBER":
                         ticket.setChairNumber(Integer.parseInt((String)args[i]));
                         i++;
                         break;
-                    case "rowNumber":
+                    case "ROW_NUMBER":
                         ticket.setRowNumber(Integer.parseInt((String)args[i]));
                         i++;
                         break;
-                    case "state":
+                    case "STATE_":
                         ticket.setState(Integer.parseInt((String)args[i]));
                         i++;
                         break;
-                    case "roomNumber":
+                    case "ROOM_NUMBER":
                         ticket.setRoomNumber(Integer.parseInt((String)args[i]));
                         i++;
                         break;
-                    case "time":
+                    case "TIME_":
                         ticket.setTime((Time) args[i]);
                         i++;
                         break;
-                    case "date":
+                    case "DATE_":
                         ticket.setDate((Date) args[i]);
                         i++;
                         break;

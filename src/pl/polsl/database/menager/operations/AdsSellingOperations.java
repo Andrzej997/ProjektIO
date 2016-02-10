@@ -54,16 +54,16 @@ public class AdsSellingOperations implements IOperate{
             transaction = em.find(Transactions.class, transaction);
             int i = 0;
             for (String name : argNames) {
-                switch (name) {
-                    case "endDate":
+                switch (name.toUpperCase()) {
+                    case "END_DATE":
                         transaction.setEndDate((Date)(args[i]));
                         i++;
                         break;
-                    case "startDate":
+                    case "START_DATE":
                         transaction.setStartDate((Date)args[i]);
                         i++;
                         break;
-                    case "price":
+                    case "PRICE":
                         transaction.setPrice((Double)args[i]);
                         i++;
                         break;

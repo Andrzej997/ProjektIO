@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SALE")
+@Table(name = "ROOMS")
 public class Rooms implements Serializable, IEntity{
 
     private static final long serialVersionUID = 4L;
@@ -18,7 +18,7 @@ public class Rooms implements Serializable, IEntity{
     @Column(name="ID", nullable = false, unique = true)
     private Long id;
     
-    @Column(name="POJEMNOŚĆ", nullable = false)
+    @Column(name="CAPACITY", nullable = false)
     private int capacity;
 
     public Long getId() {

@@ -67,10 +67,10 @@ public class FilmsOperations implements IOperate {
             film = em.find(Films.class, film);
             int i = 0;
             for (String name : argNames) {
-                if ("name".equals(name)) {
-                    film.setName((String) args[i]);
+                if ("TITLE".equalsIgnoreCase(name)) {
+                    film.setTitle((String) args[i]);
                     i++;
-                } else if ("durationTime".equals(name)) {
+                } else if ("DURATION_TIME".equalsIgnoreCase(name)) {
                     film.setDurationTime((String) args[i]);
                     i++;
                 }

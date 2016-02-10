@@ -56,20 +56,20 @@ public class SeancesOperations implements IOperate {
             seance = em.find(Seances.class, seance);
             int i = 0;
             for (String name : argNames) {
-                switch (name) {
-                    case "film":
+                switch (name.toUpperCase()) {
+                    case "FILM":
                         seance.setFilm((Films) args[i]);
                         i++;
                         break;
-                    case "room":
+                    case "ROOM":
                         seance.setRoom((Rooms) args[i]);
                         i++;
                         break;
-                    case "date":
+                    case "SEANCE_DATE":
                         seance.setDate((Calendar) args[i]);
                         i++;
                         break;
-                    case "basicTicketPrice":
+                    case "BASIC_TICKET_PRICE":
                         seance.setBasicTicketPrice(Double.parseDouble((String)args[i]));
                         i++;
                         break;

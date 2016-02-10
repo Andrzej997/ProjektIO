@@ -24,18 +24,18 @@ public class Seances implements Serializable, IEntity{
     private Long id;
     
     @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name="ID_FILMU")
+    @JoinColumn(name="FILM_ID")
     private Films film;
     
     @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name="NUMER_SALI")
+    @JoinColumn(name="ROOM_NUMBER")
     private Rooms room;
     
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    @Column(name="DATA_SEANSU", nullable = false)
+    @Column(name="SEANCE_DATE", nullable = false)
     private Calendar date;
     
-    @Column(name="PODSTAWOWA_CENA_BILETU", nullable = true, precision = 2)
+    @Column(name="BASIC_TICKET_PRICE", nullable = true, precision = 2)
     private double basicTicketPrice;
 
     protected Seances(){}

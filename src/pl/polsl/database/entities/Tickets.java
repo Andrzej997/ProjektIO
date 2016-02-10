@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 @Entity
-@Table(name="BILETY")
+@Table(name="TICKETS")
 public class Tickets implements Serializable, IEntity{
 
     private static final long serialVersionUID = 3L;
@@ -21,25 +21,25 @@ public class Tickets implements Serializable, IEntity{
     @Column(name = "ID", nullable = false, unique = false)
     private Long id;
     
-    @Column(name="CENA", precision = 2, nullable = false)
+    @Column(name="PRICE", precision = 2, nullable = false)
     private double price;
     
-    @Column(name="NUMER_MIEJSCA", nullable = false)
+    @Column(name="CHAIR_NUMBER", nullable = false)
     private int chairNumber;
     
-    @Column(name="NUMER_RZĘDU", nullable = false)
+    @Column(name="ROW_NUMBER", nullable = false)
     private int rowNumber;
     
-    @Column(name="STAN", nullable = false)
+    @Column(name="STATE_", nullable = false)
     private int state;
     
-    @Column(name="NUMER_SALI", nullable = false)
+    @Column(name="ROOM_NUMBER", nullable = false)
     private int roomNumber;
     
-    @Column(name="CZAS", nullable = false)
+    @Column(name="TIME_", nullable = false)
     private Time time;
     
-    @Column(name="DATA_", nullable = false)
+    @Column(name="DATE_", nullable = false)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     

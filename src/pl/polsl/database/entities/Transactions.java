@@ -13,8 +13,8 @@ import javax.persistence.SecondaryTable;
 import javax.persistence.Temporal;
 
 @Entity
-@Table(name="ZLECENIA_SPRZEDAŻ_REKLAM")
-@SecondaryTable(name="ZLECENIA_WYNAJEM_SALI")
+@Table(name="ADDS_SELLING")
+@SecondaryTable(name="ROOMS_RENTING")
 public class Transactions implements Serializable, IEntity{
 
     private static final long serialVersionUID = 6L;
@@ -24,30 +24,30 @@ public class Transactions implements Serializable, IEntity{
     private Long id;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    @Column(table="ZLECENIA_SPRZEDAŻ_REKLAM", name="DATA_ZAKOŃCZENIA", nullable = false)
+    @Column(table="ADDS_SELLING", name="END_DATE", nullable = false)
     private Date endDate;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    @Column(table="ZLECENIA_SPRZEDAŻ_REKLAM", name="DATA_ROZPOCZĘCIA", nullable = false)
+    @Column(table="ADDS_SELLING", name="START_DATE", nullable = false)
     private Date startDate;
     
-    @Column(table="ZLECENIA_SPRZEDAŻ_REKLAM", name="CENA", nullable = false)
+    @Column(table="ADDS_SELLING", name="PRICE", nullable = false)
     private double price;
     
-    @Column(table="ZLECENIA_WYNAJEM_SALI", name="NAZWA_FIRMY", nullable = false)
+    @Column(table="ROOMS_RENTING", name="COMPANY_NAME", nullable = false)
     private String companyName;
     
-    @Column(table="ZLECENIA_WYNAJEM_SALI", name="NUMER_SALI", nullable = false)
+    @Column(table="ROOMS_RENTING", name="ROOM_NUMBER", nullable = false)
     private int roomNumber;
     
-    @Column(table="ZLECENIA_WYNAJEM_SALI", name="CZAS", nullable = false)
+    @Column(table="ROOMS_RENTING", name="TIME_", nullable = false)
     private Time time;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    @Column(table="ZLECENIA_WYNAJEM_SALI", name="TERMIN", nullable = false)
+    @Column(table="ROOMS_RENTING", name="DEADLINE", nullable = false)
     private Date deadline;
     
-    @Column(table="ZLECENIA_WYNAJEM_SALI", name="ZAAKCEPTOWANE")
+    @Column(table="ROOMS_RENTING", name="ACCEPTED")
     private boolean accepted;
     
     protected Transactions(){}

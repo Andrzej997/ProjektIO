@@ -1,17 +1,20 @@
 package pl.polsl.database.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author matis
  */
 @Entity
+@Table(name="USERS")
 public class Users implements Serializable, IEntity {
 
     private static final long serialVersionUID = 8L;
@@ -19,33 +22,15 @@ public class Users implements Serializable, IEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "user", nullable = false, unique = true)
+    @Column(name = "USERNAME", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false, unique = false)
+    @Column(name = "PASSWORD", nullable = false, unique = false)
     private String password;
 
-    @Column(name = "alterPriv", nullable = false)
-    private boolean alterPrivileges;
-
-    @Column(name = "deletePriv", nullable = false)
-    private boolean deletePrivileges;
-
-    @Column(name = "insertPriv", nullable = false)
-    private boolean insertPrivileges;
-
-    @Column(name = "selectPriv", nullable = false)
-    private boolean selectPrivileges;
-
-    @Column(name = "updatePriv", nullable = false)
-    private boolean updatePrivileges;
-
-    @Column(name = "createPriv", nullable = false)
-    private boolean createPrivileges;
-
-    @Column(name = "allPriv", nullable = false)
-    private boolean allPrivileges;
-
+    @Column(name="TYPE", nullable=false)
+    private String type;
+    
     public Long getId() {
         return id;
     }
@@ -73,17 +58,10 @@ public class Users implements Serializable, IEntity {
     protected Users() {
     }
 
-    public Users(String user, String password, boolean alter, boolean delete, boolean insert,
-            boolean select, boolean update, boolean create, boolean all) {
+    public Users(String user, String password, String type) {
         this.username = user;
         this.password = password;
-        this.alterPrivileges = alter;
-        this.deletePrivileges = delete;
-        this.insertPrivileges = insert;
-        this.selectPrivileges = select;
-        this.updatePrivileges = update;
-        this.createPrivileges = create;
-        this.allPrivileges = all;
+        this.type = type;
     }
 
     @Override
@@ -106,124 +84,31 @@ public class Users implements Serializable, IEntity {
     public String toString() {
         return "pl.polsl.database.entities.Users[ id=" + id + " ]";
     }
-
-    /**
-     * @return the alterPrivileges
-     */
-    public boolean isAlterPrivileges() {
-        return alterPrivileges;
+    
+    public static ArrayList<String> getPrivilegesTypes(){
+        ArrayList<String> privArray = new ArrayList<>();
+        privArray.add("alterPriv");
+        privArray.add("deletePriv");
+        privArray.add("insertPriv");
+        privArray.add("selectPriv");
+        privArray.add("updatePriv");
+        privArray.add("createPriv");
+        privArray.add("allPriv");
+        return privArray;
     }
 
     /**
-     * @param alterPrivileges the alterPrivileges to set
+     * @return the type
      */
-    public void setAlterPrivileges(boolean alterPrivileges) {
-        this.alterPrivileges = alterPrivileges;
+    public String getType() {
+        return type;
     }
 
     /**
-     * @return the deletePrivileges
+     * @param type the type to set
      */
-    public boolean isDeletePrivileges() {
-        return deletePrivileges;
-    }
-
-    /**
-     * @param deletePrivileges the deletePrivileges to set
-     */
-    public void setDeletePrivileges(boolean deletePrivileges) {
-        this.deletePrivileges = deletePrivileges;
-    }
-
-    /**
-     * @return the insertPrivileges
-     */
-    public boolean isInsertPrivileges() {
-        return insertPrivileges;
-    }
-
-    /**
-     * @param insertPrivileges the insertPrivileges to set
-     */
-    public void setInsertPrivileges(boolean insertPrivileges) {
-        this.insertPrivileges = insertPrivileges;
-    }
-
-    /**
-     * @return the selectPrivileges
-     */
-    public boolean isSelectPrivileges() {
-        return selectPrivileges;
-    }
-
-    /**
-     * @param selectPrivileges the selectPrivileges to set
-     */
-    public void setSelectPrivileges(boolean selectPrivileges) {
-        this.selectPrivileges = selectPrivileges;
-    }
-
-    /**
-     * @return the updatePrivileges
-     */
-    public boolean isUpdatePrivileges() {
-        return updatePrivileges;
-    }
-
-    /**
-     * @param updatePrivileges the updatePrivileges to set
-     */
-    public void setUpdatePrivileges(boolean updatePrivileges) {
-        this.updatePrivileges = updatePrivileges;
-    }
-
-    /**
-     * @return the createPrivileges
-     */
-    public boolean isCreatePrivileges() {
-        return createPrivileges;
-    }
-
-    /**
-     * @param createPrivileges the createPrivileges to set
-     */
-    public void setCreatePrivileges(boolean createPrivileges) {
-        this.createPrivileges = createPrivileges;
-    }
-
-    /**
-     * @return the allPrivileges
-     */
-    public boolean isAllPrivileges() {
-        return allPrivileges;
-    }
-
-    /**
-     * @param allPrivileges the allPrivileges to set
-     */
-    public void setAllPrivileges(boolean allPrivileges) {
-        this.allPrivileges = allPrivileges;
-    }
-
-    public boolean checkUserPrivileges(String requestedPriv) {
-        switch (requestedPriv) {
-            case "alterPriv":
-                return this.isAlterPrivileges();
-            case "deletePriv":
-                return this.isDeletePrivileges();
-            case "insertPriv":
-                return this.isInsertPrivileges();
-            case "selectPriv":
-                return this.isSelectPrivileges();
-            case "updatePriv":
-                return this.isUpdatePrivileges();
-            case "createPriv":
-                return this.isCreatePrivileges();
-            case "allPriv":
-                return this.isAllPrivileges();
-            default:
-                return false;
-        }
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

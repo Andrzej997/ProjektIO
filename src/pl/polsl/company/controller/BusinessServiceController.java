@@ -1,5 +1,6 @@
 package pl.polsl.company.controller;
 
+import java.sql.Time;
 import pl.polsl.company.model.AdvertisementTransaction;
 import pl.polsl.company.model.RoomRentTransaction;
 import pl.polsl.company.model.Transaction;
@@ -28,9 +29,11 @@ public class BusinessServiceController {
         //TODO zwalnianie zasobów, możliwe że nie będzie potrzebne
     }
 
-    public void createNewRoomRentTransaction(int duration, String contractorName, int roomNumber, Date date) {
+    public void createNewRoomRentTransaction(int duration, String contractorName, int roomNumber, Date date, Time time) {
 
-        operationHandler.handleOperation("ADD_ENTITY", roomsReservationOperations, duration, contractorName, roomNumber, date);
+        operationHandler.handleOperation("ADD_ENTITY", roomsReservationOperations, contractorName, time, date, roomNumber, false);
+        // mozesz tez to zrobić tak:
+        operationHandler.handleRequest("ROOMS_RENTING", "ADD_ENTITY", contractorName, time, date, roomNumber, false);
         //TODO dodawanie odrazu do listy albo odświerzanie z bazy
     }
 

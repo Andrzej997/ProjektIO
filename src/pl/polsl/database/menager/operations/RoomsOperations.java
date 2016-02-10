@@ -47,7 +47,7 @@ public class RoomsOperations implements IOperate {
             em.getTransaction().begin();
             room = em.find(Rooms.class, room);
             for (String name : argNames) {
-                if ("capacity".equals(name)) {
+                if ("CAPACITY".equalsIgnoreCase(name)) {
                     room.setCapacity(Integer.parseInt((String)args[0]));
                 }
             }

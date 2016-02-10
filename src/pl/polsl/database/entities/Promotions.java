@@ -12,9 +12,9 @@ import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="PROMOCJE_GRUPOWE")
-@SecondaryTable(name="PROMOCJE_CZASOWE")
-public class Reservations implements Serializable, IEntity{
+@Table(name="GROUP_PROMOTIONS")
+@SecondaryTable(name="TIME_PROMOTIONS")
+public class Promotions implements Serializable, IEntity{
 
     private static final long serialVersionUID = 5L;
     @Id
@@ -22,32 +22,32 @@ public class Reservations implements Serializable, IEntity{
     @Column(name = "ID", nullable = false, unique = false)
     private Long id;
     
-    @Column(table="PROMOCJE_GRUPOWE",name="MINIMALNA_ILOŚĆ_OSÓB", nullable=false)
+    @Column(table="GROUP_PROMOTIONS",name="MINIMAL_AMOUNT", nullable=false)
     private int minimalAmount;
     
-    @Column(table="PROMOCJE_GRUPOWE",name="RABAT", nullable=false)
+    @Column(table="GROUP_PROMOTIONS",name="SALE", nullable=false)
     private int sale;
     
-    @Column(table="PROMOCJE_CZASOWE",name="DNI_TYGODNIA", nullable=false)
+    @Column(table="TIME_PROMOTIONS",name="DAYS_OF_WEEK", nullable=false)
     private Date[] daysOfWeek;
     
-    @Column(table="PROMOCJE_CZASOWE",name="GODZINY", nullable=false)
+    @Column(table="TIME_PROMOTIONS",name="HOURS", nullable=false)
     private Time[] hours;
     
-    @Column(table="PROMOCJE_CZASOWE",name="RABAT_CZASOWY", nullable=false)
-    private int sale2;
+    @Column(table="TIME_PROMOTIONS",name="TIME_SALE", nullable=false)
+    private int timeSale;
 
-    protected Reservations(){}
+    protected Promotions(){}
     
-    public Reservations(int minimalAmount, int sale){
+    public Promotions(int minimalAmount, int sale){
         this.minimalAmount=minimalAmount;
         this.sale=sale;
     }
     
-    public Reservations(Date[] daysOfWeek, Time[] hours, int sale2){
+    public Promotions(Date[] daysOfWeek, Time[] hours, int timeSale){
         this.daysOfWeek = daysOfWeek.clone();
         this.hours=hours.clone();
-        this.sale2=sale2;
+        this.timeSale=timeSale;
     }
     
     public Long getId() {
@@ -67,10 +67,10 @@ public class Reservations implements Serializable, IEntity{
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Reservations)) {
+        if (!(object instanceof Promotions)) {
             return false;
         }
-        Reservations other = (Reservations) object;
+        Promotions other = (Promotions) object;
         return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
@@ -136,17 +136,17 @@ public class Reservations implements Serializable, IEntity{
     }
 
     /**
-     * @return the sale2
+     * @return the timeSale
      */
-    public int getSale2() {
-        return sale2;
+    public int getTimeSale() {
+        return timeSale;
     }
 
     /**
-     * @param sale2 the sale2 to set
+     * @param timeSale the timeSale to set
      */
-    public void setSale2(int sale2) {
-        this.sale2 = sale2;
+    public void setTimeSale(int timeSale) {
+        this.timeSale = timeSale;
     }
     
 }

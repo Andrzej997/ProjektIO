@@ -22,20 +22,20 @@ public class OperationHandler {
     public OperationHandler(EntityManager em) {
         this.em = em;
         this.operationMap = new HashMap<>();
-        operationMap.put("FILMY", new FilmsOperations());
-        operationMap.put("PROMOCJE_GRUPOWE", new GroupPromotionOperations());
-        operationMap.put("PROMOCJE_CZASOWE", new TimePromotionOperations());
-        operationMap.put("SALE", new RoomsOperations());
-        operationMap.put("SEANSE", new SeancesOperations());
-        operationMap.put("BILETY", new TicketsOperations());
-        operationMap.put("ZLECENIA_SPRZEDAŻ_REKLAM", new AdsSellingOperations());
-        operationMap.put("ZLECENIA_WYNAJEM_SALI", new RoomsReservationOperations());
-        operationMap.put("KLIENCI", new ClientsOperations());
+        operationMap.put("FILMS", new FilmsOperations());
+        operationMap.put("GROUP_PROMOTIONS", new GroupPromotionOperations());
+        operationMap.put("TIME_PROMOTIONS", new TimePromotionOperations());
+        operationMap.put("ROOMS", new RoomsOperations());
+        operationMap.put("SEANCES", new SeancesOperations());
+        operationMap.put("TICKETS", new TicketsOperations());
+        operationMap.put("ADDS_SELLING", new AdsSellingOperations());
+        operationMap.put("ROOMS_RENTING", new RoomsReservationOperations());
+        operationMap.put("CLIENTS", new ClientsOperations());
     }
 
-    public List handleRequest(String database, String action, Object... args) {
-        if (operationMap.containsKey(database)) {
-            IOperate operation = operationMap.get(database);
+    public List handleRequest(String tableName, String action, Object... args) {
+        if (operationMap.containsKey(tableName)) {
+            IOperate operation = operationMap.get(tableName);
             operation.setEntityManager(em);
             return handleOperation(action, operation, args);
         }
@@ -53,18 +53,27 @@ public class OperationHandler {
             }
             break;
             case "DELETE_ENTITY":
-                operate.deleteEntity((IEntity)(operate.findEntity((ArrayList<String>)args[0], args[1])).get(0));
+                operate.deleteEntity((IEntity) (operate.findEntity((ArrayList<String>) args[0], args[1])).get(0));
                 break;
             case "FIND_ENTITY":
-                List results = operate.findEntity((ArrayList<String>)args[0], args[1]);
+                List results = operate.findEntity((ArrayList<String>) args[0], args[1]);
                 return results;
             case "MODIFY_ENTITY":
-                IEntity entity = (IEntity) (operate.findEntity((ArrayList<String>)args[0], args[1])).get(0);
-                operate.modifyEntity(entity,(ArrayList<String>) args[2], args[3]);
+                IEntity entity = (IEntity) (operate.findEntity((ArrayList<String>) args[0], args[1])).get(0);
+                operate.modifyEntity(entity, (ArrayList<String>) args[2], args[3]);
                 break;
             case "REALIZE_QUERY":
-                List result = operate.realizeQuery((String)args[0]);
+                List result = operate.realizeQuery((String) args[0]);
                 return result;
+            case "CREATE_ENTITY": {
+                try {
+                    List create = new ArrayList<>();
+                    create.add(operate.createEntity(args));
+                    return create;
+                } catch (ArgsLengthNotCorrectException ex) {
+                    Logger.getLogger(OperationHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             default:
                 break;
         }
