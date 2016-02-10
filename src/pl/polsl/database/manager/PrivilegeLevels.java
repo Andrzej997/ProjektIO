@@ -75,4 +75,12 @@ public enum PrivilegeLevels {
     }
 
     public abstract HashMap<String, ArrayList<String>> getPriviligeLevel();
+    
+    public String getType(){
+        return this.type;
+    }
+    
+    public int getPrivilegeLevel(){
+        return privilegeLevel;
+    }
 }
