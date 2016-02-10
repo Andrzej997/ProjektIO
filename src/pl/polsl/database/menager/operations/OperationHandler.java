@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import pl.polsl.database.entities.IEntity;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
@@ -33,7 +31,8 @@ public class OperationHandler {
         operationMap.put("CLIENTS", new ClientsOperations());
     }
 
-    public List handleRequest(String tableName, String action, Object... args) {
+    public List handleRequest(String tableName, String action, Object... args)
+            throws ArgsLengthNotCorrectException {
         if (operationMap.containsKey(tableName)) {
             IOperate operation = operationMap.get(tableName);
             operation.setEntityManager(em);
@@ -42,37 +41,30 @@ public class OperationHandler {
         return null;
     }
 
-    public List handleOperation(String action, IOperate operate, Object... args) {
+    public List handleOperation(String action, IOperate operate, Object... args)
+            throws ArgsLengthNotCorrectException {
         switch (action) {
             case "ADD_ENTITY": {
-                try {
-                    operate.addEntity(operate.createEntity((args)));
-                } catch (ArgsLengthNotCorrectException ex) {
-                    Logger.getLogger(OperationHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                operate.addEntity(operate.createEntity((args)));
             }
             break;
             case "DELETE_ENTITY":
-                operate.deleteEntity((IEntity) (operate.findEntity((ArrayList<String>) args[0], args[1])).get(0));
+                operate.deleteEntity((IEntity) (operate.isEntityExists((ArrayList<String>) args[0], args[1])).get(0));
                 break;
             case "FIND_ENTITY":
-                List results = operate.findEntity((ArrayList<String>) args[0], args[1]);
+                List results = operate.isEntityExists((ArrayList<String>) args[0], args[1]);
                 return results;
             case "MODIFY_ENTITY":
-                IEntity entity = (IEntity) (operate.findEntity((ArrayList<String>) args[0], args[1])).get(0);
+                IEntity entity = (IEntity) (operate.isEntityExists((ArrayList<String>) args[0], args[1])).get(0);
                 operate.modifyEntity(entity, (ArrayList<String>) args[2], args[3]);
                 break;
             case "REALIZE_QUERY":
                 List result = operate.realizeQuery((String) args[0]);
                 return result;
             case "CREATE_ENTITY": {
-                try {
-                    List create = new ArrayList<>();
-                    create.add(operate.createEntity(args));
-                    return create;
-                } catch (ArgsLengthNotCorrectException ex) {
-                    Logger.getLogger(OperationHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                List create = new ArrayList<>();
+                create.add(operate.createEntity(args));
+                return create;
             }
             default:
                 break;

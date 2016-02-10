@@ -61,7 +61,7 @@ public class Rooms implements Serializable, IEntity{
 
     @Override
     public String toString() {
-        return String.format("pl.polsl.database.entities.Rooms[ id=%d, capacity=%d]", id, capacity);
+        return String.format("pl.polsl.database.entities.Rooms[ id=%d capacity=%d ]", id, capacity);
     }
     
 }

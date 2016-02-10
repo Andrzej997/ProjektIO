@@ -1,6 +1,6 @@
 package pl.polsl.company.controller;
 
-import pl.polsl.database.menager.DAOMenager;
+import pl.polsl.database.manager.DAOManager;
 import pl.polsl.database.menager.operations.OperationHandler;
 
 /**
@@ -8,7 +8,7 @@ import pl.polsl.database.menager.operations.OperationHandler;
  */
 public class AuthenticationController {
 
-    private final OperationHandler operationHandler = new OperationHandler(DAOMenager.getInstance("kino").getEntityManager());
+    private final OperationHandler operationHandler = new OperationHandler(DAOManager.getInstance("kino").getEntityManager());
 
     private ManagementController managementController = null;
 
@@ -17,7 +17,7 @@ public class AuthenticationController {
     public boolean authenticateUser(int id, String password) {
         //operationHandler.handleRequest("", "FIND_ENTITY")
         //id nie używaj bo to wewnętrzne w bazie danych jest, zrób coś w tym stylu:
-        //DAOMenager manager = DAOMenager.getInstance("kino");
+        //DAOManager manager = DAOManager.getInstance("kino");
         //if(manager.authentificateUser(user, password))
         //itd...
         switch (1 /***pobieranie typu użytkownika****/) {

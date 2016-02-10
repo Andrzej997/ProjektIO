@@ -1,4 +1,4 @@
-package pl.polsl.database.menager;
+package pl.polsl.database.manager;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -20,30 +20,30 @@ import pl.polsl.database.entities.Users;
  * @author MateuszSojka
  *
  */
-public class DAOMenager {
+public class DAOManager {
 
     /**
      * @return the menager
      */
-    public static DAOMenager getMenager() {
+    public static DAOManager getMenager() {
         return menager;
     }
 
     private final EntityManagerFactory emf;
     private final EntityManager entityManager;
 
-    private static DAOMenager menager;
+    private static DAOManager menager;
 
-    private DAOMenager(String databaseName) {
+    private DAOManager(String databaseName) {
         emf = Persistence.createEntityManagerFactory(databaseName);
         entityManager = emf.createEntityManager();
     }
 
-    public static synchronized DAOMenager getInstance(String databaseName) {
+    public static synchronized DAOManager getInstance(String databaseName) {
         if (menager != null) {
             return menager;
         } else {
-            return new DAOMenager(databaseName);
+            return new DAOManager(databaseName);
         }
     }
 
@@ -63,7 +63,7 @@ public class DAOMenager {
     public ArrayList<String> getTableColumnNames(String tableName) {
         ArrayList<String> colNames = new ArrayList<>();
         Field[] declaredFields = null;
-        for (DatabaseWord data : DatabaseWord.values()) {
+        for (DatabaseTables data : DatabaseTables.values()) {
             if (data.getTableName().equals(tableName)) {
                 declaredFields = data.getTableClass().getDeclaredFields();
             }

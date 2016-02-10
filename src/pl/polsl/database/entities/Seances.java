@@ -72,7 +72,9 @@ public class Seances implements Serializable, IEntity{
 
     @Override
     public String toString() {
-        return "pl.polsl.database.entities.Seances[ id=" + id + " ]";
+        return "pl.polsl.database.entities.Seances[ id=" + id + " film=" + film.toString() 
+                + " room=" + room.toString() + " date=" + date.getCalendarType() 
+                + " basicTicketPrice=" + basicTicketPrice + " ]";
     }
 
     /**

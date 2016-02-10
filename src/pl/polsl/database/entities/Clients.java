@@ -72,7 +72,9 @@ public class Clients implements Serializable, IEntity {
 
     @Override
     public String toString() {
-        return "pl.polsl.database.entities.Clients[ id=" + id + " ]";
+        return "pl.polsl.database.entities.Clients[ id=" + id + " clientOrCompanyName=" 
+                + clientOrCompanyName + " price=" + price + " reservation=" 
+                + reservation.toString() + " ]";
     }
 
     /**

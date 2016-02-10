@@ -8,7 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.Charset;
-import pl.polsl.database.menager.DAOMenager;
+import pl.polsl.database.manager.DAOManager;
 
 public class Services extends Thread {
 
@@ -25,7 +25,7 @@ public class Services extends Thread {
      */
     private final PrintWriter out;
     
-    private DAOMenager daom;
+    private DAOManager daom;
 
     public Services(Socket socket) throws IOException {
         this.socket = socket;
@@ -38,11 +38,11 @@ public class Services extends Thread {
                         socket.getInputStream(), Charset.defaultCharset()));
     }
     
-    public void setDAOMenager(DAOMenager daom){
+    public void setDAOMenager(DAOManager daom){
         this.daom = daom;
     }
     
-    public DAOMenager getDAOMenager(){
+    public DAOManager getDAOMenager(){
         return daom;
     }
 
@@ -117,7 +117,7 @@ public class Services extends Thread {
             sendMessageToClient("PASS_REQ");
             String pass = reciveAnswer();
             if (pass != null) {
-                setDAOMenager(DAOMenager.getInstance("kino"));
+                setDAOMenager(DAOManager.getInstance("kino"));
                 if(daom.authentificateUser(user, pass)){
                     sendMessageToClient("ACCESS");
                     return true;

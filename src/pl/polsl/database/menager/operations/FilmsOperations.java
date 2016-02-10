@@ -80,7 +80,7 @@ public class FilmsOperations implements IOperate {
     }
 
     @Override
-    public List findEntity(ArrayList<String> argsNames, Object... args) {
+    public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Films> criteriaQuery = cb.createQuery(Films.class);
         Root<Films> films = criteriaQuery.from(Films.class);

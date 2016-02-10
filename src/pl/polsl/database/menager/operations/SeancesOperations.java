@@ -35,7 +35,7 @@ public class SeancesOperations implements IOperate {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
             Seances seance = new Seances((Films) args[0], (Rooms) args[1], 
-                    (Calendar) args[2], Double.parseDouble((String)args[0]));
+                    (Calendar) args[2], (Double)args[0]);
             return seance;
         }
     }
@@ -70,7 +70,7 @@ public class SeancesOperations implements IOperate {
                         i++;
                         break;
                     case "BASIC_TICKET_PRICE":
-                        seance.setBasicTicketPrice(Double.parseDouble((String)args[i]));
+                        seance.setBasicTicketPrice((Double)args[i]);
                         i++;
                         break;
                     default:
@@ -88,7 +88,7 @@ public class SeancesOperations implements IOperate {
     }
 
     @Override
-    public List findEntity(ArrayList<String> argsNames, Object... args) {
+    public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Seances> criteriaQuery = cb.createQuery(Seances.class);
         Root<Seances> seance = criteriaQuery.from(Seances.class);

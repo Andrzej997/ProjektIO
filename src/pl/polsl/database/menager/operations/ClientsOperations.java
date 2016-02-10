@@ -81,7 +81,7 @@ public class ClientsOperations implements IOperate{
     }
 
     @Override
-    public List findEntity(ArrayList<String> argsNames, Object... args) {
+    public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Clients> criteriaQuery = cb.createQuery(Clients.class);
         Root<Clients> client  = criteriaQuery.from(Clients.class);

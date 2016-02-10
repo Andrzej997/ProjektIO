@@ -80,7 +80,10 @@ public class Tickets implements Serializable, IEntity{
 
     @Override
     public String toString() {
-        return "pl.polsl.database.entities.Tickets[ id=" + id + " ]";
+        return "pl.polsl.database.entities.Tickets[ id=" + id + " price=" + price 
+                + " chairNumber=" + chairNumber + " rowNumber=" + rowNumber +  
+                " roomNumber=" + roomNumber + " time=" + time.toString() +
+                " date=" + date.toString() + " ]";
     }
 
     /**

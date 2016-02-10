@@ -26,8 +26,8 @@ public class GroupPromotionOperations implements IOperate{
         if (args.length != 2) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Promotions reservation = new Promotions(Integer.parseInt((String)args[0]),
-                   Integer.parseInt((String)args[1]));
+            Promotions reservation = new Promotions((Integer)args[0],
+                   (Integer)args[1]);
             return reservation;
         }
     }
@@ -50,11 +50,11 @@ public class GroupPromotionOperations implements IOperate{
             for (String name : argNames) {
                 switch (name.toUpperCase()) {
                     case "MINIMAL_AMOUNT":
-                        reservation.setMinimalAmount(Integer.parseInt((String)args[i]));
+                        reservation.setMinimalAmount((Integer)args[i]);
                         i++;
                         break;
                     case "SALE":
-                        reservation.setSale(Integer.parseInt((String)args[i]));
+                        reservation.setSale((Integer)args[i]);
                         i++;
                         break;
                     default:
@@ -72,7 +72,7 @@ public class GroupPromotionOperations implements IOperate{
     }
 
     @Override
-    public List findEntity(ArrayList<String> argsNames, Object... args) {
+    public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Promotions> criteriaQuery = cb.createQuery(Promotions.class);
         Root<Promotions> reservation  = criteriaQuery.from(Promotions.class);

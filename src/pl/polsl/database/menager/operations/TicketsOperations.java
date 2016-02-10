@@ -38,9 +38,9 @@ public class TicketsOperations implements IOperate {
         if (args.length != 7) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Tickets ticket = new Tickets(Double.parseDouble((String)args[0]), 
-                    Integer.parseInt((String)args[1]), Integer.parseInt((String)args[2]),
-                    Integer.parseInt((String)args[3]), Integer.parseInt((String)args[4]), 
+            Tickets ticket = new Tickets((Double)args[0], 
+                    (Integer)args[1], (Integer)args[2],
+                    (Integer)args[3], (Integer)args[4], 
                     (Time) args[5], (Date) args[6]);
             return ticket;
         }
@@ -64,23 +64,23 @@ public class TicketsOperations implements IOperate {
             for (String name : argNames) {
                 switch (name.toUpperCase()) {
                     case "PRICE":
-                        ticket.setPrice(Double.parseDouble((String)args[i]));
+                        ticket.setPrice((Double)args[i]);
                         i++;
                         break;
                     case "CHAIR_NUMBER":
-                        ticket.setChairNumber(Integer.parseInt((String)args[i]));
+                        ticket.setChairNumber((Integer)args[i]);
                         i++;
                         break;
                     case "ROW_NUMBER":
-                        ticket.setRowNumber(Integer.parseInt((String)args[i]));
+                        ticket.setRowNumber((Integer)args[i]);
                         i++;
                         break;
                     case "STATE_":
-                        ticket.setState(Integer.parseInt((String)args[i]));
+                        ticket.setState((Integer)args[i]);
                         i++;
                         break;
                     case "ROOM_NUMBER":
-                        ticket.setRoomNumber(Integer.parseInt((String)args[i]));
+                        ticket.setRoomNumber((Integer)args[i]);
                         i++;
                         break;
                     case "TIME_":
@@ -106,7 +106,7 @@ public class TicketsOperations implements IOperate {
     }
 
     @Override
-    public List findEntity(ArrayList<String> argsNames, Object... args) {
+    public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Tickets> criteriaQuery = cb.createQuery(Tickets.class);
         Root<Tickets> ticket = criteriaQuery.from(Tickets.class);

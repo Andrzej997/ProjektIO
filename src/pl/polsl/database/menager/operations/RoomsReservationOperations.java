@@ -61,7 +61,7 @@ public class RoomsReservationOperations implements IOperate {
                         i++;
                         break;
                     case "ROOM_NUMBER":
-                        transaction.setRoomNumber(Integer.parseInt((String)args[i]));
+                        transaction.setRoomNumber((Integer)args[i]);
                         i++;
                         break;
                     case "TIME_":
@@ -89,7 +89,7 @@ public class RoomsReservationOperations implements IOperate {
     }
 
     @Override
-    public List findEntity(ArrayList<String> argsNames, Object... args) {
+    public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Transactions> criteriaQuery = cb.createQuery(Transactions.class);
         Root<Transactions> transaction  = criteriaQuery.from(Transactions.class);

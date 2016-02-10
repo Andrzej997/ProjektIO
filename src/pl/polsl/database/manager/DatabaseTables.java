@@ -1,10 +1,10 @@
-package pl.polsl.database.menager;
+package pl.polsl.database.manager;
 
 /**
  *
  * @author matis
  */
-public enum DatabaseWord {
+public enum DatabaseTables {
 
     Films("FILMS", 1, pl.polsl.database.entities.Films.class),
     GroupPromotions("GROUP_PROMOTIONS", 2, pl.polsl.database.entities.Promotions.class),
@@ -21,7 +21,7 @@ public enum DatabaseWord {
     private final Integer tableCode;
     private final Class<?> tableClass;
 
-    DatabaseWord(String tableName, Integer tableCode, Class<?> object) {
+    DatabaseTables(String tableName, Integer tableCode, Class<?> object) {
         this.tableName = tableName;
         this.tableCode = tableCode;
         this.tableClass = object;

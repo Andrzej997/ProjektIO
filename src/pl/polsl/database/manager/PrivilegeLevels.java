@@ -1,4 +1,4 @@
-package pl.polsl.database.menager;
+package pl.polsl.database.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ public enum PrivilegeLevels {
         @Override
         public HashMap<String, ArrayList<String>> getPriviligeLevel() {
             ArrayList<String> tableNames = new ArrayList<>();
-            for (DatabaseWord tables : DatabaseWord.values()) {
+            for (DatabaseTables tables : DatabaseTables.values()) {
                 tableNames.add(tables.getTableName());
             }
             HashMap<String, ArrayList<String>> privilegeLevels = new HashMap<>();
@@ -26,7 +26,7 @@ public enum PrivilegeLevels {
         public HashMap<String, ArrayList<String>> getPriviligeLevel() {
             ArrayList<String> privTypesArray = Users.getPrivilegesTypes();
             ArrayList<String> tableNames = new ArrayList<>();
-            for (DatabaseWord tables : DatabaseWord.values()) {
+            for (DatabaseTables tables : DatabaseTables.values()) {
                 String table = tables.getTableName();
                 if (!table.equals("USERS")) {
                     tableNames.add(table);
@@ -46,7 +46,7 @@ public enum PrivilegeLevels {
         public HashMap<String, ArrayList<String>> getPriviligeLevel() {
             ArrayList<String> privTypesArray = Users.getPrivilegesTypes();
             ArrayList<String> tableNames = new ArrayList<>();
-            for (DatabaseWord tables : DatabaseWord.values()) {
+            for (DatabaseTables tables : DatabaseTables.values()) {
                 String table = tables.getTableName();
                 if (table.equals("ROOMS") || table.equals("TICKETS") || table.equals("SEANCES")
                         || table.equals("FILMS")) {

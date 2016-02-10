@@ -2,6 +2,7 @@ package pl.polsl.database.entities;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.Arrays;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,44 +13,45 @@ import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="GROUP_PROMOTIONS")
-@SecondaryTable(name="TIME_PROMOTIONS")
-public class Promotions implements Serializable, IEntity{
+@Table(name = "GROUP_PROMOTIONS")
+@SecondaryTable(name = "TIME_PROMOTIONS")
+public class Promotions implements Serializable, IEntity {
 
     private static final long serialVersionUID = 5L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false, unique = false)
     private Long id;
-    
-    @Column(table="GROUP_PROMOTIONS",name="MINIMAL_AMOUNT", nullable=false)
+
+    @Column(table = "GROUP_PROMOTIONS", name = "MINIMAL_AMOUNT", nullable = false)
     private int minimalAmount;
-    
-    @Column(table="GROUP_PROMOTIONS",name="SALE", nullable=false)
+
+    @Column(table = "GROUP_PROMOTIONS", name = "SALE", nullable = false)
     private int sale;
-    
-    @Column(table="TIME_PROMOTIONS",name="DAYS_OF_WEEK", nullable=false)
+
+    @Column(table = "TIME_PROMOTIONS", name = "DAYS_OF_WEEK", nullable = false)
     private Date[] daysOfWeek;
-    
-    @Column(table="TIME_PROMOTIONS",name="HOURS", nullable=false)
+
+    @Column(table = "TIME_PROMOTIONS", name = "HOURS", nullable = false)
     private Time[] hours;
-    
-    @Column(table="TIME_PROMOTIONS",name="TIME_SALE", nullable=false)
+
+    @Column(table = "TIME_PROMOTIONS", name = "TIME_SALE", nullable = false)
     private int timeSale;
 
-    protected Promotions(){}
-    
-    public Promotions(int minimalAmount, int sale){
-        this.minimalAmount=minimalAmount;
-        this.sale=sale;
+    protected Promotions() {
     }
-    
-    public Promotions(Date[] daysOfWeek, Time[] hours, int timeSale){
+
+    public Promotions(int minimalAmount, int sale) {
+        this.minimalAmount = minimalAmount;
+        this.sale = sale;
+    }
+
+    public Promotions(Date[] daysOfWeek, Time[] hours, int timeSale) {
         this.daysOfWeek = daysOfWeek.clone();
-        this.hours=hours.clone();
-        this.timeSale=timeSale;
+        this.hours = hours.clone();
+        this.timeSale = timeSale;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -72,11 +74,6 @@ public class Promotions implements Serializable, IEntity{
         }
         Promotions other = (Promotions) object;
         return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
-
-    @Override
-    public String toString() {
-        return "pl.polsl.database.entities.Reservations[ id=" + id + " ]";
     }
 
     /**
@@ -148,5 +145,12 @@ public class Promotions implements Serializable, IEntity{
     public void setTimeSale(int timeSale) {
         this.timeSale = timeSale;
     }
-    
+
+    @Override
+    public String toString() {
+        return "pl.polsl.database.entities.Reservations[ id=" + id + " minimalAmount=" 
+                +minimalAmount + " sale=" + sale + " daysOfWeek=" + Arrays.toString(daysOfWeek) 
+                + "hours=" + Arrays.toString(hours) + " timeSale= " + timeSale + " ]";
+    }
+
 }

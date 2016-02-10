@@ -27,7 +27,7 @@ public class RoomsOperations implements IOperate {
         if (args.length != 1) {
             throw new ArgsLengthNotCorrectException("Arguments are not correct");
         } else {
-            Rooms room = new Rooms(Integer.parseInt((String)args[0]));
+            Rooms room = new Rooms((Integer)args[0]);
             return room;
         }
     }
@@ -48,7 +48,7 @@ public class RoomsOperations implements IOperate {
             room = em.find(Rooms.class, room);
             for (String name : argNames) {
                 if ("CAPACITY".equalsIgnoreCase(name)) {
-                    room.setCapacity(Integer.parseInt((String)args[0]));
+                    room.setCapacity((Integer)args[0]);
                 }
             }
             em.getTransaction().commit();
@@ -62,7 +62,7 @@ public class RoomsOperations implements IOperate {
     }
 
     @Override
-    public List findEntity(ArrayList<String> argsNames, Object... args) {
+    public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Rooms> criteriaQuery = cb.createQuery(Rooms.class);
         Root<Rooms> rooms = criteriaQuery.from(Rooms.class);

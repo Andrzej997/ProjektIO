@@ -92,7 +92,11 @@ public class Transactions implements Serializable, IEntity{
 
     @Override
     public String toString() {
-        return "pl.polsl.database.entities.Transactions[ id=" + id + " ]";
+        return "pl.polsl.database.entities.Transactions[ id=" + id + " endDate=" 
+                + endDate.toString() + " startDate=" + startDate.toString() + 
+                " price=" + price + " companyName=" + companyName+ " roomNumber="
+                + roomNumber + " time=" + time.toString() + " deadline=" 
+                + deadline.toString() + " accepted= "+ accepted + " ]";
     }
 
     /**

@@ -34,7 +34,7 @@ public class TimePromotionOperations implements IOperate {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
             Promotions reservation = new Promotions((Date[]) args[0], (Time[]) args[1],
-                    Integer.parseInt((String)args[2]));
+                    (Integer)args[2]);
             return reservation;
         }
     }
@@ -65,7 +65,7 @@ public class TimePromotionOperations implements IOperate {
                         i++;
                         break;
                     case "TIME_SALE":
-                        reservation.setTimeSale(Integer.parseInt((String)args[i]));
+                        reservation.setTimeSale((Integer)args[i]);
                         i++;
                         break;
                     default:
@@ -83,7 +83,7 @@ public class TimePromotionOperations implements IOperate {
     }
 
     @Override
-    public List findEntity(ArrayList<String> argsNames, Object... args) {
+    public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Promotions> criteriaQuery = cb.createQuery(Promotions.class);
         Root<Promotions> reservation  = criteriaQuery.from(Promotions.class);

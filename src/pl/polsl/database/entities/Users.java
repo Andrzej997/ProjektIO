@@ -82,7 +82,8 @@ public class Users implements Serializable, IEntity {
 
     @Override
     public String toString() {
-        return "pl.polsl.database.entities.Users[ id=" + id + " ]";
+        return "pl.polsl.database.entities.Users[ id=" + id + " username=" 
+                + username + " password=" + password + " type=" + type + " ]";
     }
     
     public static ArrayList<String> getPrivilegesTypes(){
