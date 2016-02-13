@@ -1,15 +1,12 @@
 package pl.polsl.company.controller;
 
 import java.sql.Time;
-import pl.polsl.company.model.AdvertisementTransaction;
 import pl.polsl.company.model.ApplicationContext;
-import pl.polsl.company.model.RoomRentTransaction;
 import pl.polsl.company.model.Transaction;
 import pl.polsl.database.entities.Transactions;
 import pl.polsl.database.manager.DAOManager;
-import pl.polsl.database.menager.operations.AdsSellingOperations;
-import pl.polsl.database.menager.operations.OperationHandler;
-import pl.polsl.database.menager.operations.RoomsReservationOperations;
+import pl.polsl.database.manager.operations.AdsSellingOperations;
+import pl.polsl.database.manager.operations.RoomsReservationOperations;
 
 import java.util.Date;
 import java.util.List;

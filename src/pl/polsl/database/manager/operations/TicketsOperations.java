@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.polsl.database.menager.operations;
+package pl.polsl.database.manager.operations;
 
 import java.sql.Time;
 import java.util.ArrayList;

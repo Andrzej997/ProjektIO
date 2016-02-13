@@ -50,6 +50,9 @@ public class Transactions implements Serializable, IEntity{
     @Column(table="ROOMS_RENTING", name="ACCEPTED")
     private boolean accepted;
     
+    @Column(table="ROOMS_RENTING", name="RENT_PRICE")
+    private double rentPrice;
+    
     protected Transactions(){}
     
     public Transactions(Date endDate, Date startDate, double price){
@@ -58,12 +61,14 @@ public class Transactions implements Serializable, IEntity{
         this.price=price;
     }
     
-    public Transactions(String companyName, int roomNumber, Time time, Date deadline, boolean accpeted){
+    public Transactions(String companyName, int roomNumber, Time time, Date deadline,
+            boolean accpeted, double rentPrice){
         this.companyName=companyName;
         this.roomNumber=roomNumber;
         this.time=time;
         this.deadline=(Date)deadline.clone();
         this.accepted=accpeted;
+        this.rentPrice=rentPrice;
     }
     
     public Long getId() {
@@ -209,6 +214,20 @@ public class Transactions implements Serializable, IEntity{
      */
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    /**
+     * @return the rentPrice
+     */
+    public double getRentPrice() {
+        return rentPrice;
+    }
+
+    /**
+     * @param rentPrice the rentPrice to set
+     */
+    public void setRentPrice(double rentPrice) {
+        this.rentPrice = rentPrice;
     }
     
 }

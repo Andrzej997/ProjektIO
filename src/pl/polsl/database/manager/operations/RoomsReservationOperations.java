@@ -1,26 +1,24 @@
-package pl.polsl.database.menager.operations;
+package pl.polsl.database.manager.operations;
 
+import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import pl.polsl.database.entities.Films;
 import pl.polsl.database.entities.IEntity;
-import pl.polsl.database.entities.Rooms;
-import pl.polsl.database.entities.Seances;
+import pl.polsl.database.entities.Transactions;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
 
 /**
  *
  * @author matis
  */
-public class SeancesOperations implements IOperate {
+public class RoomsReservationOperations implements IOperate {
 
     EntityManager em;
 
@@ -30,48 +28,54 @@ public class SeancesOperations implements IOperate {
     }
 
     @Override
-    public Seances createEntity(Object... args) throws ArgsLengthNotCorrectException {
-        if (args.length != 4) {
+    public Transactions createEntity(Object... args) throws ArgsLengthNotCorrectException {
+        if (args.length != 6) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Seances seance = new Seances((Films) args[0], (Rooms) args[1], 
-                    (Calendar) args[2], (Double)args[0]);
-            return seance;
+            Transactions transaction = new Transactions((String) args[0], (Integer)args[1],
+                    (Time) args[2], (Date) args[3], (boolean) args[4], (Double)args[5]);
+            return transaction;
         }
     }
 
     @Override
     public void addEntity(IEntity entity) {
-        Seances seance = (Seances) entity;
+        Transactions transaction = (Transactions) entity;
         em.getTransaction().begin();
-        em.persist(seance);
+        em.persist(transaction);
         em.getTransaction().commit();
     }
 
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
-        if (findEntity(entity) && args.length == 4) {
-            Seances seance = (Seances) entity;
+        if (findEntity(entity) && args.length == 6) {
+            Transactions transaction = (Transactions) entity;
             em.getTransaction().begin();
-            seance = em.find(Seances.class, seance);
+            transaction = em.find(Transactions.class, transaction);
             int i = 0;
             for (String name : argNames) {
                 switch (name.toUpperCase()) {
-                    case "FILM":
-                        seance.setFilm((Films) args[i]);
+                    case "COMPANY_NAME":
+                        transaction.setCompanyName((String)args[i]);
                         i++;
                         break;
-                    case "ROOM":
-                        seance.setRoom((Rooms) args[i]);
+                    case "ROOM_NUMBER":
+                        transaction.setRoomNumber((Integer)args[i]);
                         i++;
                         break;
-                    case "SEANCE_DATE":
-                        seance.setDate((Calendar) args[i]);
+                    case "TIME_":
+                        transaction.setTime((Time)args[i]);
                         i++;
                         break;
-                    case "BASIC_TICKET_PRICE":
-                        seance.setBasicTicketPrice((Double)args[i]);
+                    case "DEADLINE":
+                        transaction.setDeadline((Date)args[i]);
                         i++;
+                        break;
+                    case "ACCEPTED":
+                        transaction.setAccepted((boolean)args[i]);
+                        break;
+                    case "RENT_PRICE":
+                        transaction.setRentPrice((Double)args[i]);
                         break;
                     default:
                         break;
@@ -83,24 +87,24 @@ public class SeancesOperations implements IOperate {
 
     @Override
     public boolean findEntity(IEntity entity) {
-        Seances seance = (Seances) entity;
-        return em.contains(seance);
+        Transactions transation = (Transactions) entity;
+        return em.contains(transation);
     }
 
     @Override
     public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Seances> criteriaQuery = cb.createQuery(Seances.class);
-        Root<Seances> seance = criteriaQuery.from(Seances.class);
+        CriteriaQuery<Transactions> criteriaQuery = cb.createQuery(Transactions.class);
+        Root<Transactions> transaction  = criteriaQuery.from(Transactions.class);
         List<Predicate> predicates = new ArrayList<>();
         int i = 0;
         for (String name : argsNames) {
-            predicates.add(cb.equal(seance.get(name), args[i]));
+            predicates.add(cb.equal(transaction.get(name), args[i]));
             i++;
         }
-        criteriaQuery.select(seance).where(predicates.toArray(new Predicate[]{}));
-        TypedQuery<Seances> query = em.createQuery(criteriaQuery);
-        List<Seances> resultList = query.getResultList();
+        criteriaQuery.select(transaction).where(predicates.toArray(new Predicate[]{}));
+        TypedQuery<Transactions> query = em.createQuery(criteriaQuery);
+        List<Transactions> resultList = query.getResultList();
         return resultList;
     }
 

@@ -1,8 +1,6 @@
-package pl.polsl.database.menager.operations;
+package pl.polsl.database.manager.operations;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -11,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import pl.polsl.database.entities.Clients;
 import pl.polsl.database.entities.IEntity;
 import pl.polsl.database.entities.Promotions;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
@@ -19,10 +18,10 @@ import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
  *
  * @author matis
  */
-public class TimePromotionOperations implements IOperate {
+public class ClientsOperations implements IOperate{
 
     EntityManager em;
-
+    
     @Override
     public void setEntityManager(EntityManager em) {
         this.em = em;
@@ -30,42 +29,41 @@ public class TimePromotionOperations implements IOperate {
 
     @Override
     public IEntity createEntity(Object... args) throws ArgsLengthNotCorrectException {
-        if (args.length != 2) {
+        if (args.length != 3) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Promotions reservation = new Promotions((Date[]) args[0], (Time[]) args[1],
-                    (Integer)args[2]);
-            return reservation;
+            Clients client = new Clients((String)args[0], (Double)args[1], (Promotions)args[2]);
+            return client;
         }
     }
 
     @Override
     public void addEntity(IEntity entity) {
-        Promotions reservation = (Promotions) entity;
+        Clients clients = (Clients) entity;
         em.getTransaction().begin();
-        em.persist(reservation);
+        em.persist(clients);
         em.getTransaction().commit();
     }
 
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
         if (findEntity(entity) && args.length == 3) {
-            Promotions reservation = (Promotions) entity;
+            Clients client = (Clients) entity;
             em.getTransaction().begin();
-            reservation = em.find(Promotions.class, reservation);
+            client = em.find(Clients.class, client);
             int i = 0;
             for (String name : argNames) {
                 switch (name.toUpperCase()) {
-                    case "DAYS_OF_WEEK":
-                        reservation.setDaysOfWeek((Date[])args[i]);
+                    case "CLIENT_OR_COMPANY_NAME":
+                        client.setClientOrCompanyName((String)args[i]);
                         i++;
                         break;
-                    case "HOURS":
-                        reservation.setHours((Time[])args[i]);
+                    case "PRICE":
+                        client.setPrice(Double.parseDouble((String)args[i]));
                         i++;
                         break;
-                    case "TIME_SALE":
-                        reservation.setTimeSale((Integer)args[i]);
+                    case "RESERVATION":
+                        client.setReservations((Promotions)args[i]);
                         i++;
                         break;
                     default:
@@ -78,24 +76,24 @@ public class TimePromotionOperations implements IOperate {
 
     @Override
     public boolean findEntity(IEntity entity) {
-        Promotions reservation = (Promotions) entity;
-        return em.contains(reservation);
+        Clients client = (Clients) entity;
+        return em.contains(client);
     }
 
     @Override
     public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Promotions> criteriaQuery = cb.createQuery(Promotions.class);
-        Root<Promotions> reservation  = criteriaQuery.from(Promotions.class);
+        CriteriaQuery<Clients> criteriaQuery = cb.createQuery(Clients.class);
+        Root<Clients> client  = criteriaQuery.from(Clients.class);
         List<Predicate> predicates = new ArrayList<>();
         int i = 0;
         for (String name : argsNames) {
-            predicates.add(cb.equal(reservation.get(name), args[i]));
+            predicates.add(cb.equal(client.get(name), args[i]));
             i++;
         }
-        criteriaQuery.select(reservation).where(predicates.toArray(new Predicate[]{}));
-        TypedQuery<Promotions> query = em.createQuery(criteriaQuery);
-        List<Promotions> resultList = query.getResultList();
+        criteriaQuery.select(client).where(predicates.toArray(new Predicate[]{}));
+        TypedQuery<Clients> query = em.createQuery(criteriaQuery);
+        List<Clients> resultList = query.getResultList();
         return resultList;
     }
 
@@ -107,5 +105,5 @@ public class TimePromotionOperations implements IOperate {
             em.getTransaction().commit();
         }
     }
-
+    
 }

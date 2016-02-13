@@ -1,4 +1,4 @@
-package pl.polsl.database.menager.operations;
+package pl.polsl.database.manager.operations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
