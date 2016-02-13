@@ -2,6 +2,7 @@ package pl.polsl.database.entities;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,7 +46,7 @@ public class Transactions implements Serializable, IEntity{
     
     @Temporal(javax.persistence.TemporalType.DATE)
     @Column(table="ROOMS_RENTING", name="DEADLINE", nullable = false)
-    private Date deadline;
+    private Calendar deadline;
     
     @Column(table="ROOMS_RENTING", name="ACCEPTED")
     private boolean accepted;
@@ -61,12 +62,12 @@ public class Transactions implements Serializable, IEntity{
         this.price=price;
     }
     
-    public Transactions(String companyName, int roomNumber, Time time, Date deadline,
+    public Transactions(String companyName, int roomNumber, Time time, Calendar deadline,
             boolean accpeted, double rentPrice){
         this.companyName=companyName;
         this.roomNumber=roomNumber;
         this.time=time;
-        this.deadline=(Date)deadline.clone();
+        this.deadline=(Calendar)deadline.clone();
         this.accepted=accpeted;
         this.rentPrice=rentPrice;
     }
@@ -191,15 +192,15 @@ public class Transactions implements Serializable, IEntity{
     /**
      * @return the deadline
      */
-    public Date getDeadline() {
-        return (Date)deadline.clone();
+    public Calendar getDeadline() {
+        return (Calendar)deadline.clone();
     }
 
     /**
      * @param deadline the deadline to set
      */
-    public void setDeadline(Date deadline) {
-        this.deadline = (Date)deadline.clone();
+    public void setDeadline(Calendar deadline) {
+        this.deadline = (Calendar)deadline.clone();
     }
 
     /**

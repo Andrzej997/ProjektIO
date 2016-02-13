@@ -2,6 +2,7 @@ package pl.polsl.database.manager.operations;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -33,7 +34,7 @@ public class RoomsReservationOperations implements IOperate {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
             Transactions transaction = new Transactions((String) args[0], (Integer)args[1],
-                    (Time) args[2], (Date) args[3], (boolean) args[4], (Double)args[5]);
+                    (Time) args[2], (Calendar) args[3], (boolean) args[4], (Double)args[5]);
             return transaction;
         }
     }
@@ -68,7 +69,7 @@ public class RoomsReservationOperations implements IOperate {
                         i++;
                         break;
                     case "DEADLINE":
-                        transaction.setDeadline((Date)args[i]);
+                        transaction.setDeadline((Calendar)args[i]);
                         i++;
                         break;
                     case "ACCEPTED":
