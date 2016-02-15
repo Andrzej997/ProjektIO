@@ -1,80 +1,51 @@
 package pl.polsl.company.server;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.io.*;
+import java.net.*;
+import java.util.ArrayList;
 
 /**
+ * Main class of shop server. It monitors client connections and creates threads
+ * for them.
  *
- * @author matis
+ * @author Wojciech Dębski
+ * @version 1.0
  */
 public class Server {
 
     /**
-     * Port number
+     * Connected clients counter.
      */
-    private static Integer PORT = 23;
+    static int i = 0;
 
     /**
-     * Singleton server object
-     */
-    private static ServerSocket server = null;
-
-    /**
-     * Main method
+     * Monitors client connections and creates threads for them.
      *
-     * @param args String with command line arguments
+     * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        if (args.length == 1) {
-            PORT = Integer.parseInt(args[0]);
-        }
+    public static void main(String[] args) {
         try {
-            server = createServer();
-            System.out.println("Server started");
-            try {
-                while (true) {
-                    Socket socket = server.accept();
-                    System.out.println("server connected to " + socket.getInetAddress());
-                    try {
-                        Services service = new Services(socket);
-                        service.start();
-                    } catch (IOException e) {
-                        socket.close();
-                        System.err.println(e.getMessage());
+            ServerSocket s = new ServerSocket(6789);
+            Thread t = null;
+            ArrayList<Thread> threads = new ArrayList<>();
+            while (true) {
+                Socket incoming = s.accept();
+                System.out.println("Spawning " + i);
+                Runnable r = new ServerThread(incoming, i);
+                t = new Thread(r);
+                t.start();
+                threads.add(t);
+                i++;
+                for (Thread thread : threads) {
+                    if (!thread.isAlive()) {
+                        i--;
                     }
+                    threads.remove(thread);
                 }
-            } finally {
-                server.close();
             }
-        } catch (IOException ex) {
-            System.out.println("Server socket error" + ex.getMessage());
-        }
-    }
 
-    /**
-     * Method to create singleton server object - to avoid creation of multiple
-     * instances
-     *
-     * @return ServerSocket with new Object or current Instance
-     * @throws IOException when SocketServer cannont be created
-     */
-    public static synchronized ServerSocket createServer() throws IOException {
-        if (server == null) {
-            server = new ServerSocket(PORT);
-            return server;
-        }
-        System.out.println("Server is running, don't try to create multiple instances");
-        return server;
-    }
-
-    public Integer getArgs(String args[]) {
-        if (args.length == 1) {
-            return Integer.parseInt(args[0]);
-        } else {
-            return null;
+        } catch (IOException e) {
+            System.out.println("Błąd połączenia.");
         }
     }
 }

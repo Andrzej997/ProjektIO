@@ -1,4 +1,4 @@
-package pl.polsl.company.server;
+package pl.polsl.company.server_OLD;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
