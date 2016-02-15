@@ -36,31 +36,25 @@ public class BusinessServiceController {
 
     }
     
-    public void logout() {
-        //TODO zwalnianie zasobów, możliwe że nie będzie potrzebne
-    }
-    
     public void createNewRoomRentTransaction(int duration, String contractorName, int roomNumber, Date date, Time time) {
         try {
             Transactions reservation = transactionsOperations.createEntity(contractorName, time, date, roomNumber, false);
             transactionsOperations.addEntity(reservation);
+            applicationContext.getTransactionList().add(new RoomRentTransaction(reservation));
         } catch (ArgsLengthNotCorrectException ex) {
             System.err.print(ex.getMessage());
         }
-        //TODO dodawanie odrazu do listy albo odświerzanie z bazy
-    }
-    
-    public void createNewAdvertisementTransaction(double price, Date dateFrom, Date dateTo) {
     }
 
+
     public List<Transaction> getAllTransactions() {
-        return applicationContext.getTransactions();
+        return applicationContext.getTransactionList().getTransactions();
     }
 
     public List<RoomRentTransaction> getAllRoomRentTransactions() {
         List<RoomRentTransaction> result = new ArrayList<>();
 
-        for (Transaction transaction : applicationContext.getTransactions()) {
+        for (Transaction transaction : applicationContext.getTransactionList().getTransactions()) {
             if (transaction.getType() == 0) {
                 result.add((RoomRentTransaction)(transaction));
             }
@@ -73,5 +67,18 @@ public class BusinessServiceController {
 
         return DAOManager.getInstance("kino").realizeQuery(query);
     }
+
+    public void cancelRoomReservation(int id) {
+        List<Transaction> transactions = applicationContext.getTransactionList().getTransactions();
+
+        for (Transaction t : transactions) {
+            if (t.getID() == id) {
+                t.delete();
+                transactions.remove(t);
+                break;
+            }
+        }
+    }
+
     
 }

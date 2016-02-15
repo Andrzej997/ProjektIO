@@ -18,12 +18,21 @@ public class AuthorizationQueue {
         transactions.add(order);
     }
 
-    public void authorize(AuthorizableTransaction order) {
+    public void accept(AuthorizableTransaction order) {
         order.accept();
         transactions.remove(order);
     }
 
     public List<AuthorizableTransaction> getAllTransactions() {
         return transactions;
+    }
+
+    public void remove(long id) {
+        for (AuthorizableTransaction t : transactions) {
+            if (t.getID() == id) {
+                transactions.remove(t);
+                break;
+            }
+        }
     }
 }

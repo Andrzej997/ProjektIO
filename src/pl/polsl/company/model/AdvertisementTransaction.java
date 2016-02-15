@@ -21,7 +21,7 @@ public class AdvertisementTransaction extends Transaction {
     }
 
     @Override
-    public void reject() {
+    public void refuse() {
 
     }
 }

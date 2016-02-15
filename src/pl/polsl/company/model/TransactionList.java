@@ -1,7 +1,5 @@
 package pl.polsl.company.model;
 
-import pl.polsl.database.entities.Transactions;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,5 +21,14 @@ public class TransactionList {
 
     public void add(Transaction t) {
         transactions.add(t);
+    }
+
+    public void remove(long id) {
+        for (Transaction t : transactions) {
+            if (t.getID() == id) {
+                transactions.remove(t);
+                break;
+            }
+        }
     }
 }

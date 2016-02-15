@@ -3,7 +3,6 @@ package pl.polsl.company.model;
 import pl.polsl.database.entities.Transactions;
 import pl.polsl.database.manager.DAOManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +48,7 @@ public class ApplicationContext {
         return authorizationQueue;
     }
 
-    public List<Transaction> getTransactions() {
-        return transactionList.getTransactions();
+    public TransactionList getTransactionList() {
+        return transactionList;
     }
 }

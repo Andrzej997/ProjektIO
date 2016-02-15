@@ -22,6 +22,10 @@ public class AuthorizableTransaction {
         return transaction;
     }
 
+    public long getID() {
+        return transaction.getID();
+    }
+
     public String getCompanyName() {
         return transaction.getCompanyName();
     }
