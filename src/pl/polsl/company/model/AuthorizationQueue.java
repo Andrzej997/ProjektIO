@@ -10,25 +10,17 @@ public class AuthorizationQueue {
 
     private List<AuthorizableTransaction> transactions;
 
-    public AuthorizationQueue(List<AuthorizableTransaction> unauthorizedTransactions) {
-        transactions = unauthorizedTransactions;
+    public AuthorizationQueue() {
+        transactions = new ArrayList<>();
     }
 
     public void add(AuthorizableTransaction order) {
         transactions.add(order);
     }
 
-    public Transaction authorize(AuthorizableTransaction order) {
-        order.changeStatus();
-        return order;
-    }
-
-    public AuthorizableTransaction getLastOrder() {
-        if (transactions != null && transactions.size() > 0) {
-            return transactions.get(transactions.size()-1);
-        } else {
-            return null;
-        }
+    public void authorize(AuthorizableTransaction order) {
+        order.accept();
+        transactions.remove(order);
     }
 
     public List<AuthorizableTransaction> getAllTransactions() {

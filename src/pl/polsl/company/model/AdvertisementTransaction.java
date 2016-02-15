@@ -7,10 +7,12 @@ import java.util.Date;
 /**
  * Created by Krzysztof Stręk on 2016-02-08.
  */
-public class AdvertisementTransaction extends Transactions implements Transaction {
+public class AdvertisementTransaction extends Transaction {
 
-    public AdvertisementTransaction(Double price, Date startDate, Date endDate) {
+    Transactions transactionEntity;
 
+    public AdvertisementTransaction(Transactions t) {
+        super(t);
     }
 
     @Override

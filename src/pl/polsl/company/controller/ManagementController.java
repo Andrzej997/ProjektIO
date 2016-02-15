@@ -2,10 +2,7 @@ package pl.polsl.company.controller;
 
 import pl.polsl.company.model.ApplicationContext;
 import pl.polsl.company.model.AuthorizableTransaction;
-import pl.polsl.company.model.Transaction;
-import pl.polsl.database.manager.DAOManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

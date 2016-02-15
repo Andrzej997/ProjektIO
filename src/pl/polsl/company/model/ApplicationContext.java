@@ -1,5 +1,6 @@
 package pl.polsl.company.model;
 
+import pl.polsl.database.entities.Transactions;
 import pl.polsl.database.manager.DAOManager;
 
 import java.util.ArrayList;
@@ -10,29 +11,38 @@ import java.util.List;
  */
 public class ApplicationContext {
 
-    private AuthorizationQueue authorizationQueue;
+    private final TransactionList transactionList;
 
-    private final List<Transaction> transactions;
+    private final AuthorizationQueue authorizationQueue;
 
     public ApplicationContext() {
 
         String query = "SELECT * FROM ADDS_SELLING UNION SELECT * FROM ROOMS_RENTING";
+        List<Transactions> transactionEntities = DAOManager.getInstance("kino").realizeQuery(query);
 
-        transactions = DAOManager.getInstance("kino").realizeQuery(query);
+        transactionList = new TransactionList();
+        authorizationQueue = new AuthorizationQueue();
 
-        List<AuthorizableTransaction> unauthorizedTransactions = getUnauthorized(transactions);
+        for (Transactions t: transactionEntities) {
+            Transaction newTransaction;
 
-        authorizationQueue = new AuthorizationQueue(unauthorizedTransactions);
-    }
+            switch (t.getType()) {
+                case 0:
+                    newTransaction = new RoomRentTransaction(t);
+                    break;
+                case 1:
+                    newTransaction = new AdvertisementTransaction(t);
+                    break;
+                default:
+                    newTransaction = new AdvertisementTransaction(t);
+            }
+            transactionList.add(newTransaction);
 
-    private List<AuthorizableTransaction> getUnauthorized(List<Transaction> transactions) {
-        ArrayList<AuthorizableTransaction> result = new ArrayList<AuthorizableTransaction>();
+            if (t.getType() == 0 && !t.isAccepted()) {
+                authorizationQueue.add(new AuthorizableTransaction((RoomRentTransaction)newTransaction));
+            }
 
-        for (Transaction t : transactions) {
-            //TODO sprawdzanie czy czeka na autoryzacje i dodanie do listy
         }
-
-        return result;
     }
 
     public AuthorizationQueue getAuthorizationQueue() {
@@ -40,7 +50,6 @@ public class ApplicationContext {
     }
 
     public List<Transaction> getTransactions() {
-        //TODO do ogarnięcia w jakiej postaci lista ma być zwracana i może jakieś zmiany w strukturze tabel
-        return transactions;
+        return transactionList.getTransactions();
     }
 }
