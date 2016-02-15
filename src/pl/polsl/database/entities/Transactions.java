@@ -159,5 +159,12 @@ public class Transactions implements Serializable, IEntity{
     public String getCompanyName() {
         return companyName;
     }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
     
 }
