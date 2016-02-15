@@ -56,11 +56,11 @@ public class GroupPromotionOperations implements IOperate{
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) 
             throws ArgsNotCorrectException{
-        if (findEntity(entity) && args.length == 3) {
+        if (findEntity(entity)) {
             Promotions reservation = (Promotions) entity;
             try{
             em.getTransaction().begin();
-            reservation = em.find(Promotions.class, reservation);
+            reservation = em.find(Promotions.class, reservation.getId());
             int i = 0;
             for (String name : argNames) {
                 switch (name.toUpperCase()) {
@@ -87,7 +87,8 @@ public class GroupPromotionOperations implements IOperate{
     @Override
     public boolean findEntity(IEntity entity) {
         Promotions reservation = (Promotions) entity;
-        return em.contains(reservation);
+        Promotions find = em.find(Promotions.class, reservation.getId());
+        return find != null;
     }
 
     @Override

@@ -11,7 +11,7 @@ import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
 /**
  * Class to handle database requests
- * 
+ *
  * @author Mateusz Sojka
  * @version 1.0
  */
@@ -21,7 +21,7 @@ public class OperationHandler {
      * Field contains hashmap with entity name and related operation handler
      */
     private final Map<String, IOperate> operationMap;
-    
+
     /**
      * Field contains entity manager
      */
@@ -29,7 +29,7 @@ public class OperationHandler {
 
     /**
      * Constructor
-     * 
+     *
      * @param em EntityManager object
      */
     public OperationHandler(EntityManager em) {
@@ -46,9 +46,9 @@ public class OperationHandler {
     }
 
     /**
-     * Method used to handle all requests on database
-     * actions available: ADD_ENTITY, DELETE_ENTITY, FIND_ENTITY, MODIFY_ENTITY, CREATE_ENTITY
-     * 
+     * Method used to handle all requests on database actions available:
+     * ADD_ENTITY, DELETE_ENTITY, FIND_ENTITY, MODIFY_ENTITY, CREATE_ENTITY
+     *
      * @param tableName String with table name
      * @param action String with required action
      * @param args varargs array, contains action arguments
@@ -67,29 +67,35 @@ public class OperationHandler {
 
     /**
      * Method which handle requested actions
-     * 
+     *
      * @param action String with action name
      * @param operate IOperate object from hashmap
      * @param args varargs array with action args
      * @return List with results or null
-     * @throws ArgsLengthNotCorrectException when varargs are not correct 
+     * @throws ArgsLengthNotCorrectException when varargs are not correct
      */
     public List handleOperation(String action, IOperate operate, Object... args)
             throws ArgsLengthNotCorrectException, ArgsNotCorrectException {
+        IEntity entity = null;
         switch (action) {
             case "ADD_ENTITY": {
                 operate.addEntity(operate.createEntity((args)));
             }
             break;
             case "DELETE_ENTITY":
-                operate.deleteEntity((IEntity) (operate.isEntityExists((ArrayList<String>) args[0], args[1])).get(0));
+                entity = (IEntity) (operate.isEntityExists((ArrayList<String>) args[0], args[1])).get(0);
+                if (entity != null) {
+                    operate.deleteEntity(entity);
+                }
                 break;
             case "FIND_ENTITY":
                 List results = operate.isEntityExists((ArrayList<String>) args[0], args[1]);
                 return results;
             case "MODIFY_ENTITY":
-                IEntity entity = (IEntity) (operate.isEntityExists((ArrayList<String>) args[0], args[1])).get(0);
-                operate.modifyEntity(entity, (ArrayList<String>) args[2], args[3]);
+                entity = (IEntity) (operate.isEntityExists((ArrayList<String>) args[0], args[1])).get(0);
+                if (entity != null) {
+                    operate.modifyEntity(entity, (ArrayList<String>) args[2], args[3]);
+                }
                 break;
             case "CREATE_ENTITY": {
                 List create = new ArrayList<>();

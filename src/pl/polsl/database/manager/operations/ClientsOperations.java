@@ -16,7 +16,7 @@ import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
 /**
  * Clients operation handler class
- * 
+ *
  * @author Mateusz Sojka
  * @version 1.5
  */
@@ -30,8 +30,8 @@ public class ClientsOperations implements IOperate {
     }
 
     @Override
-    public IEntity createEntity(Object... args) 
-            throws ArgsLengthNotCorrectException , ArgsNotCorrectException{
+    public IEntity createEntity(Object... args)
+            throws ArgsLengthNotCorrectException, ArgsNotCorrectException {
         if (args.length != 3) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
@@ -55,12 +55,12 @@ public class ClientsOperations implements IOperate {
 
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args)
-        throws ArgsNotCorrectException{
-        if (findEntity(entity) && args.length == 3) {
+            throws ArgsNotCorrectException {
+        if (findEntity(entity)) {
             Clients client = (Clients) entity;
             try {
                 em.getTransaction().begin();
-                client = em.find(Clients.class, client);
+                client = em.find(Clients.class, client.getId());
                 int i = 0;
                 for (String name : argNames) {
                     switch (name.toUpperCase()) {
@@ -81,7 +81,7 @@ public class ClientsOperations implements IOperate {
                     }
                 }
                 em.getTransaction().commit();
-            } catch(NullPointerException | NumberFormatException | ClassCastException ex){
+            } catch (NullPointerException | NumberFormatException | ClassCastException ex) {
                 em.getTransaction().rollback();
                 throw new ArgsNotCorrectException("WRONG ARGS IN CLIENTS MODIFY ENTITY METHOD" + ex.getMessage());
             }
@@ -91,7 +91,8 @@ public class ClientsOperations implements IOperate {
     @Override
     public boolean findEntity(IEntity entity) {
         Clients client = (Clients) entity;
-        return em.contains(client);
+        Clients find = em.getReference(Clients.class, client.getId());
+        return find != null;
     }
 
     @Override

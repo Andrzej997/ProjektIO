@@ -17,6 +17,7 @@ import pl.polsl.database.manager.PrivilegeLevels;
  * @author Wojciech Dębski
  * @version 1.0
  */
+
 public class ServerThread implements Runnable {
 
     /**
@@ -259,7 +260,7 @@ public class ServerThread implements Runnable {
         confirm();
         System.out.println("I acknowledge receipt of getroomsoccupancy command.");
         try {
-            //TODO: typ danych
+           // TODO: typ danych
             List<> roomsOccupancy = authController.getBusinessServiceController().getRoomsOccupany();
             if (roomsOccupancy == null) {
                 operationNotDone();
@@ -317,9 +318,9 @@ public class ServerThread implements Runnable {
                 refuse();
             }
 
-            //TODO rozjazd argumentów względem GUI
-            if (authController.getBusinessServiceController().createNewRoomRentTransaction()) {
-                operationDone()
+            TODO rozjazd argumentów względem GUI
+           if (authController.getBusinessServiceController().createNewRoomRentTransaction()) {
+               operationDone()
             
             } else {
                 operationNotDone();

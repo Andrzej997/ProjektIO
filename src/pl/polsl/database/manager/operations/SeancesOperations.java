@@ -18,7 +18,7 @@ import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
 /**
  * Seances operations handler class
- * 
+ *
  * @author Mateusz Sojka
  * @version 1.5
  */
@@ -58,11 +58,11 @@ public class SeancesOperations implements IOperate {
 
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
-        if (findEntity(entity) && args.length == 4) {
+        if (findEntity(entity)) {
             Seances seance = (Seances) entity;
             try {
                 em.getTransaction().begin();
-                seance = em.find(Seances.class, seance);
+                seance = em.find(Seances.class, seance.getId());
                 int i = 0;
                 for (String name : argNames) {
                     switch (name.toUpperCase()) {
@@ -97,7 +97,8 @@ public class SeancesOperations implements IOperate {
     @Override
     public boolean findEntity(IEntity entity) {
         Seances seance = (Seances) entity;
-        return em.contains(seance);
+        Seances find = em.find(Seances.class, seance.getId());
+        return find != null;
     }
 
     @Override

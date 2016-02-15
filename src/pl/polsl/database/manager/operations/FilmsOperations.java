@@ -39,7 +39,8 @@ public class FilmsOperations implements IOperate {
     @Override
     public boolean findEntity(IEntity entity) {
         Films film = (Films) entity;
-        return em.contains(film);
+        Films find = em.getReference(Films.class, film.getId());
+        return find != null;
     }
 
     @Override
@@ -69,11 +70,11 @@ public class FilmsOperations implements IOperate {
 
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
-        if (findEntity(entity) && args.length == 2) {
+        if (findEntity(entity)) {
             Films film = (Films) entity;
             try{
             em.getTransaction().begin();
-            film = em.find(Films.class, film);
+            film = em.find(Films.class, film.getId());
             int i = 0;
             for (String name : argNames) {
                 if ("TITLE".equalsIgnoreCase(name)) {

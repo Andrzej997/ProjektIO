@@ -40,7 +40,8 @@ public class TransactionsOperations implements IOperate {
     @Override
     public boolean findEntity(IEntity entity) {
         Transactions transaction = (Transactions) entity;
-        return em.contains(transaction);
+        Transactions find = em.find(Transactions.class, transaction.getId());
+        return find != null;
     }
 
     @Override
@@ -73,11 +74,11 @@ public class TransactionsOperations implements IOperate {
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) 
             throws ArgsNotCorrectException{
-        if (findEntity(entity) && args.length == 2) {
+        if (findEntity(entity)) {
             Transactions transaction = (Transactions) entity;
             try {
                 em.getTransaction().begin();
-                transaction = em.find(Transactions.class, transaction);
+                transaction = em.find(Transactions.class, transaction.getId());
                 int i = 0;
                 for (String name : argNames) {
                     if (name.equalsIgnoreCase("START_DATE_AND_TIME")) {

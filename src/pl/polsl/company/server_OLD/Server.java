@@ -43,7 +43,15 @@ public class Server {
             System.out.println("Server started");
             EntityManager em = DAOManager.getInstance("kino").getEntityManager();
             OperationHandler handler = new OperationHandler(em);
-            ArrayList<IEntity> lis = (ArrayList<IEntity>) handler.handleRequest("FILMS", "CREATE_ENTITY", "MILCZENIE", "1:20:30");
+            ArrayList<IEntity> lis = (ArrayList<IEntity>) handler.handleRequest("FILMS", "CREATE_ENTITY", "MILCZENIE", "1:22:30");
+            handler.handleRequest("FILMS", "ADD_ENTITY", "MILCZENIE", "1:15:12");
+            handler.handleRequest("FILMS", "ADD_ENTITY", "MILCZENIE", "1:21:13");
+            ArrayList<String> array = new ArrayList<>();
+            array.add("title");
+            lis = (ArrayList<IEntity>)handler.handleRequest("FILMS", "FIND_ENTITY", array, "MILCZENIE");
+            lis = (ArrayList<IEntity>) handler.handleRequest("FILMS", "MODIFY_ENTITY", array, "MILCZENIE", array, "CZARY");
+            lis = (ArrayList<IEntity>) handler.handleRequest("FILMS", "DELETE_ENTITY", array, "CZARY");
+            lis.add(null);
             try {
                 while (true) {
                     Socket socket = server.accept();

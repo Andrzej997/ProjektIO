@@ -60,11 +60,11 @@ public class TicketsOperations implements IOperate {
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) 
             throws ArgsNotCorrectException{
-        if (findEntity(entity) && args.length == 7) {
+        if (findEntity(entity)) {
             Tickets ticket = (Tickets) entity;
             try{
             em.getTransaction().begin();
-            ticket = em.find(Tickets.class, ticket);
+            ticket = em.find(Tickets.class, ticket.getId());
             int i = 0;
             for (String name : argNames) {
                 switch (name.toUpperCase()) {
@@ -111,7 +111,8 @@ public class TicketsOperations implements IOperate {
     @Override
     public boolean findEntity(IEntity entity) {
         Tickets ticket = (Tickets) entity;
-        return em.contains(ticket);
+        Tickets find = em.find(Tickets.class, ticket.getId());
+        return find != null;
     }
 
     @Override

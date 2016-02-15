@@ -56,11 +56,11 @@ public class RoomsOperations implements IOperate {
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) 
     throws ArgsNotCorrectException{
-        if (findEntity(entity) && args.length == 1) {
+        if (findEntity(entity)) {
             Rooms room = (Rooms) entity;
             try{
             em.getTransaction().begin();
-            room = em.find(Rooms.class, room);
+            room = em.find(Rooms.class, room.getId());
             for (String name : argNames) {
                 if ("CAPACITY".equalsIgnoreCase(name)) {
                     room.setCapacity((Integer) args[0]);
@@ -77,7 +77,8 @@ public class RoomsOperations implements IOperate {
     @Override
     public boolean findEntity(IEntity entity) {
         Rooms room = (Rooms) entity;
-        return em.contains(room);
+        Rooms find = em.find(Rooms.class, room.getId());
+        return find != null;
     }
 
     @Override
