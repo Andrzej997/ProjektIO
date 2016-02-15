@@ -54,7 +54,9 @@ public class TransactionsOperations implements IOperate {
         if (args.length != 7) {
             throw new ArgsLengthNotCorrectException("Arguments are not correct");
         } else {
-            Transactions transaction = new Transactions((Calendar) args[0], (Calendar) args[1], (Double) args[2], (String) args[3], (Integer) args[4], (Boolean) args[5], (Boolean) args[6]);
+            Transactions transaction = new Transactions((Calendar) args[0], 
+                    (Calendar) args[1], (Double) args[2], (String) args[3], 
+                    (Integer) args[4], (Integer) args[5], (Boolean) args[6]);
             return transaction;
         }
     }
@@ -82,8 +84,8 @@ public class TransactionsOperations implements IOperate {
                 } else if (name.equalsIgnoreCase("ROOM_NUMBER")){
                     transaction.setRoomNumber((Integer) args[i]);
                     i++;
-                } else if (name.equalsIgnoreCase("RENTING_OR_ADDS_SELLING")){
-                    transaction.setRentingOrAddsSelling((Boolean)args[i]);
+                } else if (name.equalsIgnoreCase("TYPE")){
+                    transaction.setType((Integer)args[i]);
                     i++;
                 } else if (name.equalsIgnoreCase("ACCEPTED")){
                     transaction.setAccepted((Boolean)args[i]);

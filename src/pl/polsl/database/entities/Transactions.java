@@ -37,8 +37,8 @@ public class Transactions implements Serializable, IEntity{
     @Column(name = "ROOM_NUMBER")
     private Integer roomNumber;
     
-    @Column(name = "RENTING_OR_ADDS_SELLING")
-    private Boolean rentingOrAddsSelling;
+    @Column(name = "TYPE")
+    private Integer type;
     
     @Column(name = "ACCEPTED", nullable = false)
     private Boolean accepted;
@@ -47,13 +47,13 @@ public class Transactions implements Serializable, IEntity{
 
     public Transactions(Calendar startDateAndTime, Calendar endDateAndTime
             , Double price, String companyName, Integer roomNumber
-            , Boolean rentingOrAddsSelling, Boolean accepted){
+            , Integer type, Boolean accepted){
         this.startDateAndTime=startDateAndTime;
         this.endDateAndTime=endDateAndTime;
         this.price=price;
         this.companyName=companyName;
         this.roomNumber=roomNumber;
-        this.rentingOrAddsSelling=rentingOrAddsSelling;
+        this.type = type;
         this.accepted=accepted;
     }
     /**
@@ -122,15 +122,15 @@ public class Transactions implements Serializable, IEntity{
     /**
      * @return the rentingOrAddsSelling
      */
-    public Boolean isRentingOrAddsSelling() {
-        return rentingOrAddsSelling;
+    public Integer getType() {
+        return type;
     }
 
     /**
      * @param rentingOrAddsSelling the rentingOrAddsSelling to set
      */
-    public void setRentingOrAddsSelling(Boolean rentingOrAddsSelling) {
-        this.rentingOrAddsSelling = rentingOrAddsSelling;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     /**
