@@ -26,9 +26,8 @@ public class OperationHandler {
         operationMap.put("ROOMS", new RoomsOperations());
         operationMap.put("SEANCES", new SeancesOperations());
         operationMap.put("TICKETS", new TicketsOperations());
-        operationMap.put("ADDS_SELLING", new AdsSellingOperations());
-        operationMap.put("ROOMS_RENTING", new RoomsReservationOperations());
         operationMap.put("CLIENTS", new ClientsOperations());
+        operationMap.put("TRANSACTIONS", new TransactionsOperations());
     }
 
     public List handleRequest(String tableName, String action, Object... args)

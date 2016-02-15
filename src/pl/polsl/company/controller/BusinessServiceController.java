@@ -5,8 +5,7 @@ import pl.polsl.company.model.ApplicationContext;
 import pl.polsl.company.model.Transaction;
 import pl.polsl.database.entities.Transactions;
 import pl.polsl.database.manager.DAOManager;
-import pl.polsl.database.manager.operations.AdsSellingOperations;
-import pl.polsl.database.manager.operations.RoomsReservationOperations;
+import pl.polsl.database.manager.operations.TransactionsOperations;
 
 import java.util.Date;
 import java.util.List;
@@ -21,8 +20,7 @@ import javax.persistence.EntityManager;
 public class BusinessServiceController {
 
     private final ApplicationContext applicationContext;
-    private final RoomsReservationOperations roomsReservationOperations;
-    private final AdsSellingOperations adsSellingOperations;
+    private final TransactionsOperations transactionsOperations;
     
     public BusinessServiceController(ApplicationContext applicationContext) {
 
@@ -30,11 +28,9 @@ public class BusinessServiceController {
 
         EntityManager em = DAOManager.getInstance("kino").getEntityManager();
 
-        roomsReservationOperations = new RoomsReservationOperations();
-        roomsReservationOperations.setEntityManager(em);
+        transactionsOperations = new TransactionsOperations();
+        transactionsOperations.setEntityManager(em);
 
-        adsSellingOperations = new AdsSellingOperations();
-        adsSellingOperations.setEntityManager(em);
     }
     
     public void logout() {
@@ -43,8 +39,8 @@ public class BusinessServiceController {
     
     public void createNewRoomRentTransaction(int duration, String contractorName, int roomNumber, Date date, Time time) {
         try {
-            Transactions reservation = roomsReservationOperations.createEntity(contractorName, time, date, roomNumber, false);
-            roomsReservationOperations.addEntity(reservation);
+            Transactions reservation = transactionsOperations.createEntity(contractorName, time, date, roomNumber, false);
+            transactionsOperations.addEntity(reservation);
         } catch (ArgsLengthNotCorrectException ex) {
             System.err.print(ex.getMessage());
         }
@@ -52,11 +48,6 @@ public class BusinessServiceController {
     }
     
     public void createNewAdvertisementTransaction(double price, Date dateFrom, Date dateTo) {
-        try {
-            adsSellingOperations.addEntity(adsSellingOperations.createEntity(price, dateFrom, dateTo, false));
-        } catch (ArgsLengthNotCorrectException ex) {
-            System.err.print(ex.getMessage());
-        }
     }
 
     public List<Transaction> getAllTransactions() {
