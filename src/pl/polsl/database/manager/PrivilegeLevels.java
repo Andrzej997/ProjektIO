@@ -5,8 +5,10 @@ import java.util.HashMap;
 import pl.polsl.database.entities.Users;
 
 /**
- *
- * @author matis
+ * Enum with privilege levels
+ * 
+ * @author Mateusz Sojka
+ * @version 1.5
  */
 public enum PrivilegeLevels {
     CHIEF(1, "CHIEF") {
@@ -63,23 +65,51 @@ public enum PrivilegeLevels {
         }
     };
 
+    /**
+     * Integer with privilege level code
+     */
     int privilegeLevel;
+    
+    /**
+     * String with privilage level type
+     */
     String type;
 
+    /**
+     * private constructor
+     */
     private PrivilegeLevels() {
     }
 
+    /**
+     * Constructor
+     * 
+     * @param privilegeLevel Integer with privilege Level
+     * @param type String with type
+     */
     PrivilegeLevels(int privilegeLevel, String type) {
         this.privilegeLevel = privilegeLevel;
         this.type = type;
     }
 
+    /**
+     * Abstract method to get HashMap with diferent privilege level on diferent tables
+     * @return HashMap <String , ArrayList<String>>  
+     */
     public abstract HashMap<String, ArrayList<String>> getPriviligeLevel();
     
+    /**
+     * Method to get privilege type
+     * @return String with privilege type
+     */
     public String getType(){
         return this.type;
     }
     
+    /**
+     * Method to get privilege level
+     * @return Integer with privilege level
+     */
     public int getPrivilegeLevel(){
         return privilegeLevel;
     }

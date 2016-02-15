@@ -7,16 +7,31 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import pl.polsl.database.entities.IEntity;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
+import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
 /**
- *
- * @author matis
+ * Class to handle database requests
+ * 
+ * @author Mateusz Sojka
+ * @version 1.0
  */
 public class OperationHandler {
 
+    /**
+     * Field contains hashmap with entity name and related operation handler
+     */
     private final Map<String, IOperate> operationMap;
+    
+    /**
+     * Field contains entity manager
+     */
     private final EntityManager em;
 
+    /**
+     * Constructor
+     * 
+     * @param em EntityManager object
+     */
     public OperationHandler(EntityManager em) {
         this.em = em;
         this.operationMap = new HashMap<>();
@@ -30,8 +45,18 @@ public class OperationHandler {
         operationMap.put("TRANSACTIONS", new TransactionsOperations());
     }
 
+    /**
+     * Method used to handle all requests on database
+     * actions available: ADD_ENTITY, DELETE_ENTITY, FIND_ENTITY, MODIFY_ENTITY, CREATE_ENTITY
+     * 
+     * @param tableName String with table name
+     * @param action String with required action
+     * @param args varargs array, contains action arguments
+     * @return List with results or null when action doesn't return any lists
+     * @throws ArgsLengthNotCorrectException when given varargs are not correct
+     */
     public List handleRequest(String tableName, String action, Object... args)
-            throws ArgsLengthNotCorrectException {
+            throws ArgsLengthNotCorrectException, ArgsNotCorrectException {
         if (operationMap.containsKey(tableName)) {
             IOperate operation = operationMap.get(tableName);
             operation.setEntityManager(em);
@@ -40,8 +65,17 @@ public class OperationHandler {
         return null;
     }
 
+    /**
+     * Method which handle requested actions
+     * 
+     * @param action String with action name
+     * @param operate IOperate object from hashmap
+     * @param args varargs array with action args
+     * @return List with results or null
+     * @throws ArgsLengthNotCorrectException when varargs are not correct 
+     */
     public List handleOperation(String action, IOperate operate, Object... args)
-            throws ArgsLengthNotCorrectException {
+            throws ArgsLengthNotCorrectException, ArgsNotCorrectException {
         switch (action) {
             case "ADD_ENTITY": {
                 operate.addEntity(operate.createEntity((args)));

@@ -3,7 +3,6 @@ package pl.polsl.database.manager.operations;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,10 +11,13 @@ import javax.persistence.criteria.Root;
 import pl.polsl.database.entities.IEntity;
 import pl.polsl.database.entities.Films;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
+import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
 /**
- *
- * @author matis
+ * Films operations handler class
+ * 
+ * @author Mateusz Sojka
+ * @version 1.5
  */
 public class FilmsOperations implements IOperate {
 
@@ -50,11 +52,17 @@ public class FilmsOperations implements IOperate {
     }
 
     @Override
-    public Films createEntity(Object... args) throws ArgsLengthNotCorrectException{
+    public Films createEntity(Object... args)
+            throws ArgsLengthNotCorrectException, ArgsNotCorrectException {
         if (args.length != 2) {
             throw new ArgsLengthNotCorrectException("Arguments are not correct");
         } else {
-            Films film = new Films((String) args[0], (String) args[1]);
+            Films film = null;
+            try {
+                film = new Films((String) args[0], (String) args[1]);
+            } catch (NullPointerException | NumberFormatException | ClassCastException ex) {
+                throw new ArgsNotCorrectException("WRONG ARGS IN FILMS CREATE ENTITY METHOD" + ex.getMessage());
+            }
             return film;
         }
     }
@@ -63,6 +71,7 @@ public class FilmsOperations implements IOperate {
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
         if (findEntity(entity) && args.length == 2) {
             Films film = (Films) entity;
+            try{
             em.getTransaction().begin();
             film = em.find(Films.class, film);
             int i = 0;
@@ -76,6 +85,10 @@ public class FilmsOperations implements IOperate {
                 }
             }
             em.getTransaction().commit();
+            } catch(NullPointerException | NumberFormatException | ClassCastException ex){
+                em.getTransaction().rollback();
+                throw new ArgsNotCorrectException("WRONG ARGS IN FILMS CREATE ENTITY METHOD" + ex.getMessage());
+            }
         }
     }
 
@@ -85,15 +98,15 @@ public class FilmsOperations implements IOperate {
         CriteriaQuery<Films> criteriaQuery = cb.createQuery(Films.class);
         Root<Films> films = criteriaQuery.from(Films.class);
         List<Predicate> predicates = new ArrayList<>();
-        int i =0;
-        for(String name : argsNames){
-            predicates.add(cb.equal(films.get(name), args[i]));
+        int i = 0;
+        for (String name : argsNames) {
+            predicates.add(cb.equal(films.get(name), args[i].toString()));
             i++;
         }
-        criteriaQuery.select(films).where(predicates.toArray(new Predicate[] {}));
+        criteriaQuery.select(films).where(predicates.toArray(new Predicate[]{}));
         TypedQuery<Films> query = em.createQuery(criteriaQuery);
         List<Films> resultList = query.getResultList();
         return resultList;
     }
-    
+
 }

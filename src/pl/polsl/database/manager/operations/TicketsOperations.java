@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.database.manager.operations;
 
 import java.sql.Time;
@@ -10,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -19,10 +13,13 @@ import javax.persistence.criteria.Root;
 import pl.polsl.database.entities.IEntity;
 import pl.polsl.database.entities.Tickets;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
+import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
 /**
- *
- * @author matis
+ * Tickets operations handler class
+ * 
+ * @author Mateusz Sojka
+ * @version 1.5
  */
 public class TicketsOperations implements IOperate {
 
@@ -34,14 +31,20 @@ public class TicketsOperations implements IOperate {
     }
 
     @Override
-    public Tickets createEntity(Object... args) throws ArgsLengthNotCorrectException {
+    public Tickets createEntity(Object... args) 
+            throws ArgsLengthNotCorrectException, ArgsNotCorrectException {
         if (args.length != 7) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Tickets ticket = new Tickets((Double)args[0], 
+            Tickets ticket = null; 
+            try{
+            ticket = new Tickets((Double)args[0], 
                     (Integer)args[1], (Integer)args[2],
                     (Integer)args[3], (Integer)args[4], 
                     (Time) args[5], (Date) args[6]);
+            } catch(NullPointerException | NumberFormatException | ClassCastException ex){
+                throw new ArgsNotCorrectException("WRONG ARGS IN TICKETS CREATE ENTITY METHOD" + ex.getMessage());
+            }
             return ticket;
         }
     }
@@ -55,9 +58,11 @@ public class TicketsOperations implements IOperate {
     }
 
     @Override
-    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
+    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) 
+            throws ArgsNotCorrectException{
         if (findEntity(entity) && args.length == 7) {
             Tickets ticket = (Tickets) entity;
+            try{
             em.getTransaction().begin();
             ticket = em.find(Tickets.class, ticket);
             int i = 0;
@@ -96,6 +101,10 @@ public class TicketsOperations implements IOperate {
                 }
             }
             em.getTransaction().commit();
+            } catch(NullPointerException | NumberFormatException | ClassCastException ex){
+                em.getTransaction().rollback();
+                throw new ArgsNotCorrectException("WRONG ARGS IN TICKETS MODIFY ENTITY METHOD" + ex.getMessage());
+            }
         }
     }
 
@@ -113,7 +122,7 @@ public class TicketsOperations implements IOperate {
         List<Predicate> predicates = new ArrayList<>();
         int i = 0;
         for (String name : argsNames) {
-            predicates.add(cb.equal(ticket.get(name), args[i]));
+            predicates.add(cb.equal(ticket.get(name), args[i].toString()));
             i++;
         }
         criteriaQuery.select(ticket).where(predicates.toArray(new Predicate[]{}));

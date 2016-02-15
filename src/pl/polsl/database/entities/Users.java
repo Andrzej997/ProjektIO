@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *
- * @author matis
+ * Users table
+ * 
+ * @author Mateusz Sojka
+ * @version 1.3
  */
 @Entity
 @Table(name="USERS")

@@ -3,7 +3,6 @@ package pl.polsl.database.manager.operations;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,7 +11,15 @@ import javax.persistence.criteria.Root;
 import pl.polsl.database.entities.IEntity;
 import pl.polsl.database.entities.Rooms;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
+import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
+
+/**
+ * Rooms operations handler class
+ * 
+ * @author Mateusz Sojka
+ * @version 1.5
+ */
 public class RoomsOperations implements IOperate {
 
     EntityManager em;
@@ -23,11 +30,17 @@ public class RoomsOperations implements IOperate {
     }
 
     @Override
-    public Rooms createEntity(Object... args) throws ArgsLengthNotCorrectException {
+    public Rooms createEntity(Object... args)
+            throws ArgsLengthNotCorrectException, ArgsNotCorrectException {
         if (args.length != 1) {
             throw new ArgsLengthNotCorrectException("Arguments are not correct");
         } else {
-            Rooms room = new Rooms((Integer)args[0]);
+            Rooms room = null;
+            try {
+                room = new Rooms((Integer) args[0]);
+            } catch (NullPointerException | NumberFormatException | ClassCastException ex) {
+                throw new ArgsNotCorrectException("WRONG ARGS IN ROOMS CREATE ENTITY METHOD" + ex.getMessage());
+            }
             return room;
         }
     }
@@ -41,17 +54,23 @@ public class RoomsOperations implements IOperate {
     }
 
     @Override
-    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
+    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) 
+    throws ArgsNotCorrectException{
         if (findEntity(entity) && args.length == 1) {
             Rooms room = (Rooms) entity;
+            try{
             em.getTransaction().begin();
             room = em.find(Rooms.class, room);
             for (String name : argNames) {
                 if ("CAPACITY".equalsIgnoreCase(name)) {
-                    room.setCapacity((Integer)args[0]);
+                    room.setCapacity((Integer) args[0]);
                 }
             }
             em.getTransaction().commit();
+            } catch(NullPointerException | NumberFormatException | ClassCastException ex){
+                em.getTransaction().rollback();
+               throw new ArgsNotCorrectException("WRONG ARGS IN ROOMS MODIFY ENTITY METHOD" + ex.getMessage());
+            }
         }
     }
 
@@ -69,7 +88,7 @@ public class RoomsOperations implements IOperate {
         List<Predicate> predicates = new ArrayList<>();
         int i = 0;
         for (String name : argsNames) {
-            predicates.add(cb.equal(rooms.get(name), Integer.parseInt((String)args[i])));
+            predicates.add(cb.equal(rooms.get(name),  args[i].toString()));
             i++;
         }
         criteriaQuery.select(rooms).where(predicates.toArray(new Predicate[]{}));

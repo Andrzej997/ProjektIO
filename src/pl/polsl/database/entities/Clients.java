@@ -12,8 +12,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- *
- * @author matis
+ * Clients table
+ * 
+ * @author Mateusz Sojka
+ * @version 1.5
  */
 @Entity
 @Table(name = "CLIENTS")

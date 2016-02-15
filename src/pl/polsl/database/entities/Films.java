@@ -8,6 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
+/**
+ * Films table
+ * 
+ * @author Mateusz Sojka
+ * @version 1.5
+ */
 @Entity
 @Table(name = "FILMS")
 public class Films implements Serializable, IEntity{

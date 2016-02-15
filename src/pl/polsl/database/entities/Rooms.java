@@ -8,6 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Rooms table
+ * 
+ * @author Mateusz Sojka
+ * @version 1.3
+ */
 @Entity
 @Table(name = "ROOMS")
 public class Rooms implements Serializable, IEntity{

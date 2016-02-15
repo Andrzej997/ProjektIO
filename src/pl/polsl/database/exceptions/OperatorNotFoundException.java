@@ -1,8 +1,10 @@
 package pl.polsl.database.exceptions;
 
 /**
- *
- * @author matis
+ * Operator not found exception
+ * 
+ * @author Mateusz Sojka
+ * @version 1.5
  */
 public class OperatorNotFoundException extends Exception{
     

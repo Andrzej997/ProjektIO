@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,10 +14,13 @@ import pl.polsl.database.entities.IEntity;
 import pl.polsl.database.entities.Rooms;
 import pl.polsl.database.entities.Seances;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
+import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
 /**
- *
- * @author matis
+ * Seances operations handler class
+ * 
+ * @author Mateusz Sojka
+ * @version 1.5
  */
 public class SeancesOperations implements IOperate {
 
@@ -30,12 +32,18 @@ public class SeancesOperations implements IOperate {
     }
 
     @Override
-    public Seances createEntity(Object... args) throws ArgsLengthNotCorrectException {
+    public Seances createEntity(Object... args)
+            throws ArgsLengthNotCorrectException, ArgsNotCorrectException {
         if (args.length != 4) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Seances seance = new Seances((Films) args[0], (Rooms) args[1], 
-                    (Calendar) args[2], (Double)args[0]);
+            Seances seance = null;
+            try {
+                seance = new Seances((Films) args[0], (Rooms) args[1],
+                        (Calendar) args[2], (Double) args[0]);
+            } catch (NullPointerException | NumberFormatException | ClassCastException ex) {
+                throw new ArgsNotCorrectException("WRONG ARGS IN SEANES CREATE ENTITY METHOD" + ex.getMessage());
+            }
             return seance;
         }
     }
@@ -52,32 +60,37 @@ public class SeancesOperations implements IOperate {
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
         if (findEntity(entity) && args.length == 4) {
             Seances seance = (Seances) entity;
-            em.getTransaction().begin();
-            seance = em.find(Seances.class, seance);
-            int i = 0;
-            for (String name : argNames) {
-                switch (name.toUpperCase()) {
-                    case "FILM":
-                        seance.setFilm((Films) args[i]);
-                        i++;
-                        break;
-                    case "ROOM":
-                        seance.setRoom((Rooms) args[i]);
-                        i++;
-                        break;
-                    case "SEANCE_DATE":
-                        seance.setDate((Calendar) args[i]);
-                        i++;
-                        break;
-                    case "BASIC_TICKET_PRICE":
-                        seance.setBasicTicketPrice((Double)args[i]);
-                        i++;
-                        break;
-                    default:
-                        break;
+            try {
+                em.getTransaction().begin();
+                seance = em.find(Seances.class, seance);
+                int i = 0;
+                for (String name : argNames) {
+                    switch (name.toUpperCase()) {
+                        case "FILM":
+                            seance.setFilm((Films) args[i]);
+                            i++;
+                            break;
+                        case "ROOM":
+                            seance.setRoom((Rooms) args[i]);
+                            i++;
+                            break;
+                        case "SEANCE_DATE":
+                            seance.setDate((Calendar) args[i]);
+                            i++;
+                            break;
+                        case "BASIC_TICKET_PRICE":
+                            seance.setBasicTicketPrice((Double) args[i]);
+                            i++;
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                em.getTransaction().commit();
+            } catch (NullPointerException | NumberFormatException | ClassCastException ex) {
+                em.getTransaction().rollback();
+                throw new ArgsNotCorrectException("WRONG ARGS IN SEANES CREATE MODIFY METHOD" + ex.getMessage());
             }
-            em.getTransaction().commit();
         }
     }
 
@@ -95,7 +108,7 @@ public class SeancesOperations implements IOperate {
         List<Predicate> predicates = new ArrayList<>();
         int i = 0;
         for (String name : argsNames) {
-            predicates.add(cb.equal(seance.get(name), args[i]));
+            predicates.add(cb.equal(seance.get(name), args[i].toString()));
             i++;
         }
         criteriaQuery.select(seance).where(predicates.toArray(new Predicate[]{}));

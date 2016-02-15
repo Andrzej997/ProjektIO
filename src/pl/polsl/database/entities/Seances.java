@@ -13,6 +13,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.JoinColumn;
 
+/**
+ * Seances table
+ * 
+ * @author Mateusz Sojka
+ * @version 1.3
+ */
 @Entity
 @Table(name="SEANSE")
 public class Seances implements Serializable, IEntity{

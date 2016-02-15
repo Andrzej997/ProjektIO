@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,10 +13,13 @@ import javax.persistence.criteria.Root;
 import pl.polsl.database.entities.IEntity;
 import pl.polsl.database.entities.Promotions;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
+import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
 /**
- *
- * @author matis
+ * Time promotions operations class
+ * 
+ * @author Mateusz Sojka
+ * @version 1.5
  */
 public class TimePromotionOperations implements IOperate {
 
@@ -29,12 +31,18 @@ public class TimePromotionOperations implements IOperate {
     }
 
     @Override
-    public IEntity createEntity(Object... args) throws ArgsLengthNotCorrectException {
+    public IEntity createEntity(Object... args) 
+            throws ArgsLengthNotCorrectException, ArgsNotCorrectException{
         if (args.length != 2) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Promotions reservation = new Promotions((Date[]) args[0], (Time[]) args[1],
+            Promotions reservation = null;
+            try{
+            reservation = new Promotions((Date[]) args[0], (Time[]) args[1],
                     (Integer)args[2]);
+            } catch(NullPointerException | NumberFormatException | ClassCastException ex){
+                throw new ArgsNotCorrectException("WRONG ARGS IN TIME_PROMOTIONS CREATE ENTITY METHOD" + ex.getMessage());
+            }
             return reservation;
         }
     }
@@ -48,9 +56,11 @@ public class TimePromotionOperations implements IOperate {
     }
 
     @Override
-    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
+    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) 
+            throws ArgsNotCorrectException{
         if (findEntity(entity) && args.length == 3) {
             Promotions reservation = (Promotions) entity;
+            try{
             em.getTransaction().begin();
             reservation = em.find(Promotions.class, reservation);
             int i = 0;
@@ -73,6 +83,10 @@ public class TimePromotionOperations implements IOperate {
                 }
             }
             em.getTransaction().commit();
+            } catch(NullPointerException | NumberFormatException | ClassCastException ex){
+                em.getTransaction().rollback();
+                throw new ArgsNotCorrectException("WRONG ARGS IN TIME_PROMOTIONS CREATE ENTITY METHOD" + ex.getMessage());
+            }
         }
     }
 
@@ -90,7 +104,7 @@ public class TimePromotionOperations implements IOperate {
         List<Predicate> predicates = new ArrayList<>();
         int i = 0;
         for (String name : argsNames) {
-            predicates.add(cb.equal(reservation.get(name), args[i]));
+            predicates.add(cb.equal(reservation.get(name), args[i].toString()));
             i++;
         }
         criteriaQuery.select(reservation).where(predicates.toArray(new Predicate[]{}));

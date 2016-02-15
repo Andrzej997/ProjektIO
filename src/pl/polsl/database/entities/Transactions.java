@@ -10,6 +10,12 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 
+/**
+ * Transactions table
+ * 
+ * @author Mateusz Sojka
+ * @version 2.0
+ */
 @Entity
 @Table(name="TRANSACTIONS")
 public class Transactions implements Serializable, IEntity{

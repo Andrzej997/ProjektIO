@@ -1,8 +1,10 @@
 package pl.polsl.database.manager;
 
 /**
- *
- * @author matis
+ * Enum with all database table names and class
+ * 
+ * @author Mateusz Sojka
+ * @version 1.4
  */
 public enum DatabaseTables {
 
@@ -17,24 +19,54 @@ public enum DatabaseTables {
     Clients("CLIENTS", 9, pl.polsl.database.entities.Clients.class),
     Users("USERS", 9, pl.polsl.database.entities.Users.class);
 
+    /**
+     * String with table name
+     */
     private final String tableName;
+    
+    /**
+     * Integer with table code
+     */
     private final Integer tableCode;
+    
+    /**
+     * Class path object
+     */
     private final Class<?> tableClass;
 
+    /**
+     * Constructor
+     * 
+     * @param tableName String with table name
+     * @param tableCode Integer with table code
+     * @param object Class path object
+     */
     DatabaseTables(String tableName, Integer tableCode, Class<?> object) {
         this.tableName = tableName;
         this.tableCode = tableCode;
         this.tableClass = object;
     }
 
+    /**
+     * Method to get table name
+     * @return String with table name
+     */
     public String getTableName() {
         return tableName;
     }
 
+    /**
+     * Method to get table code
+     * @return Integer with table code
+     */
     public Integer getTableCode() {
         return tableCode;
     }
     
+    /**
+     * Method to get class path object
+     * @return Class path object
+     */
     public Class<?> getTableClass(){
         return tableClass;
     }

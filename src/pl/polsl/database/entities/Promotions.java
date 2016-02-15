@@ -12,6 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
+/**
+ * Promotions table
+ * 
+ * @author Mateusz Sojka
+ * @version 1.0
+ */
 @Entity
 @Table(name = "GROUP_PROMOTIONS")
 @SecondaryTable(name = "TIME_PROMOTIONS")

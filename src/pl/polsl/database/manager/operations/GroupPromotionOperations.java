@@ -3,7 +3,6 @@ package pl.polsl.database.manager.operations;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,7 +11,15 @@ import javax.persistence.criteria.Root;
 import pl.polsl.database.entities.IEntity;
 import pl.polsl.database.entities.Promotions;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
+import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
+
+/**
+ * Group promotions operations handler class
+ * 
+ * @author Mateusz Sojka
+ * @version 1.5
+ */
 public class GroupPromotionOperations implements IOperate{
     EntityManager em;
 
@@ -22,12 +29,18 @@ public class GroupPromotionOperations implements IOperate{
     }
 
     @Override
-    public Promotions createEntity(Object... args) throws ArgsLengthNotCorrectException {
+    public Promotions createEntity(Object... args) 
+            throws ArgsLengthNotCorrectException , ArgsNotCorrectException{
         if (args.length != 2) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Promotions reservation = new Promotions((Integer)args[0],
+            Promotions reservation = null;
+            try{
+            reservation = new Promotions((Integer)args[0],
                    (Integer)args[1]);
+            } catch(NullPointerException | NumberFormatException | ClassCastException ex){
+                throw new ArgsNotCorrectException("WRONG ARGS IN GROUP_PROMOTIONS CREATE ENTITY METHOD" + ex.getMessage());
+            }
             return reservation;
         }
     }
@@ -41,9 +54,11 @@ public class GroupPromotionOperations implements IOperate{
     }
 
     @Override
-    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) {
+    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) 
+            throws ArgsNotCorrectException{
         if (findEntity(entity) && args.length == 3) {
             Promotions reservation = (Promotions) entity;
+            try{
             em.getTransaction().begin();
             reservation = em.find(Promotions.class, reservation);
             int i = 0;
@@ -62,6 +77,10 @@ public class GroupPromotionOperations implements IOperate{
                 }
             }
             em.getTransaction().commit();
+            } catch (NullPointerException | NumberFormatException | ClassCastException ex){
+                em.getTransaction().rollback();
+                throw new ArgsNotCorrectException("WRONG ARGS IN GROUP_PROMOTIONS MODIFY ENTITY METHOD" + ex.getMessage());
+            }
         }
     }
 
@@ -79,7 +98,7 @@ public class GroupPromotionOperations implements IOperate{
         List<Predicate> predicates = new ArrayList<>();
         int i = 0;
         for (String name : argsNames) {
-            predicates.add(cb.equal(reservation.get(name), Integer.parseInt((String)args[i])));
+            predicates.add(cb.equal(reservation.get(name), args[i].toString()));
             i++;
         }
         criteriaQuery.select(reservation).where(predicates.toArray(new Predicate[]{}));

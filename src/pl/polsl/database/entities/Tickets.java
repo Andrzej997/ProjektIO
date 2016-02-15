@@ -11,6 +11,12 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
+/**
+ * Tickets table
+ * 
+ * @author Mateusz Sojka
+ * @version 1.3
+ */
 @Entity
 @Table(name="TICKETS")
 public class Tickets implements Serializable, IEntity{
