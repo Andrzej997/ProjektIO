@@ -44,7 +44,6 @@ public class Server {
             EntityManager em = DAOManager.getInstance("kino").getEntityManager();
             OperationHandler handler = new OperationHandler(em);
             ArrayList<IEntity> lis = (ArrayList<IEntity>) handler.handleRequest("FILMS", "CREATE_ENTITY", "MILCZENIE", "1:20:30");
-            handler.handleRequest("", action, args)
             try {
                 while (true) {
                     Socket socket = server.accept();
