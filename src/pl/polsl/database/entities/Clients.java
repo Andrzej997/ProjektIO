@@ -1,9 +1,11 @@
 package pl.polsl.database.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,9 +35,8 @@ public class Clients implements Serializable, IEntity {
     @Column(name="PRICE", nullable = true)
     private double price;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "RESERVATION", nullable = false)
-    private Promotions reservation;
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Promotions> reservation;
 
     public Long getId() {
         return id;
@@ -49,7 +50,7 @@ public class Clients implements Serializable, IEntity {
         
     }
     
-    public Clients(String name, Double price, Promotions reservations){
+    public Clients(String name, Double price, List<Promotions> reservations){
         this.clientOrCompanyName=name;
         this.price = price;
         this.reservation=reservations;
@@ -96,14 +97,14 @@ public class Clients implements Serializable, IEntity {
     /**
      * @return the reservations
      */
-    public Promotions getReservations() {
+    public List<Promotions> getReservations() {
         return reservation;
     }
 
     /**
      * @param reservations the reservations to set
      */
-    public void setReservations(Promotions reservations) {
+    public void setReservations(List<Promotions> reservations) {
         this.reservation = reservations;
     }
 

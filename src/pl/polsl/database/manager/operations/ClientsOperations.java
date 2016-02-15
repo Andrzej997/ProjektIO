@@ -37,7 +37,7 @@ public class ClientsOperations implements IOperate {
         } else {
             Clients client = null;
             try {
-                client = new Clients((String) args[0], (Double) args[1], (Promotions) args[2]);
+                client = new Clients((String) args[0], (Double) args[1], (List<Promotions>) args[2]);
             } catch (NullPointerException | NumberFormatException | ClassCastException ex) {
                 throw new ArgsNotCorrectException("WRONG ARGS IN CLIENTS CREATE ENTITY METHOD" + ex.getMessage());
             }
@@ -73,7 +73,7 @@ public class ClientsOperations implements IOperate {
                             i++;
                             break;
                         case "RESERVATION":
-                            client.setReservations((Promotions) args[i]);
+                            client.setReservations((List<Promotions>) args[i]);
                             i++;
                             break;
                         default:
