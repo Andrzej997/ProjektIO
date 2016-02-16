@@ -16,7 +16,7 @@ public class ApplicationContext {
 
     public ApplicationContext() {
 
-        String query = "SELECT * FROM ADDS_SELLING UNION SELECT * FROM ROOMS_RENTING";
+        String query = "SELECT e FROM Transactions e";
         List<Transactions> transactionEntities = DAOManager.getInstance("kino").realizeQuery(query);
 
         transactionList = new TransactionList();

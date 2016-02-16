@@ -63,7 +63,7 @@ public class BusinessServiceController {
     }
 
     public List<Seances> getAllSeances() {
-        String query = "SELECT * FROM SEANSE";
+        String query = "SELECT e FROM Seances e";
 
         return DAOManager.getInstance("kino").realizeQuery(query);
     }
