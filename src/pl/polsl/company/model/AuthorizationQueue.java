@@ -14,25 +14,27 @@ public class AuthorizationQueue {
         transactions = new ArrayList<>();
     }
 
-    public void add(AuthorizableTransaction order) {
-        transactions.add(order);
+    public boolean add(AuthorizableTransaction order) {
+        return transactions.add(order);
     }
 
-    public void accept(AuthorizableTransaction order) {
+    public boolean accept(AuthorizableTransaction order) {
         order.accept();
-        transactions.remove(order);
+        return transactions.remove(order);
     }
 
     public List<AuthorizableTransaction> getAllTransactions() {
         return transactions;
     }
 
-    public void remove(long id) {
+    public boolean remove(long id) {
+        boolean succeed = false;
         for (AuthorizableTransaction t : transactions) {
             if (t.getID() == id) {
-                transactions.remove(t);
+                succeed = transactions.remove(t);
                 break;
             }
         }
+        return succeed;
     }
 }

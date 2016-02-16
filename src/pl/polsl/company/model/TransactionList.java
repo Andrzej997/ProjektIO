@@ -19,16 +19,18 @@ public class TransactionList {
         return transactions;
     }
 
-    public void add(Transaction t) {
-        transactions.add(t);
+    public boolean add(Transaction t) {
+        return transactions.add(t);
     }
 
-    public void remove(long id) {
+    public boolean remove(long id) {
+        boolean succeed = false;
         for (Transaction t : transactions) {
             if (t.getID() == id) {
-                transactions.remove(t);
+                succeed = transactions.remove(t);
                 break;
             }
         }
+        return succeed;
     }
 }

@@ -27,8 +27,6 @@ public class RoomRentTransaction extends Transaction {
 
     @Override
     public void refuse() {
-        TransactionsOperations t = new TransactionsOperations();
-        t.setEntityManager(DAOManager.getInstance("kino").getEntityManager());
-        t.deleteEntity(transactionEntity);
+        delete();
     }
 }
