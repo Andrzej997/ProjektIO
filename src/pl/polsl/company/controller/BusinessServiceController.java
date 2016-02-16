@@ -1,6 +1,5 @@
 package pl.polsl.company.controller;
 
-import java.sql.Time;
 import pl.polsl.company.model.ApplicationContext;
 import pl.polsl.company.model.RoomRentTransaction;
 import pl.polsl.company.model.Transaction;
@@ -10,7 +9,7 @@ import pl.polsl.database.manager.DAOManager;
 import pl.polsl.database.manager.operations.TransactionsOperations;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
@@ -36,9 +35,10 @@ public class BusinessServiceController {
 
     }
     
-    public void createNewRoomRentTransaction(int duration, String contractorName, int roomNumber, Date date, Time time) {
+    public void createNewRoomRentTransaction(Calendar startDate, Calendar endDate, Double price, String contractorName, Integer roomNumber, Integer type) {
         try {
-            Transactions reservation = transactionsOperations.createEntity(contractorName, time, date, roomNumber, false);
+            Transactions reservation = transactionsOperations.createEntity(startDate, 
+                    endDate, price, contractorName, roomNumber, type, false);
             transactionsOperations.addEntity(reservation);
             applicationContext.getTransactionList().add(new RoomRentTransaction(reservation));
         } catch (ArgsLengthNotCorrectException ex) {

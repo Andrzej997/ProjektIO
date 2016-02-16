@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import pl.polsl.company.controller.AuthenticationController;
 import pl.polsl.company.controller.UnauthorizedAccessException;
@@ -312,29 +313,41 @@ public class ServerThread implements Runnable {
         System.out.println("I acknowledge receipt of sendtransaction command.");
 
         try {
+            String startDate = inFromClient.readLine();
+            if (startDate != null) {
+                confirm();
+            } else {
+                refuse();
+            }
+
+            String endDate = inFromClient.readLine();
+            if (endDate != null) {
+                confirm();
+            } else {
+                refuse();
+            }
+
+            String price = inFromClient.readLine();
+            if (price != null) {
+                confirm();
+            } else {
+                refuse();
+            }
+
             String companyName = inFromClient.readLine();
             if (companyName != null) {
                 confirm();
             } else {
                 refuse();
             }
-
-            String room = inFromClient.readLine();
-            if (room != null) {
+            String roomNumber = inFromClient.readLine();
+            if (roomNumber != null) {
                 confirm();
             } else {
                 refuse();
             }
-
-            String time = inFromClient.readLine();
-            if (time != null) {
-                confirm();
-            } else {
-                refuse();
-            }
-
-            String date = inFromClient.readLine();
-            if (date != null) {
+            String type = inFromClient.readLine();
+            if (type != null) {
                 confirm();
             } else {
                 refuse();
@@ -342,9 +355,16 @@ public class ServerThread implements Runnable {
 
             // TODO rozjazd argumentów względem GUI
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
-                SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
-                authController.getBusinessServiceController().createNewRoomRentTransaction(0, companyName, Integer.parseInt(room), sdf.parse(date), new Time(sdf2.parse(time).getTime()));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd HH:mm");
+                Calendar startDateC = Calendar.getInstance();
+                startDateC.setTime(sdf.parse(startDate));
+                Calendar endDateC = Calendar.getInstance();
+                endDateC.setTime(sdf.parse(endDate));
+                Double priceD = Double.parseDouble(price);
+                Integer roomNumberI = Integer.parseInt(roomNumber);
+                Integer typeI = Integer.parseInt(type);
+                authController.getBusinessServiceController().createNewRoomRentTransaction(
+                        startDateC, endDateC, priceD, companyName, roomNumberI, typeI);
                 operationDone();
             } catch (NumberFormatException | UnauthorizedAccessException | ParseException exception) {
                 operationNotDone();
