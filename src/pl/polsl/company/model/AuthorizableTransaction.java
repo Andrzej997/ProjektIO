@@ -14,7 +14,7 @@ public class AuthorizableTransaction {
         this.transaction = transaction;
     }
 
-    void accept() {
+    public void accept() {
         transaction.persist();
     }
 
