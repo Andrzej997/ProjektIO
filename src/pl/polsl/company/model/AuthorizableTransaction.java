@@ -50,7 +50,7 @@ public class AuthorizableTransaction {
     @Override
     public String toString() {
         //"ID;Nazwa firmy;Numer sali;Godzina;Data;Cena"
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");	
         return getID() + ";" + getCompanyName() + ";" + getRoomNumber() + ";" 
                 + sdf.format(getStartDate().getTime()) + ";" 

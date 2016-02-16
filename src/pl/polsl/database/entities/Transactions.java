@@ -27,11 +27,11 @@ public class Transactions implements Serializable, IEntity{
     private Long id;
     
     @Column(name = "START_DATE_AND_TIME")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar startDateAndTime;
     
     @Column(name = "END_DATE_AND_TIME")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Calendar endDateAndTime;
     
     @Column(name = "PRICE")

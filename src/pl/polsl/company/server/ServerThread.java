@@ -277,7 +277,7 @@ public class ServerThread implements Runnable {
             for (Seances seances : allSeances) {
                 //!!!!!!!! TODO KONIECZNIE NALEŻY PRZEŁADOWAĆ toString() Format: WTF? nic sienie zgadza
                 //{"Film;Numer Sali;Data rozpoczęcia;Data zakończenia;Zarezerwowano"}
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
 
                 if (!sendResponse(seances.getFilm().getTitle() + ";"
                         + seances.getRoom().getId() + ";"
@@ -288,7 +288,7 @@ public class ServerThread implements Runnable {
                 }
             }
             for (RoomRentTransaction roomRentTransaction : allRoomRentTransactions) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
 
                 if (!sendResponse(roomRentTransaction.getID() + ";"
                         + roomRentTransaction.getRoomNumber() + ";"
@@ -342,7 +342,7 @@ public class ServerThread implements Runnable {
 
             // TODO rozjazd argumentów względem GUI
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MMM:dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
                 SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
                 authController.getBusinessServiceController().createNewRoomRentTransaction(0, companyName, Integer.parseInt(room), sdf.parse(date), new Time(sdf2.parse(time).getTime()));
                 operationDone();
