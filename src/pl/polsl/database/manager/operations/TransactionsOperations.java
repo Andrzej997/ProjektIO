@@ -16,7 +16,7 @@ import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
 /**
  * Transaction operations handler class
- * 
+ *
  * @author Mateusz Sojka
  * @version 1.5
  */
@@ -30,7 +30,17 @@ public class TransactionsOperations implements IOperate {
     }
 
     @Override
-    public void addEntity(IEntity entity) {
+    public List addEntity(IEntity entity) {
+        Transactions transaction = (Transactions) entity;
+        em.getTransaction().begin();
+        em.persist(transaction);
+        em.getTransaction().commit();
+        List<IEntity> val = new ArrayList<>();
+        val.add(entity);
+        return val;
+    }
+    
+    public void modifyEntity(IEntity entity){
         Transactions transaction = (Transactions) entity;
         if(em.find(Transactions.class, transaction.getId())!= null){
             Transactions t = em.find(Transactions.class, transaction.getId());
@@ -43,10 +53,6 @@ public class TransactionsOperations implements IOperate {
             t.setStartDateAndTime(transaction.getStartDateAndTime());
             t.setType(transaction.getType());
             em.getTransaction().commit();
-        } else {
-        em.getTransaction().begin();
-        em.persist(transaction);
-        em.getTransaction().commit();
         }
     }
 
@@ -85,8 +91,8 @@ public class TransactionsOperations implements IOperate {
     }
 
     @Override
-    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) 
-            throws ArgsNotCorrectException{
+    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args)
+            throws ArgsNotCorrectException {
         if (findEntity(entity)) {
             Transactions transaction = (Transactions) entity;
             try {

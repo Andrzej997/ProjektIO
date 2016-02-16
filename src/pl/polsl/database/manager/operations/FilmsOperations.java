@@ -29,11 +29,14 @@ public class FilmsOperations implements IOperate {
     }
 
     @Override
-    public void addEntity(IEntity entity) {
+    public List addEntity(IEntity entity) {
         Films film = (Films) entity;
         em.getTransaction().begin();
         em.persist(film);
         em.getTransaction().commit();
+                List<IEntity> val = new ArrayList<>();
+        val.add(entity);
+        return val;
     }
 
     @Override

@@ -79,9 +79,8 @@ public class OperationHandler {
         IEntity entity = null;
         switch (action) {
             case "ADD_ENTITY": {
-                operate.addEntity(operate.createEntity((args)));
+                return operate.addEntity(operate.createEntity((args)));
             }
-            break;
             case "DELETE_ENTITY":
                 entity = (IEntity) (operate.isEntityExists((ArrayList<String>) args[0], args[1])).get(0);
                 if (entity != null) {

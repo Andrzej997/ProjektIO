@@ -46,11 +46,14 @@ public class GroupPromotionOperations implements IOperate{
     }
 
     @Override
-    public void addEntity(IEntity entity) {
+    public List addEntity(IEntity entity) {
         Promotions reservation = (Promotions) entity;
         em.getTransaction().begin();
         em.persist(reservation);
         em.getTransaction().commit();
+                List<IEntity> val = new ArrayList<>();
+        val.add(entity);
+        return val;
     }
 
     @Override

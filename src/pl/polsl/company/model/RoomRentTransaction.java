@@ -22,7 +22,8 @@ public class RoomRentTransaction extends Transaction {
         TransactionsOperations t = new TransactionsOperations();
         t.setEntityManager(DAOManager.getInstance("kino").getEntityManager());
         transactionEntity.setAccepted(true);
-        persist();
+        this.modify();
+        
     }
 
     @Override

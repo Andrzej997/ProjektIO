@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 public class Transactions implements Serializable, IEntity{
 
     private static final long serialVersionUID = 6L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false, unique = false)
@@ -46,7 +47,7 @@ public class Transactions implements Serializable, IEntity{
     @Column(name = "TYPE")
     private Integer type;
     
-    @Column(name = "ACCEPTED", nullable = false)
+    @Column(name = "ACCEPTED")
     private Boolean accepted;
     
     protected Transactions(){}

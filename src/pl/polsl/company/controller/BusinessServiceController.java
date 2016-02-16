@@ -15,6 +15,7 @@ import java.util.List;
 import pl.polsl.database.exceptions.ArgsLengthNotCorrectException;
 
 import javax.persistence.EntityManager;
+import pl.polsl.database.manager.operations.OperationHandler;
 
 /**
  * Created by Krzysztof Stręk on 2016-02-08.
@@ -37,10 +38,9 @@ public class BusinessServiceController {
     
     public void createNewRoomRentTransaction(Calendar startDate, Calendar endDate, Double price, String contractorName, Integer roomNumber, Integer type) {
         try {
-            Transactions reservation = transactionsOperations.createEntity(startDate, 
-                    endDate, price, contractorName, roomNumber, type, false);
-            transactionsOperations.addEntity(reservation);
-            applicationContext.getTransactionList().add(new RoomRentTransaction(reservation));
+            OperationHandler handler = new OperationHandler(DAOManager.getInstance("kino").getEntityManager());
+            List<Transactions> list = handler.handleRequest("TRANSACTIONS", "ADD_ENTITY", startDate, endDate, price, contractorName, roomNumber, type, false);
+            applicationContext.getTransactionList().add(new RoomRentTransaction(list.get(0)));
         } catch (ArgsLengthNotCorrectException ex) {
             System.err.print(ex.getMessage());
         }

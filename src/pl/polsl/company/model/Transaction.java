@@ -18,7 +18,7 @@ public abstract class Transaction {
     }
 
     public long getID() {
-        return  transactionEntity.getId();
+        return transactionEntity.getId();
     }
 
     public Calendar getStartDate() {
@@ -43,12 +43,20 @@ public abstract class Transaction {
     }
 
     public abstract void accept();
+
     public abstract void refuse();
 
     public void persist() {
         TransactionsOperations t = new TransactionsOperations();
         t.setEntityManager(DAOManager.getInstance("kino").getEntityManager());
         t.addEntity(transactionEntity);
+    }
+
+    public void modify() {
+        transactionEntity.setAccepted(true);
+        TransactionsOperations t = new TransactionsOperations();
+        t.setEntityManager(DAOManager.getInstance("kino").getEntityManager());
+        t.modifyEntity(transactionEntity);
     }
 
     public void delete() {

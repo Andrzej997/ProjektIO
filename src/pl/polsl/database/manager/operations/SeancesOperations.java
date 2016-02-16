@@ -49,11 +49,14 @@ public class SeancesOperations implements IOperate {
     }
 
     @Override
-    public void addEntity(IEntity entity) {
+    public List addEntity(IEntity entity) {
         Seances seance = (Seances) entity;
         em.getTransaction().begin();
         em.persist(seance);
         em.getTransaction().commit();
+        List<IEntity> val = new ArrayList<>();
+        val.add(entity);
+        return val;
     }
 
     @Override

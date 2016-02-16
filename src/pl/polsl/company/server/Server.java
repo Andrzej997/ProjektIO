@@ -25,7 +25,7 @@ public class Server {
      */
     public static void main(String[] args) {
         try {
-            ServerSocket s = new ServerSocket(6789);
+            ServerSocket s = new ServerSocket(4404);
             Thread t = null;
             ArrayList<Thread> threads = new ArrayList<>();
             while (true) {

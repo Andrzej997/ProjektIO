@@ -358,8 +358,10 @@ public class ServerThread implements Runnable {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd HH:mm");
                 Calendar startDateC = Calendar.getInstance();
                 startDateC.setTime(sdf.parse(startDate));
+                String dat = sdf.format(startDateC.getTime());
                 Calendar endDateC = Calendar.getInstance();
                 endDateC.setTime(sdf.parse(endDate));
+                dat = sdf.format(endDateC.getTime());
                 Double priceD = Double.parseDouble(price);
                 Integer roomNumberI = Integer.parseInt(roomNumber);
                 Integer typeI = Integer.parseInt(type);

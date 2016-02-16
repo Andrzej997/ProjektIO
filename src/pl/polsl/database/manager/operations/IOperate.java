@@ -33,7 +33,7 @@ public interface IOperate {
      * Add entity to table method
      * @param entity IEntity typed object to add
      */
-    void addEntity(IEntity entity);
+    List addEntity(IEntity entity);
     
     /**
      * Modify entity

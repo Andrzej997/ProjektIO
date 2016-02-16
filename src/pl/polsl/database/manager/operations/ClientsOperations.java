@@ -46,11 +46,14 @@ public class ClientsOperations implements IOperate {
     }
 
     @Override
-    public void addEntity(IEntity entity) {
+    public List addEntity(IEntity entity) {
         Clients clients = (Clients) entity;
         em.getTransaction().begin();
         em.persist(clients);
         em.getTransaction().commit();
+        List<IEntity> val = new ArrayList<>();
+        val.add(entity);
+        return val;
     }
 
     @Override

@@ -17,7 +17,7 @@ import pl.polsl.database.exceptions.ArgsNotCorrectException;
 
 /**
  * Tickets operations handler class
- * 
+ *
  * @author Mateusz Sojka
  * @version 1.5
  */
@@ -31,18 +31,18 @@ public class TicketsOperations implements IOperate {
     }
 
     @Override
-    public Tickets createEntity(Object... args) 
+    public Tickets createEntity(Object... args)
             throws ArgsLengthNotCorrectException, ArgsNotCorrectException {
         if (args.length != 7) {
             throw new ArgsLengthNotCorrectException("Args count are not correct");
         } else {
-            Tickets ticket = null; 
-            try{
-            ticket = new Tickets((Double)args[0], 
-                    (Integer)args[1], (Integer)args[2],
-                    (Integer)args[3], (Integer)args[4], 
-                    (Time) args[5], (Date) args[6]);
-            } catch(NullPointerException | NumberFormatException | ClassCastException ex){
+            Tickets ticket = null;
+            try {
+                ticket = new Tickets((Double) args[0],
+                        (Integer) args[1], (Integer) args[2],
+                        (Integer) args[3], (Integer) args[4],
+                        (Time) args[5], (Date) args[6]);
+            } catch (NullPointerException | NumberFormatException | ClassCastException ex) {
                 throw new ArgsNotCorrectException("WRONG ARGS IN TICKETS CREATE ENTITY METHOD" + ex.getMessage());
             }
             return ticket;
@@ -50,58 +50,61 @@ public class TicketsOperations implements IOperate {
     }
 
     @Override
-    public void addEntity(IEntity entity) {
+    public List addEntity(IEntity entity) {
         Tickets ticket = (Tickets) entity;
         em.getTransaction().begin();
         em.persist(ticket);
         em.getTransaction().commit();
+        List<IEntity> val = new ArrayList<>();
+        val.add(entity);
+        return val;
     }
 
     @Override
-    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args) 
-            throws ArgsNotCorrectException{
+    public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args)
+            throws ArgsNotCorrectException {
         if (findEntity(entity)) {
             Tickets ticket = (Tickets) entity;
-            try{
-            em.getTransaction().begin();
-            ticket = em.find(Tickets.class, ticket.getId());
-            int i = 0;
-            for (String name : argNames) {
-                switch (name.toUpperCase()) {
-                    case "PRICE":
-                        ticket.setPrice((Double)args[i]);
-                        i++;
-                        break;
-                    case "CHAIR_NUMBER":
-                        ticket.setChairNumber((Integer)args[i]);
-                        i++;
-                        break;
-                    case "ROW_NUMBER":
-                        ticket.setRowNumber((Integer)args[i]);
-                        i++;
-                        break;
-                    case "STATE_":
-                        ticket.setState((Integer)args[i]);
-                        i++;
-                        break;
-                    case "ROOM_NUMBER":
-                        ticket.setRoomNumber((Integer)args[i]);
-                        i++;
-                        break;
-                    case "TIME_":
-                        ticket.setTime((Time) args[i]);
-                        i++;
-                        break;
-                    case "DATE_":
-                        ticket.setDate((Date) args[i]);
-                        i++;
-                        break;
-                    default:
-                        break;
+            try {
+                em.getTransaction().begin();
+                ticket = em.find(Tickets.class, ticket.getId());
+                int i = 0;
+                for (String name : argNames) {
+                    switch (name.toUpperCase()) {
+                        case "PRICE":
+                            ticket.setPrice((Double) args[i]);
+                            i++;
+                            break;
+                        case "CHAIR_NUMBER":
+                            ticket.setChairNumber((Integer) args[i]);
+                            i++;
+                            break;
+                        case "ROW_NUMBER":
+                            ticket.setRowNumber((Integer) args[i]);
+                            i++;
+                            break;
+                        case "STATE_":
+                            ticket.setState((Integer) args[i]);
+                            i++;
+                            break;
+                        case "ROOM_NUMBER":
+                            ticket.setRoomNumber((Integer) args[i]);
+                            i++;
+                            break;
+                        case "TIME_":
+                            ticket.setTime((Time) args[i]);
+                            i++;
+                            break;
+                        case "DATE_":
+                            ticket.setDate((Date) args[i]);
+                            i++;
+                            break;
+                        default:
+                            break;
+                    }
                 }
-            }
-            em.getTransaction().commit();
-            } catch(NullPointerException | NumberFormatException | ClassCastException ex){
+                em.getTransaction().commit();
+            } catch (NullPointerException | NumberFormatException | ClassCastException ex) {
                 em.getTransaction().rollback();
                 throw new ArgsNotCorrectException("WRONG ARGS IN TICKETS MODIFY ENTITY METHOD" + ex.getMessage());
             }
