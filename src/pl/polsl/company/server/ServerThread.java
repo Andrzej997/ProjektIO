@@ -67,7 +67,7 @@ public class ServerThread implements Runnable {
     public void run() {
         try {
             try {
-                outStreamToClient = new DataOutputStream(incomingSocket.getOutputStream());;
+                outStreamToClient = new DataOutputStream(incomingSocket.getOutputStream());
                 inFromClient = new BufferedReader(new InputStreamReader(incomingSocket.getInputStream()));
 
                 boolean done = false;

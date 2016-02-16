@@ -36,12 +36,6 @@ public class Server {
                 t.start();
                 threads.add(t);
                 i++;
-                for (Thread thread : threads) {
-                    if (!thread.isAlive()) {
-                        i--;
-                    }
-                    threads.remove(thread);
-                }
             }
 
         } catch (IOException e) {
