@@ -32,9 +32,22 @@ public class TransactionsOperations implements IOperate {
     @Override
     public void addEntity(IEntity entity) {
         Transactions transaction = (Transactions) entity;
+        if(em.find(Transactions.class, transaction.getId())!= null){
+            Transactions t = em.find(Transactions.class, transaction.getId());
+            em.getTransaction().begin();
+            t.setAccepted(transaction.isAccepted());
+            t.setCompanyName(transaction.getCompanyName());
+            t.setEndDateAndTime(transaction.getEndDateAndTime());
+            t.setPrice(transaction.getPrice());
+            t.setRoomNumber(transaction.getRoomNumber());
+            t.setStartDateAndTime(transaction.getStartDateAndTime());
+            t.setType(transaction.getType());
+            em.getTransaction().commit();
+        } else {
         em.getTransaction().begin();
         em.persist(transaction);
         em.getTransaction().commit();
+        }
     }
 
     @Override
