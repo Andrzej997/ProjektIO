@@ -22,7 +22,7 @@ import pl.polsl.database.manager.operations.OperationHandler;
  */
 public class BusinessServiceController {
 
-    private final ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
     private final TransactionsOperations transactionsOperations;
     
     public BusinessServiceController(ApplicationContext applicationContext) {
@@ -78,6 +78,20 @@ public class BusinessServiceController {
                 break;
             }
         }
+    }
+
+    /**
+     * @param applicationContext the applicationContext to set
+     */
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    /**
+     * @return the applicationContext
+     */
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
     }
 
     

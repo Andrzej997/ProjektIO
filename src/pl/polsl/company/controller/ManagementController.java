@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ManagementController {
 
-    private final ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     public ManagementController(ApplicationContext applicationContext) {
 
@@ -42,6 +42,20 @@ public class ManagementController {
         transaction.getTransaction().accept();
         applicationContext.getAuthorizationQueue().remove(id);
         applicationContext.getTransactionList().remove(id);
+    }
+
+    /**
+     * @return the applicationContext
+     */
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    /**
+     * @param applicationContext the applicationContext to set
+     */
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
 
