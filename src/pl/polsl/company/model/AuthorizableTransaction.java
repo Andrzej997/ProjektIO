@@ -5,7 +5,6 @@ import java.util.Calendar;
 /**
  * Created by Krzysztof Stręk on 2016-01-29.
  */
-
 public class AuthorizableTransaction {
 
     private RoomRentTransaction transaction;
@@ -46,5 +45,9 @@ public class AuthorizableTransaction {
         return transaction.getPrice();
     }
 
-
+    @Override
+    public String toString() {
+        //"ID;Nazwa firmy;Numer sali;Godzina;Data;Cena"
+        return getID() + ";" + getCompanyName() + ";" + getRoomNumber() + ";" + getStartDate() + ";" + getPrice();
+    }
 }
