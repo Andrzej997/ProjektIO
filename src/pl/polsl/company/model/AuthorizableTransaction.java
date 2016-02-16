@@ -1,6 +1,8 @@
 package pl.polsl.company.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by Krzysztof Stręk on 2016-01-29.
@@ -48,6 +50,10 @@ public class AuthorizableTransaction {
     @Override
     public String toString() {
         //"ID;Nazwa firmy;Numer sali;Godzina;Data;Cena"
-        return getID() + ";" + getCompanyName() + ";" + getRoomNumber() + ";" + getStartDate() + ";" + getPrice();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");	
+        return getID() + ";" + getCompanyName() + ";" + getRoomNumber() + ";" 
+                + sdf.format(getStartDate().getTime()) + ";" 
+                + sdf2.format(getStartDate().getTime()) + ";" + getPrice();
     }
 }
