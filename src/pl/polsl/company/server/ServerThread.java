@@ -74,9 +74,9 @@ public class ServerThread implements Runnable {
 
                     System.out.println("Input command : " + command);
 
-                ///   if (!reactOnCommand(command)) {
-                //        outStreamToClient.writeBytes("ERROR" + System.getProperty("line.separator"));
-                //    }
+                  if (!reactOnCommand(command)) {
+                       outStreamToClient.writeBytes("ERROR" + System.getProperty("line.separator"));
+                    }
                     if (command.equals("exit")) {
                         done = true;
                     }
@@ -100,7 +100,7 @@ public class ServerThread implements Runnable {
      * @param command command content
      * @return true if gets correct command, otherwise returns false
      */
-   /* private synchronized boolean reactOnCommand(String command) {
+    private synchronized boolean reactOnCommand(String command) {
         switch (command) {
             case "login":
                 login();
@@ -129,7 +129,7 @@ public class ServerThread implements Runnable {
         }
         return true;
     }
-*/
+
     /**
      * Performs actions connected with login command.
      */
@@ -212,7 +212,7 @@ public class ServerThread implements Runnable {
     /**
      * Performs actions connected with accepttransaction command.
      */
-   /* private void acceptTransaction() {
+  * private void acceptTransaction() {
         confirm();
         System.out.println("I acknowledge receipt of accepttransaction command.");
         try {
@@ -229,12 +229,12 @@ public class ServerThread implements Runnable {
         } catch (IOException exception) {
             System.out.println("Data transfer error.");
         }
-    }*/
+    }
 
     /**
      * Performs actions connected with refusetransaction command.
      */
-   /* private void refuseTransaction() {
+    private void refuseTransaction() {
         confirm();
         System.out.println("I acknowledge receipt of refusetransaction command.");
         try {
@@ -251,12 +251,12 @@ public class ServerThread implements Runnable {
         } catch (IOException exception) {
             System.out.println("Data transfer error.");
         }
-    }*/
+    }
 
     /**
      * Performs actions connected with getroomsoccupancy command.
      */
-    /*private void getRoomsOccupancy() {
+    private void getRoomsOccupancy() {
         confirm();
         System.out.println("I acknowledge receipt of getroomsoccupancy command.");
         try {
@@ -280,12 +280,12 @@ public class ServerThread implements Runnable {
             System.out.println("Unauthorised access.");
             operationNotDone();
         }
-    }*/
+    }
 
     /**
      * Performs actions connected with sendtransaction command.
      */
-   /* private void sendTransaction() {
+    private void sendTransaction() {
         confirm();
         System.out.println("I acknowledge receipt of sendtransaction command.");
 
@@ -318,7 +318,7 @@ public class ServerThread implements Runnable {
                 refuse();
             }
 
-            TODO rozjazd argumentów względem GUI
+           // TODO rozjazd argumentów względem GUI
            if (authController.getBusinessServiceController().createNewRoomRentTransaction()) {
                operationDone()
             
@@ -328,7 +328,7 @@ public class ServerThread implements Runnable {
         } catch (IOException exception) {
             return;
         }
-    }*/
+    }
 
     private boolean confirm() {
         try {
