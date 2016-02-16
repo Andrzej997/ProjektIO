@@ -1,7 +1,9 @@
 package pl.polsl.company.model;
 
+import java.util.GregorianCalendar;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import pl.polsl.database.entities.Transactions;
 
 
 public class AuthorizationQueueTest {
@@ -27,7 +29,8 @@ public class AuthorizationQueueTest {
     @Test
     public void testAccept() {
         //given
-        RoomRentTransactionForTesting transactionForTesting = new RoomRentTransactionForTesting(null);
+        Transactions t = new Transactions(new GregorianCalendar(2012, 10, 20), new GregorianCalendar(2012, 11, 21), 1200.00, "FIRM", 29, 0, false);
+        RoomRentTransactionForTesting transactionForTesting = new RoomRentTransactionForTesting(t);
         AuthorizableTransaction authorizableTransaction = new AuthorizableTransaction(transactionForTesting);
         AuthorizationQueue authorizationQueue = new AuthorizationQueue();
         authorizationQueue.add(authorizableTransaction);
