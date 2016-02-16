@@ -292,7 +292,7 @@ public class ServerThread implements Runnable {
 
                 if (!sendResponse(roomRentTransaction.getID() + ";"
                         + roomRentTransaction.getRoomNumber() + ";"
-                        + sdf.format(roomRentTransaction.getStartDate().getTime())
+                        + sdf.format(roomRentTransaction.getStartDate().getTime()) + ";"
                         + sdf.format(roomRentTransaction.getEndDate().getTime())
                         + ";brak")) {
                     return;
