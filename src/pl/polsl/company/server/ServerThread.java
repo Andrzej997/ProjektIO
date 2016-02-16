@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import pl.polsl.company.controller.AuthenticationController;
 import pl.polsl.company.controller.UnauthorizedAccessException;
@@ -275,12 +277,24 @@ public class ServerThread implements Runnable {
             for (Seances seances : allSeances) {
                 //!!!!!!!! TODO KONIECZNIE NALEŻY PRZEŁADOWAĆ toString() Format: WTF? nic sienie zgadza
                 //{"Film;Numer Sali;Data rozpoczęcia;Data zakończenia;Zarezerwowano"}
-                if (!sendResponse(seances.getFilm() + ";" + seances.getRoom() + ";" + seances.getDate() + ";" + seances.getDate() + ";brak")) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd");
+
+                if (!sendResponse(seances.getFilm().getTitle() + ";"
+                        + seances.getRoom().getId() + ";"
+                        + sdf.format(seances.getDate().getTime()) + ";"
+                        + sdf.format(seances.getDate().getTime())
+                        + ";brak")) {
                     return;
                 }
             }
             for (RoomRentTransaction roomRentTransaction : allRoomRentTransactions) {
-                if (!sendResponse(roomRentTransaction.getID() + ";" + roomRentTransaction.getRoomNumber() + ";" + roomRentTransaction.getStartDate() + ";brak")) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd");
+
+                if (!sendResponse(roomRentTransaction.getID() + ";"
+                        + roomRentTransaction.getRoomNumber() + ";"
+                        + sdf.format(roomRentTransaction.getStartDate().getTime())
+                        + sdf.format(roomRentTransaction.getEndDate().getTime())
+                        + ";brak")) {
                     return;
                 }
             }
@@ -328,9 +342,11 @@ public class ServerThread implements Runnable {
 
             // TODO rozjazd argumentów względem GUI
             try {
-                authController.getBusinessServiceController().createNewRoomRentTransaction(0, companyName, Integer.parseInt(room), Date.valueOf(date), Time.valueOf(time));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MMM:dd");
+                SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+                authController.getBusinessServiceController().createNewRoomRentTransaction(0, companyName, Integer.parseInt(room), sdf.parse(date), new Time(sdf2.parse(time).getTime()));
                 operationDone();
-            } catch (NumberFormatException | UnauthorizedAccessException exception) {
+            } catch (NumberFormatException | UnauthorizedAccessException | ParseException exception) {
                 operationNotDone();
             }
         } catch (IOException exception) {
