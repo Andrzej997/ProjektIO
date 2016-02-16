@@ -127,7 +127,7 @@ public class DAOManager {
         CriteriaQuery<Users> criteriaQuery = cb.createQuery(Users.class);
         Root<Users> users = criteriaQuery.from(Users.class);
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(cb.equal(users.get("USERNAME"), username));
+        predicates.add(cb.equal(users.get("username"), username));
         criteriaQuery.select(users).where(predicates.toArray(new Predicate[]{}));
         TypedQuery<Users> query = entityManager.createQuery(criteriaQuery);
         List<Users> resultList = query.getResultList();
