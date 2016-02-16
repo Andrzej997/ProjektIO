@@ -5,23 +5,26 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 import pl.polsl.company.controller.AuthenticationController;
 import pl.polsl.company.controller.UnauthorizedAccessException;
 import pl.polsl.company.model.AuthorizableTransaction;
+import pl.polsl.company.model.RoomRentTransaction;
+import pl.polsl.database.entities.Seances;
 import pl.polsl.database.manager.PrivilegeLevels;
 
 /**
- * Server thread to communicate between single client adn server.
+ * Server thread to communicate between single client and server.
  *
  * @author Wojciech Dębski
  * @version 1.0
  */
-
 public class ServerThread implements Runnable {
 
     /**
-     * Incoming client sccket.
+     * Incoming client socket.
      */
     private final Socket incomingSocket;
 
@@ -74,8 +77,8 @@ public class ServerThread implements Runnable {
 
                     System.out.println("Input command : " + command);
 
-                  if (!reactOnCommand(command)) {
-                       outStreamToClient.writeBytes("ERROR" + System.getProperty("line.separator"));
+                    if (!reactOnCommand(command)) {
+                        outStreamToClient.writeBytes("ERROR" + System.getProperty("line.separator"));
                     }
                     if (command.equals("exit")) {
                         done = true;
@@ -197,8 +200,8 @@ public class ServerThread implements Runnable {
             sendResponse(Integer.toString(transactions.size()));
 
             for (AuthorizableTransaction transaction : transactions) {
-                //!!!!!!!! TODO KONIECZNIE NALEŻY PRZEŁADOWAĆ toString() Format: 
-                //{"Film;Numer Sali;Data rozpoczęcia;Data zakończenia;Zarezerwowano"}
+                //KONIECZNIE NALEŻY PRZEŁADOWAĆ toString() Format: 
+                //{"ID;Nazwa firmy;Numer sali;Godzina;Data;Cena"}
                 if (!sendResponse(transaction.toString())) {
                     return;
                 }
@@ -212,17 +215,15 @@ public class ServerThread implements Runnable {
     /**
      * Performs actions connected with accepttransaction command.
      */
-  * private void acceptTransaction() {
+    private void acceptTransaction() {
         confirm();
         System.out.println("I acknowledge receipt of accepttransaction command.");
         try {
             String id = inFromClient.readLine();
             confirm();
-            if (authController.getManagementController().acceptTransaction(id)) { // TODO: dorobić metodę w kontrolerze
-                operationDone();
-            } else {
-                operationNotDone();
-            }
+            authController.getManagementController().acceptTransaction(Integer.parseInt(id));
+            operationDone();
+
         } catch (UnauthorizedAccessException exception) {
             System.out.println("Unauthorised access.");
             operationNotDone();
@@ -240,11 +241,9 @@ public class ServerThread implements Runnable {
         try {
             String id = inFromClient.readLine();
             confirm();
-            if (authController.getManagementController().refuseTransaction(id)) { // TODO: dorobić metodę w kontrolerze
-                operationDone();
-            } else {
-                operationNotDone();
-            }
+            authController.getManagementController().refuseTransaction(Integer.parseInt(id));
+            operationDone();
+
         } catch (UnauthorizedAccessException exception) {
             System.out.println("Unauthorised access.");
             operationNotDone();
@@ -260,19 +259,28 @@ public class ServerThread implements Runnable {
         confirm();
         System.out.println("I acknowledge receipt of getroomsoccupancy command.");
         try {
-           // TODO: typ danych
-            List<> roomsOccupancy = authController.getBusinessServiceController().getRoomsOccupany();
-            if (roomsOccupancy == null) {
+            // TODO: syf z polami
+            List<Seances> allSeances = authController.getBusinessServiceController().getAllSeances();
+            if (allSeances == null) {
+                operationNotDone();
+            }
+            List<RoomRentTransaction> allRoomRentTransactions = authController.getBusinessServiceController().getAllRoomRentTransactions();
+            if (allRoomRentTransactions == null) {
                 operationNotDone();
             }
             operationDone();
 
-            sendResponse(Integer.toString(roomsOccupancy.size()));
+            sendResponse(Integer.toString(allSeances.size() + allRoomRentTransactions.size()));
 
-            for (roomOccupancy          : roomsOccupancy) {
-                //!!!!!!!! TODO KONIECZNIE NALEŻY PRZEŁADOWAĆ toString() Format: 
+            for (Seances seances : allSeances) {
+                //!!!!!!!! TODO KONIECZNIE NALEŻY PRZEŁADOWAĆ toString() Format: WTF? nic sienie zgadza
                 //{"Film;Numer Sali;Data rozpoczęcia;Data zakończenia;Zarezerwowano"}
-                if (!sendResponse(roomOccupancy.toString())) {
+                if (!sendResponse(seances.getFilm() + ";" + seances.getRoom() + ";" + seances.getDate() + ";" + seances.getDate() + ";brak")) {
+                    return;
+                }
+            }
+            for (RoomRentTransaction roomRentTransaction : allRoomRentTransactions) {
+                if (!sendResponse(roomRentTransaction.getID() + ";" + roomRentTransaction.getRoomNumber() + ";" + roomRentTransaction.getStartDate() + ";brak")) {
                     return;
                 }
             }
@@ -318,11 +326,11 @@ public class ServerThread implements Runnable {
                 refuse();
             }
 
-           // TODO rozjazd argumentów względem GUI
-           if (authController.getBusinessServiceController().createNewRoomRentTransaction()) {
-               operationDone()
-            
-            } else {
+            // TODO rozjazd argumentów względem GUI
+            try {
+                authController.getBusinessServiceController().createNewRoomRentTransaction(0, companyName, Integer.parseInt(room), Date.valueOf(date), Time.valueOf(time));
+                operationDone();
+            } catch (NumberFormatException | UnauthorizedAccessException exception) {
                 operationNotDone();
             }
         } catch (IOException exception) {
