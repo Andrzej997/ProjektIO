@@ -61,7 +61,7 @@ public class TransactionsOperations implements IOperate {
     public void deleteEntity(IEntity entity) {
         if (findEntity(entity)) {
             em.getTransaction().begin();
-            em.remove(entity);
+            em.remove(em.contains(entity) ? entity : em.merge(entity));
             em.getTransaction().commit();
         }
     }
