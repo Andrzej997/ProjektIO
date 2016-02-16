@@ -2,6 +2,7 @@ package pl.polsl.database.entities;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,7 +46,7 @@ public class Seances implements Serializable, IEntity{
     private double basicTicketPrice;
 
     protected Seances(){}
-    public Seances(Films film, Rooms room, Calendar date, double basicTicketPrice){
+    public Seances(Films film, Rooms room, GregorianCalendar date, double basicTicketPrice){
         this.film=film;
         this.room=room;
         this.date=date;

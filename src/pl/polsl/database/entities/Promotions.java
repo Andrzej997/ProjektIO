@@ -33,19 +33,19 @@ public class Promotions implements Serializable, IEntity {
     @JoinColumn(name="reservation")
     private Long id;
 
-    @Column(table = "GROUP_PROMOTIONS", name = "MINIMAL_AMOUNT", nullable = false)
+    @Column(table = "GROUP_PROMOTIONS", name = "MINIMAL_AMOUNT", nullable = true)
     private int minimalAmount;
 
-    @Column(table = "GROUP_PROMOTIONS", name = "SALE", nullable = false)
+    @Column(table = "GROUP_PROMOTIONS", name = "SALE", nullable = true)
     private int sale;
 
-    @Column(table = "TIME_PROMOTIONS", name = "DAYS_OF_WEEK", nullable = false)
+    @Column(table = "TIME_PROMOTIONS", name = "DAYS_OF_WEEK", nullable = true)
     private Date[] daysOfWeek;
 
-    @Column(table = "TIME_PROMOTIONS", name = "HOURS", nullable = false)
+    @Column(table = "TIME_PROMOTIONS", name = "HOURS", nullable = true)
     private Time[] hours;
 
-    @Column(table = "TIME_PROMOTIONS", name = "TIME_SALE", nullable = false)
+    @Column(table = "TIME_PROMOTIONS", name = "TIME_SALE", nullable = true)
     private int timeSale;
 
     protected Promotions() {

@@ -1,7 +1,7 @@
 package pl.polsl.database.manager.operations;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -40,7 +40,7 @@ public class SeancesOperations implements IOperate {
             Seances seance = null;
             try {
                 seance = new Seances((Films) args[0], (Rooms) args[1],
-                        (Calendar) args[2], (Double) args[0]);
+                        (GregorianCalendar) args[2], (Double) args[3]);
             } catch (NullPointerException | NumberFormatException | ClassCastException ex) {
                 throw new ArgsNotCorrectException("WRONG ARGS IN SEANES CREATE ENTITY METHOD" + ex.getMessage());
             }
@@ -75,7 +75,7 @@ public class SeancesOperations implements IOperate {
                             i++;
                             break;
                         case "SEANCE_DATE":
-                            seance.setDate((Calendar) args[i]);
+                            seance.setDate((GregorianCalendar) args[i]);
                             i++;
                             break;
                         case "BASIC_TICKET_PRICE":
