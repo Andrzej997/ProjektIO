@@ -57,9 +57,13 @@ public class Users implements Serializable, IEntity {
         this.password = password;
     }
 
+    /**
+     * Default constructor
+     */
     protected Users() {
     }
 
+    
     public Users(String user, String password, String type) {
         this.username = user;
         this.password = password;

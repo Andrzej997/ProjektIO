@@ -24,7 +24,7 @@ public class Services extends Thread {
      * Formatted output character stream
      */
     private final PrintWriter out;
-    
+
     private DAOManager daom;
 
     public Services(Socket socket) throws IOException {
@@ -32,17 +32,17 @@ public class Services extends Thread {
         out = new PrintWriter(
                 new BufferedWriter(
                         new OutputStreamWriter(
-                                socket.getOutputStream(),Charset.defaultCharset())), true);
+                                socket.getOutputStream(), Charset.defaultCharset())), true);
         in = new BufferedReader(
                 new InputStreamReader(
                         socket.getInputStream(), Charset.defaultCharset()));
     }
-    
-    public void setDAOMenager(DAOManager daom){
+
+    public void setDAOMenager(DAOManager daom) {
         this.daom = daom;
     }
-    
-    public DAOManager getDAOMenager(){
+
+    public DAOManager getDAOMenager() {
         return daom;
     }
 
@@ -73,6 +73,7 @@ public class Services extends Thread {
      * Method to send something to client
      *
      * @param message String containing message command to client
+     * @throws IOException when something goes wrong
      */
     public void sendMessageToClient(String message) throws IOException {
         Integer timeoutCounter = 0;
@@ -80,7 +81,7 @@ public class Services extends Thread {
             out.println(message);
             timeoutCounter++;
         }
-        if(timeoutCounter >= 1000){
+        if (timeoutCounter >= 1000) {
             throw new IOException();
         }
     }
@@ -89,6 +90,7 @@ public class Services extends Thread {
      * Method to recieve answer from client
      *
      * @return String with client answer or inform client that there is an error
+     * @throws IOException when something goes wrong
      */
     public String reciveAnswer() throws IOException {
         String str = null;
@@ -109,8 +111,8 @@ public class Services extends Thread {
         }
         return str;
     }
-    
-     public boolean authentication() throws IOException {
+
+    public boolean authentication() throws IOException {
         sendMessageToClient("USER_REQ");
         String user = reciveAnswer();
         if (user != null) {
@@ -118,7 +120,7 @@ public class Services extends Thread {
             String pass = reciveAnswer();
             if (pass != null) {
                 setDAOMenager(DAOManager.getInstance("kino"));
-                if(daom.authentificateUser(user, pass)){
+                if (daom.authentificateUser(user, pass)) {
                     sendMessageToClient("ACCESS");
                     return true;
                 } else {

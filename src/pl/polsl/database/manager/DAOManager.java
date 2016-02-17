@@ -18,7 +18,7 @@ import pl.polsl.database.entities.Users;
 
 /**
  * Database manager class
- * 
+ *
  * @author MateuszSojka
  * @version 1.3
  */
@@ -35,21 +35,20 @@ public class DAOManager {
      * Field contains entity factory object
      */
     private final EntityManagerFactory emf;
-    
+
     /**
      * Field contains entity manager object
      */
     private final EntityManager entityManager;
 
-    
     /**
      * Singleton
      */
     private static DAOManager menager;
 
-    
     /**
      * private constructor
+     *
      * @param databaseName String with database name
      */
     private DAOManager(String databaseName) {
@@ -59,7 +58,7 @@ public class DAOManager {
 
     /**
      * Method to get singleton object
-     * 
+     *
      * @param databaseName String with database name
      * @return DAOManager object
      */
@@ -73,7 +72,7 @@ public class DAOManager {
 
     /**
      * Method to autentificate user in database
-     * 
+     *
      * @param user String with user name
      * @param password String with password
      * @return true if user exists, otherwise false
@@ -93,6 +92,7 @@ public class DAOManager {
 
     /**
      * Method to get table column names
+     *
      * @param tableName String with table name
      * @return ArrayList of String with column names
      */
@@ -118,7 +118,7 @@ public class DAOManager {
 
     /**
      * Method to get user type
-     * 
+     *
      * @param username String with user name
      * @return String with user type
      */
@@ -136,6 +136,7 @@ public class DAOManager {
 
     /**
      * Method to realize query in sql on database
+     *
      * @param query String with query
      * @return List of results
      */

@@ -134,7 +134,7 @@ public class Transactions implements Serializable, IEntity{
     }
 
     /**
-     * @param rentingOrAddsSelling the rentingOrAddsSelling to set
+     * @param type return integer with rent type
      */
     public void setType(Integer type) {
         this.type = type;

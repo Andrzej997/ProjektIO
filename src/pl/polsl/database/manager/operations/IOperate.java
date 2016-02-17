@@ -14,9 +14,10 @@ import pl.polsl.database.exceptions.ArgsNotCorrectException;
  * @version 1.0
  */
 public interface IOperate {
+    
     /**
      * Method to set Entity Manager to entity class
-     * @param em 
+     * @param em EntityManager object
      */
     void setEntityManager(EntityManager em);
     
@@ -24,14 +25,17 @@ public interface IOperate {
      * Method to create entity
      * @param args variable array of args, depedant to entity
      * @return IEntity typed Object
-     * @throws ArgsLengthNotCorrectException when varargs are not correct 
+     * @throws ArgsLengthNotCorrectException when varargs count are not correct
+     * @throws ArgsNotCorrectException when varargs data are not correct
      */
     IEntity createEntity(Object... args) 
             throws ArgsLengthNotCorrectException, ArgsNotCorrectException;
     
     /**
      * Add entity to table method
+     * 
      * @param entity IEntity typed object to add
+     * @return added Entity
      */
     List addEntity(IEntity entity);
     
@@ -41,6 +45,7 @@ public interface IOperate {
      * @param entity - Entity to modify
      * @param argNames - Array List with column names, depedant to modified values
      * @param args - Varargs array with values to modify
+     * @throws ArgsLengthNotCorrectException when args count are not correct
      */
     void modifyEntity(IEntity entity,ArrayList<String> argNames, Object... args) 
             throws ArgsLengthNotCorrectException;

@@ -25,11 +25,24 @@ public class TimePromotionOperations implements IOperate {
 
     EntityManager em;
 
+    /**
+     * Method to set Entity Manager to entity class
+     *
+     * @param em EntityManager object
+     */
     @Override
     public void setEntityManager(EntityManager em) {
         this.em = em;
     }
 
+    /**
+     * Method to create entity
+     *
+     * @param args variable array of args, depedant to entity
+     * @return IEntity typed Object
+     * @throws ArgsLengthNotCorrectException when varargs count are not correct
+     * @throws ArgsNotCorrectException when varargs data are not correct
+     */
     @Override
     public IEntity createEntity(Object... args)
             throws ArgsLengthNotCorrectException, ArgsNotCorrectException {
@@ -47,6 +60,11 @@ public class TimePromotionOperations implements IOperate {
         }
     }
 
+    /**
+     * Add entity to table method
+     *
+     * @param entity IEntity typed object to add
+     */
     @Override
     public List addEntity(IEntity entity) {
         Promotions reservation = (Promotions) entity;
@@ -58,6 +76,15 @@ public class TimePromotionOperations implements IOperate {
         return val;
     }
 
+    /**
+     * Modify entity
+     *
+     * @param entity - Entity to modify
+     * @param argNames - Array List with column names, depedant to modified
+     * values
+     * @param args - Varargs array with values to modify
+     * @throws ArgsNotCorrectException when args count are not correct
+     */
     @Override
     public void modifyEntity(IEntity entity, ArrayList<String> argNames, Object... args)
             throws ArgsNotCorrectException {
@@ -93,6 +120,12 @@ public class TimePromotionOperations implements IOperate {
         }
     }
 
+    /**
+     * Find entity method
+     *
+     * @param entity Object to find
+     * @return return true if entity exists, otherwise return false
+     */
     @Override
     public boolean findEntity(IEntity entity) {
         Promotions reservation = (Promotions) entity;
@@ -100,6 +133,13 @@ public class TimePromotionOperations implements IOperate {
         return find != null;
     }
 
+    /**
+     * Method to find entity in table
+     *
+     * @param argsNames Column names, used to find by column
+     * @param args Varargs array with values, dependent to argsNames
+     * @return List of found entities
+     */
     @Override
     public List isEntityExists(ArrayList<String> argsNames, Object... args) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -117,6 +157,11 @@ public class TimePromotionOperations implements IOperate {
         return resultList;
     }
 
+    /**
+     * Method to delete entity from table
+     *
+     * @param entity found Entity
+     */
     @Override
     public void deleteEntity(IEntity entity) {
         if (findEntity(entity)) {

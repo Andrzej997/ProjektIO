@@ -18,13 +18,27 @@ import javax.persistence.EntityManager;
 import pl.polsl.database.manager.operations.OperationHandler;
 
 /**
+ * Class to handler request from consultant gui
+ *
  * Created by Krzysztof Stręk on 2016-02-08.
  */
 public class BusinessServiceController {
 
+    /**
+     * Field with aplication context
+     */
     private ApplicationContext applicationContext;
+
+    /**
+     * Field with transactionsOperations object
+     */
     private final TransactionsOperations transactionsOperations;
-    
+
+    /**
+     * Constructor
+     *
+     * @param applicationContext ApliactionContext object
+     */
     public BusinessServiceController(ApplicationContext applicationContext) {
 
         this.applicationContext = applicationContext;
@@ -35,7 +49,17 @@ public class BusinessServiceController {
         transactionsOperations.setEntityManager(em);
 
     }
-    
+
+    /**
+     * Method to create new room rent transaction
+     *
+     * @param startDate Calendar with startDate
+     * @param endDate Calendar with endDate
+     * @param price Double with price
+     * @param contractorName String with company name
+     * @param roomNumber Integer with room number
+     * @param type Integer with transaction type
+     */
     public void createNewRoomRentTransaction(Calendar startDate, Calendar endDate, Double price, String contractorName, Integer roomNumber, Integer type) {
         try {
             OperationHandler handler = new OperationHandler(DAOManager.getInstance("kino").getEntityManager());
@@ -46,28 +70,47 @@ public class BusinessServiceController {
         }
     }
 
-
+    /**
+     * Method to ger all transactions list
+     *
+     * @return List of Transactions
+     */
     public List<Transaction> getAllTransactions() {
         return applicationContext.getTransactionList().getTransactions();
     }
 
+    /**
+     * Method to get all room rent transactions list
+     *
+     * @return List of room rent transactions
+     */
     public List<RoomRentTransaction> getAllRoomRentTransactions() {
         List<RoomRentTransaction> result = new ArrayList<>();
 
         for (Transaction transaction : applicationContext.getTransactionList().getTransactions()) {
             if (transaction.getType() == 0) {
-                result.add((RoomRentTransaction)(transaction));
+                result.add((RoomRentTransaction) (transaction));
             }
         }
         return result;
     }
 
+    /**
+     * Method to get all seances
+     *
+     * @return List of seances
+     */
     public List<Seances> getAllSeances() {
         String query = "SELECT e FROM Seances e";
 
         return DAOManager.getInstance("kino").realizeQuery(query);
     }
 
+    /**
+     * Method to cancel room reservation
+     *
+     * @param id Integer with reservation id
+     */
     public void cancelRoomReservation(int id) {
         List<Transaction> transactions = applicationContext.getTransactionList().getTransactions();
 
@@ -94,5 +137,4 @@ public class BusinessServiceController {
         return applicationContext;
     }
 
-    
 }

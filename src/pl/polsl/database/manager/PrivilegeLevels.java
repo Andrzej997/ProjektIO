@@ -6,7 +6,7 @@ import pl.polsl.database.entities.Users;
 
 /**
  * Enum with privilege levels
- * 
+ *
  * @author Mateusz Sojka
  * @version 1.5
  */
@@ -69,7 +69,7 @@ public enum PrivilegeLevels {
      * Integer with privilege level code
      */
     int privilegeLevel;
-    
+
     /**
      * String with privilage level type
      */
@@ -83,7 +83,7 @@ public enum PrivilegeLevels {
 
     /**
      * Constructor
-     * 
+     *
      * @param privilegeLevel Integer with privilege Level
      * @param type String with type
      */
@@ -93,24 +93,28 @@ public enum PrivilegeLevels {
     }
 
     /**
-     * Abstract method to get HashMap with diferent privilege level on diferent tables
-     * @return HashMap <String , ArrayList<String>>  
+     * Abstract method to get HashMap with diferent privilege level on diferent
+     * tables
+     *
+     * @return HashMap "String , ArrayList"String""
      */
     public abstract HashMap<String, ArrayList<String>> getPriviligeLevel();
-    
+
     /**
      * Method to get privilege type
+     *
      * @return String with privilege type
      */
-    public String getType(){
+    public String getType() {
         return this.type;
     }
-    
+
     /**
      * Method to get privilege level
+     *
      * @return Integer with privilege level
      */
-    public int getPrivilegeLevel(){
+    public int getPrivilegeLevel() {
         return privilegeLevel;
     }
 }

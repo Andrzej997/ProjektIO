@@ -2,7 +2,7 @@ package pl.polsl.database.manager;
 
 /**
  * Enum with all database table names and class
- * 
+ *
  * @author Mateusz Sojka
  * @version 1.4
  */
@@ -23,12 +23,12 @@ public enum DatabaseTables {
      * String with table name
      */
     private final String tableName;
-    
+
     /**
      * Integer with table code
      */
     private final Integer tableCode;
-    
+
     /**
      * Class path object
      */
@@ -36,7 +36,7 @@ public enum DatabaseTables {
 
     /**
      * Constructor
-     * 
+     *
      * @param tableName String with table name
      * @param tableCode Integer with table code
      * @param object Class path object
@@ -49,6 +49,7 @@ public enum DatabaseTables {
 
     /**
      * Method to get table name
+     *
      * @return String with table name
      */
     public String getTableName() {
@@ -57,18 +58,20 @@ public enum DatabaseTables {
 
     /**
      * Method to get table code
+     *
      * @return Integer with table code
      */
     public Integer getTableCode() {
         return tableCode;
     }
-    
+
     /**
      * Method to get class path object
+     *
      * @return Class path object
      */
-    public Class<?> getTableClass(){
+    public Class<?> getTableClass() {
         return tableClass;
     }
-    
+
 }

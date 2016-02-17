@@ -5,22 +5,44 @@ import pl.polsl.database.manager.DAOManager;
 import pl.polsl.database.manager.PrivilegeLevels;
 
 /**
+ * User autentification controller
+ *
  * Created by Krzysztof Stręk on 2016-02-09.
  */
 public class AuthenticationController {
 
+    /**
+     * Field with managementcontroller
+     */
     private ManagementController managementController = null;
 
+    /**
+     * Field with business controler
+     */
     private BusinessServiceController businessServiceController = null;
 
+    /**
+     * Field with user privilege levels
+     */
     private PrivilegeLevels userType;
 
+    /**
+     * Aplication context object
+     */
     private final ApplicationContext applicationContext = new ApplicationContext();
 
+    /**
+     * Method to authetificate user on server
+     *
+     * @param username String with username
+     * @param password String with password
+     * @return PrivilegeLevels object with user privileges type
+     * @throws UnauthorizedAccessException when authentification fails
+     */
     public PrivilegeLevels authenticateUser(String username, String password) throws UnauthorizedAccessException {
 
         DAOManager manager = DAOManager.getInstance("kino");
-        if(!manager.authentificateUser(username, password)) {
+        if (!manager.authentificateUser(username, password)) {
             throw new UnauthorizedAccessException("Authentication failed");
         }
 
@@ -38,6 +60,12 @@ public class AuthenticationController {
         return userType;
     }
 
+    /**
+     * Mehtod to get management controller
+     *
+     * @return ManagementController object
+     * @throws UnauthorizedAccessException when access denied
+     */
     public ManagementController getManagementController() throws UnauthorizedAccessException {
         if (managementController == null) {
             throw new UnauthorizedAccessException("Unauthorized access to ManagementController");
@@ -45,6 +73,12 @@ public class AuthenticationController {
         return managementController;
     }
 
+    /**
+     * Method to get BusinessServiceController
+     *
+     * @return BusinessServiceController object
+     * @throws UnauthorizedAccessException when access denied
+     */
     public BusinessServiceController getBusinessServiceController() throws UnauthorizedAccessException {
         if (businessServiceController == null) {
             throw new UnauthorizedAccessException("Unauthorized access to BusinessServiceController");
@@ -52,6 +86,11 @@ public class AuthenticationController {
         return businessServiceController;
     }
 
+    /**
+     * Method to get user privilege type
+     *
+     * @return PrivilegeLevels object with privilege type
+     */
     public PrivilegeLevels getUserType() {
         return userType;
     }

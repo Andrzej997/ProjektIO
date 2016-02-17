@@ -5,8 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.sql.Date;
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -203,8 +201,6 @@ public class ServerThread implements Runnable {
             sendResponse(Integer.toString(transactions.size()));
 
             for (AuthorizableTransaction transaction : transactions) {
-                //KONIECZNIE NALEŻY PRZEŁADOWAĆ toString() Format: 
-                //{"ID;Nazwa firmy;Numer sali;Godzina;Data;Cena"}
                 if (!sendResponse(transaction.toString())) {
                     return;
                 }
@@ -246,7 +242,6 @@ public class ServerThread implements Runnable {
             confirm();
             authController.getManagementController().refuseTransaction(Integer.parseInt(id));
             operationDone();
-
         } catch (UnauthorizedAccessException exception) {
             System.out.println("Unauthorised access.");
             operationNotDone();
@@ -276,8 +271,6 @@ public class ServerThread implements Runnable {
             sendResponse(Integer.toString(allSeances.size() + allRoomRentTransactions.size()));
 
             for (Seances seances : allSeances) {
-                //!!!!!!!! TODO KONIECZNIE NALEŻY PRZEŁADOWAĆ toString() Format: WTF? nic sienie zgadza
-                //{"Film;Numer Sali;Data rozpoczęcia;Data zakończenia;Zarezerwowano"}
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
 
                 if (!sendResponse(seances.getFilm().getTitle() + ";"
@@ -291,11 +284,11 @@ public class ServerThread implements Runnable {
             for (RoomRentTransaction roomRentTransaction : allRoomRentTransactions) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
 
-                if (!sendResponse(roomRentTransaction.getID() + ";"
+                if (!sendResponse("brak;"
                         + roomRentTransaction.getRoomNumber() + ";"
                         + sdf.format(roomRentTransaction.getStartDate().getTime()) + ";"
-                        + sdf.format(roomRentTransaction.getEndDate().getTime())
-                        + ";brak")) {
+                        + sdf.format(roomRentTransaction.getEndDate().getTime()) + ";"
+                        + roomRentTransaction.getID())) {
                     return;
                 }
             }
@@ -353,7 +346,6 @@ public class ServerThread implements Runnable {
                 refuse();
             }
 
-            // TODO rozjazd argumentów względem GUI
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd HH:mm");
                 Calendar startDateC = Calendar.getInstance();
@@ -376,6 +368,11 @@ public class ServerThread implements Runnable {
         }
     }
 
+    /**
+     * Send confirm message to client
+     *
+     * @return true when everything is alright
+     */
     private boolean confirm() {
         try {
             outStreamToClient.writeBytes("OK" + System.getProperty("line.separator"));
@@ -385,6 +382,11 @@ public class ServerThread implements Runnable {
         return true;
     }
 
+    /**
+     * Send refuse message to client
+     *
+     * @return true when everything is alright
+     */
     private boolean refuse() {
         try {
             outStreamToClient.writeBytes("NOK" + System.getProperty("line.separator"));
@@ -394,6 +396,11 @@ public class ServerThread implements Runnable {
         return true;
     }
 
+    /**
+     * Send operation done message to client
+     *
+     * @return true when everything is alright
+     */
     private boolean operationDone() {
         try {
             outStreamToClient.writeBytes("DONE" + System.getProperty("line.separator"));
@@ -403,6 +410,11 @@ public class ServerThread implements Runnable {
         return true;
     }
 
+    /**
+     * Send operation not done message to client
+     *
+     * @return true when everything is alright
+     */
     private boolean operationNotDone() {
         try {
             outStreamToClient.writeBytes("NDONE" + System.getProperty("line.separator"));
@@ -412,6 +424,11 @@ public class ServerThread implements Runnable {
         return true;
     }
 
+    /**
+     * Send other response message to client
+     *
+     * @return true when everything is alright
+     */
     private boolean sendResponse(String response) {
         try {
             outStreamToClient.writeBytes(response + System.getProperty("line.separator"));
